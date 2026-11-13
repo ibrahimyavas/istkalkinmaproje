@@ -1,0 +1,41 @@
+// Örnek gezinti grupları (demo görünümü için). `ornek: true` olanlar arayüzde
+// "Örnek grup" etiketiyle gösterilir; yönetim anahtarları yoktur, yalnızca admin yönetir.
+export const ornekGruplar = [
+  {
+    id: 'grup-ornek-balat',
+    baslik: 'Cumartesi sabahı Balat yürüyüşü',
+    aciklama: 'Sakin tempoda, fotoğraf molalarıyla. Sonunda Kariye\'nin önünde çay.',
+    rumuz: 'haliç_gezgini',
+    kapasite: 8,
+    baslangic: '2026-11-21T10:00:00+03:00',
+    dil: 'tr-en',
+    erisilebilir: false,
+    rotaId: 'balat-hikaye',
+    planId: null,
+    durum: 'aktif',
+    ornek: true,
+    olusturma: '2026-11-10T09:00:00.000Z',
+    yonetimOzeti: null,
+    katilimcilar: [
+      { id: 'k-ornek-1', rumuz: 'deniz_k', iletisim: '', tarih: '2026-11-11T09:00:00.000Z' },
+      { id: 'k-ornek-2', rumuz: 'backpack_lena', iletisim: '', tarih: '2026-11-12T09:00:00.000Z' },
+    ],
+  },
+  {
+    id: 'grup-ornek-kadikoy',
+    baslik: 'Erişilebilir Kadıköy–Moda turu',
+    aciklama: 'Tekerlekli sandalye ve bebek arabasıyla da katılınabilir; merdivensiz güzergâh.',
+    rumuz: 'moda_sakini',
+    kapasite: 6,
+    baslangic: '2026-11-22T14:00:00+03:00',
+    dil: 'tr',
+    erisilebilir: true,
+    rotaId: 'kadikoy-sahne',
+    planId: null,
+    durum: 'aktif',
+    ornek: true,
+    olusturma: '2026-11-10T12:00:00.000Z',
+    yonetimOzeti: null,
+    katilimcilar: [{ id: 'k-ornek-3', rumuz: 'ayse_t', iletisim: '', tarih: '2026-11-12T10:00:00.000Z' }],
+  },
+];

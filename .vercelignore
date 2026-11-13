@@ -1,0 +1,11 @@
+# Vercel'e yüklenmeyecekler
+node_modules
+**/node_modules
+client/dist
+.env
+**/.env
+*.local
+server/.data
+scripts/out
+infra/data
+.claude

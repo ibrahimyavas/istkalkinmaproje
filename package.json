@@ -1,0 +1,22 @@
+{
+  "name": "proje-404",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Proje 404 — İstanbul kültür, zanaat ve erişilebilir rota demosu (İSTKA Yaratıcı Ekonomi 2026)",
+  "scripts": {
+    "dev": "npm run dev --prefix client",
+    "build": "cd client && npm install && npm run build",
+    "vercel-build": "cd client && npm install && npm run build"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "pg": "^8.23.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

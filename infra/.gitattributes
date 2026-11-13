@@ -1,0 +1,3 @@
+# Konteyner içinde çalışan betikler Windows'ta da LF satır sonuyla kalmalı.
+*.sh text eol=lf
+*.conf text eol=lf

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="description" content="İstanbul'un semtlerini zanaat, edebiyat ve erişilebilir rotalarla keşfedin." />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='10' fill='%230A2540'/><text x='16' y='21' font-family='Arial' font-size='12' font-weight='700' text-anchor='middle' fill='white'>404</text></svg>" />
+    <title>Proje 404 — İstanbul'u Semt Semt Keşfet</title>
+    <script>
+      // İlk boyamadan önce kayıtlı temayı uygula (yanıp sönmeyi önler).
+      (function () {
+        try {
+          var t = localStorage.getItem('p404_tema');
+          if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          document.documentElement.classList.add(t);
+          if (localStorage.getItem('p404_buyuk_yazi') === '1') document.documentElement.classList.add('buyuk-yazi');
+        } catch (e) {
+          document.documentElement.classList.add('light');
+        }
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

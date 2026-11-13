@@ -1,0 +1,58 @@
+// Demo kapsamındaki altı semt. Koordinatlar semt merkezini kabaca gösterir
+// (harita odağı için); OSM ile doğrulanacak.
+export const semtler = [
+  {
+    id: 'sultanahmet',
+    ad: 'Sultanahmet–Kapalıçarşı',
+    yaka: 'Avrupa',
+    lat: 41.0082,
+    lon: 28.9784,
+    ozet: 'Bizans ve Osmanlı başkentinin kalbi; çarşı esnafı ve el sanatlarının yüzyıllardır sürdüğü yarımada.',
+    renk: 'iznik',
+  },
+  {
+    id: 'balat',
+    ad: 'Balat–Fener',
+    yaka: 'Avrupa',
+    lat: 41.0294,
+    lon: 28.9488,
+    ozet: 'Haliç kıyısında Rum, Yahudi ve Ermeni mirasının iç içe geçtiği renkli, yokuşlu sokaklar.',
+    renk: 'lale',
+  },
+  {
+    id: 'kuzguncuk',
+    ad: 'Kuzguncuk',
+    yaka: 'Anadolu',
+    lat: 41.0368,
+    lon: 29.0305,
+    ozet: 'Cami, kilise ve sinagogun aynı sokakta durduğu, ahşap evleriyle küçük bir Boğaziçi köyü.',
+    renk: 'zeytin',
+  },
+  {
+    id: 'uskudar',
+    ad: 'Üsküdar',
+    yaka: 'Anadolu',
+    lat: 41.0256,
+    lon: 29.0153,
+    ozet: 'Mimar Sinan eserleri, Kız Kulesi manzarası ve hat-çini geleneğinin yaşadığı Anadolu yakası iskelesi.',
+    renk: 'iznik',
+  },
+  {
+    id: 'kadikoy',
+    ad: 'Kadıköy–Moda',
+    yaka: 'Anadolu',
+    lat: 40.9877,
+    lon: 29.0275,
+    ozet: 'Çarşısı, sahneleri ve müzik mirasıyla İstanbul\'un en canlı kültür semtlerinden biri.',
+    renk: 'lale',
+  },
+  {
+    id: 'burgazada',
+    ad: 'Burgazada',
+    yaka: 'Adalar',
+    lat: 40.8807,
+    lon: 29.0672,
+    ozet: 'Sait Faik\'in adası; araçsız sokaklar, çam ormanı ve deniz kıyısında edebiyat rotası.',
+    renk: 'zeytin',
+  },
+];

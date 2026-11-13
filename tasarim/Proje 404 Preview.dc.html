@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Proje 404 · Önizleme</title>
+<link rel="stylesheet" href="_ds/broadsheet-c6b6def4-c426-4795-9bea-8961239004cf/styles.css">
+<script src="_ds/broadsheet-c6b6def4-c426-4795-9bea-8961239004cf/_ds_bundle.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css">
+<style>
+body{margin:0}
+button{font-family:inherit;color:inherit}
+a{color:var(--color-accent)} a:hover{color:var(--color-accent-600)}
+[data-tema="koyu"]{--color-bg:var(--color-neutral-900);--color-surface:var(--color-neutral-800);--color-text:var(--color-neutral-100);--color-divider:color-mix(in srgb,var(--color-neutral-100) 18%,transparent);--color-accent-600:var(--color-accent-400);color-scheme:dark}
+@keyframes page-in{from{opacity:0;translate:0 6px}}
+@keyframes item-in{from{opacity:0;translate:-8px 0}}
+</style>
+</helmet>
+<div data-tema="{{ tema }}" style="min-height:100vh;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);font-size:15px;line-height:1.55">
+
+<header style="position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--color-bg) 94%,transparent);backdrop-filter:blur(8px)">
+  <div style="max-width:1360px;margin:0 auto;padding:var(--space-2) var(--space-4);display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-2) var(--space-4)">
+    <button type="button" onClick="{{ goHome }}" style="background:none;border:0;padding:0;min-height:44px;cursor:pointer;font-family:var(--font-heading);font-weight:600;font-size:20px;color:var(--color-text);margin-right:auto">Proje 404</button>
+    <nav aria-label="Ana menü" style="display:flex;flex-wrap:wrap;gap:var(--space-1)">
+      <sc-for list="{{ nav }}" as="n" hint-placeholder-count="6">
+        <sc-if value="{{ n.active }}" hint-placeholder-val="{{ false }}">
+          <button type="button" aria-current="page" onClick="{{ n.go }}" style="background:none;border:0;cursor:pointer;min-height:44px;padding:0 var(--space-2);font-size:15px;color:var(--color-accent);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:6px">{{ n.label }}</button>
+        </sc-if>
+        <sc-if value="{{ n.inactive }}" hint-placeholder-val="{{ true }}">
+          <button type="button" onClick="{{ n.go }}" style="background:none;border:0;cursor:pointer;min-height:44px;padding:0 var(--space-2);font-size:15px;color:var(--color-text)" style-hover="color:var(--color-accent)">{{ n.label }}</button>
+        </sc-if>
+      </sc-for>
+    </nav>
+    <div style="display:flex;gap:var(--space-1)">
+      <sc-if value="{{ erisilebilir }}" hint-placeholder-val="{{ false }}">
+        <button type="button" class="btn" aria-pressed="true" onClick="{{ toggleA11y }}" style="min-height:44px;background:var(--color-accent);color:var(--color-bg)"><i class="ph-duotone ph-wheelchair" style="font-size:20px" aria-hidden="true"></i>Erişilebilir mod açık</button>
+      </sc-if>
+      <sc-if value="{{ a11yOff }}" hint-placeholder-val="{{ true }}">
+        <button type="button" class="btn btn-secondary" aria-pressed="false" onClick="{{ toggleA11y }}" style="min-height:44px"><i class="ph-duotone ph-wheelchair" style="font-size:20px" aria-hidden="true"></i>Erişilebilir mod</button>
+      </sc-if>
+      <button type="button" class="btn btn-secondary" aria-label="{{ themeLabel }}" title="{{ themeLabel }}" onClick="{{ toggleTheme }}" style="width:44px;height:44px;padding:0"><i class="ph-duotone {{ themeIcon }}" style="font-size:20px" aria-hidden="true"></i></button>
+    </div>
+  </div>
+</header>
+
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+<main style="animation:page-in 320ms cubic-bezier(0.16,1,0.3,1) both">
+  <div style="max-width:1360px;margin:0 auto;padding:var(--space-3) var(--space-4) 0">
+    <div style="height:6px;border-top:3px solid var(--color-text);border-bottom:1px solid var(--color-text)"></div>
+    <p style="display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-2);margin:0;padding:var(--space-2) 0;font-size:13px;letter-spacing:0.04em">
+      <span>{{ today }}</span><span aria-hidden="true">·</span><span>İstanbul</span><span aria-hidden="true">·</span><span>6 semt, 14 rota, 23 atölye</span><span class="tag tag-accent-2" style="margin-left:auto">DEMO VERİSİ</span>
+    </p>
+    <div style="height:6px;border-top:1px solid var(--color-text);border-bottom:3px solid var(--color-text)"></div>
+  </div>
+
+  <div style="max-width:1360px;margin:0 auto;padding:0 var(--space-4)">
+    <section style="display:flex;flex-wrap:wrap;gap:var(--space-8);align-items:center;padding-top:var(--space-8)">
+      <div style="flex:7 1 440px;min-width:0">
+        <p style="margin:0 0 var(--space-3);font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-accent-700)">Şehir keşif rehberi</p>
+        <h1 style="font-size:clamp(40px,6.2vw,76px);line-height:1.04;letter-spacing:-0.02em;margin:0 0 var(--space-4)">
+          <sc-if value="{{ isLight }}" hint-placeholder-val="{{ true }}">
+            <span class="cmyk-head" style="display:block"><span class="paper">İstanbul’u semt semt,</span><span class="plate plate-c" aria-hidden="true">İstanbul’u semt semt,</span><span class="plate plate-m" aria-hidden="true">İstanbul’u semt semt,</span><span class="plate plate-y" aria-hidden="true">İstanbul’u semt semt,</span></span>
+            <span class="cmyk-head" style="display:block"><span class="paper">durak durak keşfet</span><span class="plate plate-c" aria-hidden="true">durak durak keşfet</span><span class="plate plate-m" aria-hidden="true">durak durak keşfet</span><span class="plate plate-y" aria-hidden="true">durak durak keşfet</span></span>
+          </sc-if>
+          <sc-if value="{{ isDark }}" hint-placeholder-val="{{ false }}"><span style="display:block">İstanbul’u semt semt,</span><span style="display:block">durak durak keşfet</span></sc-if>
+        </h1>
+        <p style="font-size:19px;line-height:1.5;max-width:52ch;text-wrap:pretty;margin:0">Atölyeleri, hikâye rotalarını ve deprem toplanma alanlarını tek yerde gör. Beğendiğin yerleri kaydır, yürüyüş rotanı biz çıkaralım.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);margin-top:var(--space-6)">
+          <button type="button" class="btn btn-primary" onClick="{{ goKesfet }}" style="min-height:48px;font-size:15px">Keşfetmeye başla<i class="ph-duotone ph-arrow-right" style="font-size:18px" aria-hidden="true"></i></button>
+          <button type="button" class="btn btn-secondary" onClick="{{ goSemtler }}" style="min-height:48px;font-size:15px">Semtlere göz at</button>
+        </div>
+      </div>
+      <figure class="halftone" style="flex:5 1 320px;min-width:0;aspect-ratio:4/5;max-height:560px;border-radius:var(--radius-md);background:var(--color-surface);display:grid;place-items:center;margin:0">
+        <div style="display:grid;justify-items:center;gap:var(--space-2);color:var(--color-accent)"><i class="ph-duotone ph-image" style="font-size:48px" aria-hidden="true"></i><span style="font-size:13px;color:var(--color-text)">Kapak fotoğrafı: Kuzguncuk sahili</span></div>
+      </figure>
+    </section>
+
+    <section aria-labelledby="one-baslik" style="margin-top:calc(var(--space-8) * 2)">
+      <p style="margin:0 0 var(--space-1);font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-accent-700)">Bu hafta</p>
+      <h2 id="one-baslik" style="margin:0 0 var(--space-6)">Öne çıkanlar</h2>
+      <div style="display:grid;gap:var(--space-6);grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr))">
+        <sc-for list="{{ featured }}" as="f" hint-placeholder-count="4">
+          <article class="card" style="cursor:pointer;transition:box-shadow 200ms cubic-bezier(0.16,1,0.3,1),translate 200ms cubic-bezier(0.16,1,0.3,1)" style-hover="box-shadow:var(--shadow-md);translate:0 -2px" onClick="{{ goKesfet }}">
+            <div class="halftone" style="aspect-ratio:4/3;border-radius:var(--radius-md);background:var(--color-bg);display:grid;place-items:center;color:var(--color-accent)"><i class="ph-duotone {{ f.icon }}" style="font-size:40px" aria-hidden="true"></i></div>
+            <div style="display:flex;flex-wrap:wrap;gap:var(--space-1);align-items:center"><span class="card-kicker">{{ f.turEtiketi }}</span><span class="tag tag-neutral">Örnek</span></div>
+            <h3 class="card-title" style="margin:0">{{ f.ad }}</h3>
+            <p class="card-body">{{ f.aciklama }}</p>
+            <div class="card-meta"><i class="ph-duotone ph-map-pin" aria-hidden="true"></i>{{ f.semt }}</div>
+          </article>
+        </sc-for>
+      </div>
+    </section>
+
+    <section id="semtler" aria-labelledby="semt-baslik" style="margin-top:calc(var(--space-8) * 2);scroll-margin-top:80px">
+      <p style="margin:0 0 var(--space-1);font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-accent-700)">6 semt</p>
+      <h2 id="semt-baslik" style="margin:0 0 var(--space-6)">Semtler</h2>
+      <div style="display:grid;gap:var(--space-8) var(--space-6);grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr))">
+        <sc-for list="{{ semtler }}" as="s" hint-placeholder-count="6">
+          <button type="button" onClick="{{ s.go }}" style="text-align:left;background:none;border:0;padding:0;cursor:pointer;color:var(--color-text);display:grid;gap:var(--space-1)" style-hover="color:var(--color-accent)">
+            <span style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 65%,transparent)">{{ s.yaka }}</span>
+            <span style="font-family:var(--font-heading);font-weight:600;font-size:34px;line-height:1.05;letter-spacing:-0.015em">{{ s.ad }}</span>
+            <span style="font-size:14px;color:color-mix(in srgb,var(--color-text) 72%,transparent)">{{ s.rota }} rota · {{ s.atolye }} atölye · {{ s.durak }} durak</span>
+          </button>
+        </sc-for>
+      </div>
+    </section>
+
+    <section aria-labelledby="harita-baslik" style="margin-top:calc(var(--space-8) * 2)">
+      <h2 id="harita-baslik" style="margin:0 0 var(--space-4)">Şehir haritası</h2>
+      <fieldset style="border:0;margin:0 0 var(--space-4);padding:0;min-width:0">
+        <legend style="padding:0;margin-bottom:var(--space-2);font-size:12px;letter-spacing:0.08em;text-transform:uppercase">Katmanlar</legend>
+        <div style="display:flex;flex-wrap:wrap;gap:var(--space-2)">
+          <sc-for list="{{ layers }}" as="c" hint-placeholder-count="4">
+            <sc-if value="{{ c.pressed }}" hint-placeholder-val="{{ true }}">
+              <button type="button" aria-pressed="true" onClick="{{ c.toggle }}" style="display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 var(--space-3);font-size:14px;cursor:pointer;border-radius:var(--radius-md);border:1px solid var(--color-accent);background:var(--color-accent);color:var(--color-bg)" style-hover="background:var(--color-accent-600)"><i class="ph-duotone ph-check" aria-hidden="true"></i>{{ c.label }}</button>
+            </sc-if>
+            <sc-if value="{{ c.off }}" hint-placeholder-val="{{ false }}">
+              <button type="button" aria-pressed="false" onClick="{{ c.toggle }}" style="display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 var(--space-3);font-size:14px;cursor:pointer;border-radius:var(--radius-md);border:1px solid var(--color-divider);background:transparent;color:var(--color-text)" style-hover="background:color-mix(in srgb,var(--color-accent) 10%,transparent)">{{ c.label }}</button>
+            </sc-if>
+          </sc-for>
+        </div>
+      </fieldset>
+      <div class="halftone" style="position:relative;aspect-ratio:16/7;min-height:280px;border-radius:var(--radius-md);background:var(--color-surface);display:grid;place-items:center">
+        <div style="display:grid;justify-items:center;gap:var(--space-1);color:var(--color-accent)"><i class="ph-duotone ph-map-trifold" style="font-size:44px" aria-hidden="true"></i><span style="font-size:13px;color:var(--color-text)">MapLibre haritası · {{ layerSummary }}</span></div>
+        <span style="position:absolute;right:var(--space-2);bottom:var(--space-2);font-size:11px;background:var(--color-bg);padding:2px 6px">© OpenStreetMap katkıcıları</span>
+      </div>
+    </section>
+
+    <section aria-labelledby="etk-baslik" style="margin-top:calc(var(--space-8) * 2)">
+      <p style="margin:0 0 var(--space-1);font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-accent-700)">Yaklaşan</p>
+      <h2 id="etk-baslik" style="margin:0 0 var(--space-6)">Etkinlikler</h2>
+      <ol style="list-style:none;margin:0;padding:0;display:grid;gap:var(--space-6);max-width:860px">
+        <sc-for list="{{ events }}" as="e" hint-placeholder-count="3">
+          <li style="display:grid;grid-template-columns:88px minmax(0,1fr);gap:var(--space-4);align-items:baseline">
+            <span style="font-family:var(--font-heading);font-weight:600;font-size:30px;line-height:1;font-variant-numeric:tabular-nums">{{ e.gun }}<span style="display:block;font-size:13px;font-weight:400;letter-spacing:0.08em;text-transform:uppercase;margin-top:4px">{{ e.ay }}</span></span>
+            <div>
+              <h3 style="margin:0 0 var(--space-1);font-size:22px">{{ e.ad }}</h3>
+              <p style="margin:0;display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:center;font-size:14px"><span>{{ e.yer }} · {{ e.saat }}</span><span class="tag tag-accent">{{ e.ucret }}</span></p>
+            </div>
+          </li>
+        </sc-for>
+      </ol>
+    </section>
+  </div>
+</main>
+</sc-if>
+
+<sc-if value="{{ isKesfet }}" hint-placeholder-val="{{ false }}">
+<main style="max-width:1360px;margin:0 auto;padding:0 var(--space-4);animation:page-in 320ms cubic-bezier(0.16,1,0.3,1) both">
+  <header style="padding-top:var(--space-8);margin-bottom:var(--space-6);max-width:60ch">
+    <p style="margin:0 0 var(--space-1);font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-accent-700)">Keşfet</p>
+    <h1 style="text-wrap:balance;margin:0 0 var(--space-2)">Sağa kaydır, gideceğin yerleri topla</h1>
+    <p style="font-size:18px;line-height:1.5;margin:0">Beğendiğin yerlerden yürüyüş rotanı biz çıkaralım.</p>
+  </header>
+
+  <div style="display:grid;gap:var(--space-4);margin-bottom:var(--space-8)">
+    <fieldset style="border:0;margin:0;padding:0;min-width:0">
+      <legend style="padding:0;margin-bottom:var(--space-2);font-size:12px;letter-spacing:0.08em;text-transform:uppercase">Semt</legend>
+      <div style="display:flex;flex-wrap:wrap;gap:var(--space-2)">
+        <sc-for list="{{ semtChips }}" as="c" hint-placeholder-count="4">
+          <sc-if value="{{ c.pressed }}" hint-placeholder-val="{{ false }}">
+            <button type="button" aria-pressed="true" onClick="{{ c.toggle }}" style="display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 var(--space-3);font-size:14px;cursor:pointer;border-radius:var(--radius-md);border:1px solid var(--color-accent);background:var(--color-accent);color:var(--color-bg)" style-hover="background:var(--color-accent-600)"><i class="ph-duotone ph-check" aria-hidden="true"></i>{{ c.label }}</button>
+          </sc-if>
+          <sc-if value="{{ c.off }}" hint-placeholder-val="{{ true }}">
+            <button type="button" aria-pressed="false" onClick="{{ c.toggle }}" style="display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 var(--space-3);font-size:14px;cursor:pointer;border-radius:var(--radius-md);border:1px solid var(--color-divider);background:transparent;color:var(--color-text)" style-hover="background:color-mix(in srgb,var(--color-accent) 10%,transparent)">{{ c.label }}</button>
+          </sc-if>
+        </sc-for>
+      </div>
+    </fieldset>
+    <fieldset style="border:0;margin:0;padding:0;min-width:0">
+      <legend style="padding:0;margin-bottom:var(--space-2);font-size:12px;letter-spacing:0.08em;text-transform:uppercase">Tür</legend>
+      <div style="display:flex;flex-wrap:wrap;gap:var(--space-2)">
+        <sc-for list="{{ turChips }}" as="c" hint-placeholder-count="3">
+          <sc-if value="{{ c.pressed }}" hint-placeholder-val="{{ false }}">
+            <button type="button" aria-pressed="true" onClick="{{ c.toggle }}" style="display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 var(--space-3);font-size:14px;cursor:pointer;border-radius:var(--radius-md);border:1px solid var(--color-accent);background:var(--color-accent);color:var(--color-bg)" style-hover="background:var(--color-accent-600)"><i class="ph-duotone ph-check" aria-hidden="true"></i>{{ c.label }}</button>
+          </sc-if>
+          <sc-if value="{{ c.off }}" hint-placeholder-val="{{ true }}">
+            <button type="button" aria-pressed="false" onClick="{{ c.toggle }}" style="display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 var(--space-3);font-size:14px;cursor:pointer;border-radius:var(--radius-md);border:1px solid var(--color-divider);background:transparent;color:var(--color-text)" style-hover="background:color-mix(in srgb,var(--color-accent) 10%,transparent)">{{ c.label }}</button>
+          </sc-if>
+        </sc-for>
+      </div>
+    </fieldset>
+    <sc-if value="{{ erisilebilir }}" hint-placeholder-val="{{ false }}">
+      <p style="display:flex;align-items:center;gap:var(--space-2);margin:0;font-style:italic"><i class="ph-duotone ph-wheelchair" style="font-size:20px" aria-hidden="true"></i>Erişilebilir mod açık: merdivenli ve dik yokuşlu yerler gösterilmiyor.</p>
+    </sc-if>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:var(--space-8);align-items:flex-start">
+    <div style="flex:7 1 360px;min-width:0;display:flex;justify-content:flex-start">
+      <sc-if value="{{ hasTop }}" hint-placeholder-val="{{ true }}">
+        <div style="display:grid;gap:var(--space-4);width:100%;max-width:460px">
+          <div style="position:relative;aspect-ratio:3/4.2">
+            <sc-if value="{{ hasUnder2 }}" hint-placeholder-val="{{ true }}">
+              <div class="card" aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;scale:0.92;translate:0 24px;opacity:0.6;box-shadow:var(--shadow-sm)"></div>
+            </sc-if>
+            <sc-if value="{{ hasUnder1 }}" hint-placeholder-val="{{ true }}">
+              <div class="card" aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;scale:0.96;translate:0 12px;box-shadow:var(--shadow-sm);overflow:hidden">
+                <div class="halftone" style="aspect-ratio:16/10;border-radius:var(--radius-md);background:var(--color-bg);display:grid;place-items:center;color:var(--color-accent)"><i class="ph-duotone {{ under1.icon }}" style="font-size:44px"></i></div>
+                <h3 style="margin:0;font-size:22px">{{ under1.ad }}</h3>
+              </div>
+            </sc-if>
+            <div style="position:absolute;inset:0">
+              <article aria-label="{{ top.ad }}" class="card" onPointerDown="{{ onDown }}" onPointerMove="{{ onMove }}" onPointerUp="{{ onUp }}" onPointerCancel="{{ onUp }}" style="{{ topStyle }}">
+                <span aria-hidden="true" style="{{ stampGiderim }}">GİDERİM</span>
+                <span aria-hidden="true" style="{{ stampGec }}">GEÇ</span>
+                <div class="halftone" style="aspect-ratio:16/10;border-radius:var(--radius-md);background:var(--color-bg);display:grid;place-items:center;color:var(--color-accent)"><i class="ph-duotone {{ top.icon }}" style="font-size:48px" aria-hidden="true"></i></div>
+                <div style="display:flex;flex-wrap:wrap;gap:var(--space-1)">
+                  <span class="tag tag-accent">{{ top.turEtiketi }}</span>
+                  <span class="tag tag-neutral">{{ top.semt }}</span>
+                  <sc-if value="{{ top.dogrulanacak }}" hint-placeholder-val="{{ true }}"><span class="tag tag-outline">Doğrulanacak</span></sc-if>
+                </div>
+                <h3 style="margin:0;font-size:24px">{{ top.ad }}</h3>
+                <p class="card-body" style="font-size:15px;opacity:0.85">{{ top.aciklama }}</p>
+                <div class="card-meta" style="flex-wrap:wrap;gap:var(--space-3);font-size:13px">
+                  <sc-if value="{{ top.sure }}" hint-placeholder-val="{{ true }}"><span style="display:inline-flex;align-items:center;gap:4px"><i class="ph-duotone ph-clock" aria-hidden="true"></i>{{ top.sure }} dk atölye</span></sc-if>
+                  <span style="display:inline-flex;align-items:center;gap:4px"><i class="ph-duotone ph-wheelchair" aria-hidden="true"></i>{{ top.erisim }}</span>
+                </div>
+              </article>
+            </div>
+          </div>
+          <div role="group" aria-label="Kararın" style="display:grid;grid-template-columns:1fr auto 1fr;gap:var(--space-2);margin-top:var(--space-4)">
+            <button type="button" class="btn btn-secondary" onClick="{{ pass }}" style="min-height:52px;font-size:15px"><i class="ph-duotone ph-x" style="font-size:22px" aria-hidden="true"></i>Geç</button>
+            <button type="button" class="btn btn-ghost" onClick="{{ undo }}" disabled="{{ noUndo }}" style="min-height:52px;font-size:15px;padding-inline:var(--space-3)"><i class="ph-duotone ph-arrow-counter-clockwise" style="font-size:22px" aria-hidden="true"></i>Geri al</button>
+            <button type="button" class="btn btn-primary" onClick="{{ like }}" style="min-height:52px;font-size:15px"><i class="ph-duotone ph-heart" style="font-size:22px" aria-hidden="true"></i>Giderim</button>
+          </div>
+          <p style="margin:0;font-size:13px;color:color-mix(in srgb,var(--color-text) 65%,transparent)">Kartı sürükle ya da klavyede ← geç, → giderim. {{ remaining }} kart kaldı.</p>
+        </div>
+      </sc-if>
+      <sc-if value="{{ deckEmpty }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;align-items:flex-start;gap:var(--space-2);padding-block:var(--space-8);max-width:48ch">
+          <p style="margin:0;font-family:var(--font-heading);font-weight:600;font-size:24px">Deste bitti</p>
+          <p style="margin:0;color:color-mix(in srgb,var(--color-text) 65%,transparent)">Bu filtrelerle gösterilecek yer kalmadı. Filtreleri genişletebilir ya da desteyi yeniden karıştırabilirsin.</p>
+          <button type="button" class="btn btn-secondary" onClick="{{ reset }}" style="min-height:44px">Desteyi baştan karıştır</button>
+        </div>
+      </sc-if>
+    </div>
+
+    <aside aria-labelledby="sec-baslik" style="flex:5 1 300px;min-width:0;position:sticky;top:96px">
+      <h2 id="sec-baslik" style="font-size:25px;margin:0 0 var(--space-3)">Gideceğim yerler</h2>
+      <sc-if value="{{ noSelection }}" hint-placeholder-val="{{ true }}">
+        <p style="margin:0 0 var(--space-1);font-family:var(--font-heading);font-weight:600;font-size:18px">Henüz seçim yok</p>
+        <p style="margin:0;color:color-mix(in srgb,var(--color-text) 65%,transparent)">Beğendiğin kartı sağa kaydır; burada birikir.</p>
+      </sc-if>
+      <ol style="list-style:decimal-leading-zero;margin:0;padding-left:2.4em;display:grid;gap:var(--space-1)">
+        <sc-for list="{{ selectedItems }}" as="s" hint-placeholder-count="0">
+          <li style="animation:item-in 200ms cubic-bezier(0.16,1,0.3,1) both">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--space-2)">
+              <span style="font-size:16px">{{ s.ad }}<span style="color:color-mix(in srgb,var(--color-text) 65%,transparent)"> · {{ s.semt }}</span></span>
+              <button type="button" class="btn btn-ghost" aria-label="{{ s.removeLabel }}" onClick="{{ s.remove }}" style="width:44px;height:44px;padding:0"><i class="ph-duotone ph-x" style="font-size:18px" aria-hidden="true"></i></button>
+            </div>
+          </li>
+        </sc-for>
+      </ol>
+      <p id="sec-ipucu" aria-live="polite" style="margin:var(--space-3) 0 0;font-size:13px;color:color-mix(in srgb,var(--color-text) 65%,transparent)">{{ hint }}</p>
+      <button type="button" class="btn btn-primary btn-block" disabled="{{ cantBuild }}" aria-busy="{{ building }}" aria-describedby="sec-ipucu" onClick="{{ build }}" style="min-height:48px;font-size:15px">{{ buildLabel }}</button>
+    </aside>
+  </div>
+</main>
+</sc-if>
+
+<sc-if value="{{ isPlan }}" hint-placeholder-val="{{ false }}">
+<main style="max-width:1360px;margin:0 auto;padding:0 var(--space-4);animation:page-in 320ms cubic-bezier(0.16,1,0.3,1) both">
+  <header style="padding-top:var(--space-8);margin-bottom:var(--space-8)">
+    <p style="margin:0 0 var(--space-2);font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-accent-700)">Kişisel rota</p>
+    <h1 style="font-size:clamp(36px,5.2vw,64px);line-height:1.05;letter-spacing:-0.02em;margin:0 0 var(--space-6);text-wrap:balance">
+      <sc-if value="{{ isLight }}" hint-placeholder-val="{{ true }}"><span class="cmyk-num" style="display:inline-block;vertical-align:baseline"><span class="paper">{{ stopCount }}</span><span class="plate plate-c" aria-hidden="true">{{ stopCount }}</span><span class="plate plate-m" aria-hidden="true">{{ stopCount }}</span><span class="plate plate-y" aria-hidden="true">{{ stopCount }}</span></span></sc-if>
+      <sc-if value="{{ isDark }}" hint-placeholder-val="{{ false }}"><span>{{ stopCount }}</span></sc-if>
+      duraklı rotan hazır</h1>
+    <div style="display:flex;flex-wrap:wrap;gap:var(--space-2)">
+      <button type="button" class="btn btn-primary" style="min-height:44px"><i class="ph-duotone ph-users-three" style="font-size:18px" aria-hidden="true"></i>Grup aç</button>
+      <button type="button" class="btn btn-secondary" onClick="{{ share }}" style="min-height:44px"><i class="ph-duotone {{ shareIcon }}" style="font-size:18px" aria-hidden="true"></i>{{ shareLabel }}</button>
+      <button type="button" class="btn btn-ghost" onClick="{{ goKesfet }}" style="min-height:44px;padding-inline:var(--space-3)">Seçimlerimi düzenle</button>
+    </div>
+  </header>
+
+  <dl style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:var(--space-6) var(--space-4);margin:0;max-width:980px">
+    <sc-for list="{{ figures }}" as="f" hint-placeholder-count="4">
+      <div>
+        <dt style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 65%,transparent)">{{ f.label }}</dt>
+        <dd style="margin:var(--space-1) 0 0;font-family:var(--font-heading);font-weight:600;font-size:32px;line-height:1.1;font-variant-numeric:tabular-nums">{{ f.value }}</dd>
+      </div>
+    </sc-for>
+  </dl>
+  <p style="margin:var(--space-4) 0 0;font-style:italic;font-size:14px;color:color-mix(in srgb,var(--color-text) 65%,transparent)">Yaklaşık güzergâh: kuş uçuşu mesafeden hesaplandı, gerçek yürüme yolu daha uzun olabilir.</p>
+
+  <section aria-labelledby="durak-baslik" style="margin-top:calc(var(--space-8) * 2)">
+    <h2 id="durak-baslik" style="margin:0 0 var(--space-6)">Duraklar</h2>
+    <div style="display:flex;flex-wrap:wrap;gap:var(--space-8);align-items:flex-start">
+      <ol aria-label="Duraklar" style="flex:5 1 340px;min-width:0;list-style:none;margin:0;padding:0;position:relative">
+        <sc-for list="{{ stops }}" as="s" hint-placeholder-count="5">
+          <li style="position:relative">
+            <div style="display:grid;grid-template-columns:44px minmax(0,1fr);gap:var(--space-3);animation:page-in 320ms cubic-bezier(0.16,1,0.3,1) both;animation-delay:{{ s.delay }}">
+              <span aria-hidden="true" style="display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--color-bg);border:1px solid var(--color-text);font-family:var(--font-heading);font-weight:600;font-size:18px;font-variant-numeric:tabular-nums">{{ s.num }}</span>
+              <div>
+                <h3 style="margin:8px 0 var(--space-1);font-size:22px">{{ s.ad }}</h3>
+                <p style="margin:0;font-size:14px;color:color-mix(in srgb,var(--color-text) 72%,transparent)">{{ s.ziyaret }} dk ziyaret · En yakın durak: {{ s.durak }} · Toplanma alanı: {{ s.toplanma }}</p>
+                <sc-if value="{{ s.warn }}" hint-placeholder-val="{{ false }}">
+                  <p style="display:flex;gap:var(--space-1);align-items:center;margin:var(--space-2) 0 0;font-size:14px;color:var(--color-accent-2-700)"><i class="ph-duotone ph-warning" style="font-size:18px" aria-hidden="true"></i>{{ s.erisim }}</p>
+                </sc-if>
+              </div>
+            </div>
+            <sc-if value="{{ s.hasLeg }}" hint-placeholder-val="{{ true }}">
+              <p style="display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-2);margin:0;padding:var(--space-3) 0 var(--space-3) 21px;font-size:14px;font-style:italic">
+                <span aria-hidden="true" style="width:1px;align-self:stretch;min-height:28px;background:var(--color-divider);margin-right:calc(var(--space-3) + 14px)"></span>
+                <i class="ph-duotone {{ s.legIcon }}" style="font-size:20px;color:var(--color-accent)" aria-hidden="true"></i>
+                <span>{{ s.legText }}</span>
+                <sc-if value="{{ s.legTransit }}" hint-placeholder-val="{{ false }}">
+                  <a href="#" style="display:inline-flex;align-items:center;gap:4px;min-height:44px;font-style:normal">Yol tarifi<i class="ph-duotone ph-arrow-square-out" aria-hidden="true"></i></a>
+                </sc-if>
+              </p>
+            </sc-if>
+          </li>
+        </sc-for>
+      </ol>
+      <div class="halftone" style="flex:7 1 360px;min-width:0;position:sticky;top:96px;height:min(640px,calc(100vh - 140px));min-height:360px;border-radius:var(--radius-md);background:var(--color-surface);display:grid;place-items:center">
+        <div style="display:grid;justify-items:center;gap:var(--space-1);color:var(--color-accent)"><i class="ph-duotone ph-path" style="font-size:44px" aria-hidden="true"></i><span style="font-size:13px;color:var(--color-text)">Rota haritası: numaralı duraklar, yürüme bölümleri, toplanma alanları</span></div>
+        <span style="position:absolute;right:var(--space-2);bottom:var(--space-2);font-size:11px;background:var(--color-bg);padding:2px 6px">© OpenStreetMap katkıcıları</span>
+      </div>
+    </div>
+  </section>
+</main>
+</sc-if>
+
+<footer style="max-width:1360px;margin:calc(var(--space-8) * 3) auto 0;padding:var(--space-8) var(--space-4);display:grid;gap:var(--space-2);font-size:14px">
+  <p style="display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:center;margin:0"><span class="tag tag-accent-2">DEMO VERİSİ</span><span>İçeriklerin bir kısmı örnektir; “Doğrulanacak” işaretli bilgiler henüz teyit edilmedi.</span></p>
+  <p style="margin:0;color:color-mix(in srgb,var(--color-text) 65%,transparent)">Harita verisi © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap katkıcıları</a></p>
+  <p style="margin:0"><a href="#">Yönetim</a></p>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;tema&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;acik&quot;,&quot;koyu&quot;],&quot;default&quot;:&quot;acik&quot;,&quot;tsType&quot;:&quot;'acik'|'koyu'&quot;},&quot;baslangic&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;anasayfa&quot;,&quot;kesfet&quot;,&quot;plan&quot;],&quot;default&quot;:&quot;anasayfa&quot;,&quot;tsType&quot;:&quot;'anasayfa'|'kesfet'|'plan'&quot;},&quot;erisilebilir&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const PLACES = [
+  { id: 1, ad: 'Ebru Atölyesi', semt: 'Üsküdar', tur: 'atolye', turEtiketi: 'Atölye', icon: 'ph-paint-brush', aciklama: 'Su üstünde boyayla desen: bir saatte ilk ebrunu yap, kurusun, yanında götür.', sure: 90, erisim: 'Basamaksız giriş', dogrulanacak: true },
+  { id: 2, ad: 'Yeldeğirmeni Sokakları', semt: 'Kadıköy', tur: 'tarihi', turEtiketi: 'Tarihi miras', icon: 'ph-buildings', aciklama: 'Cumhuriyet’in ilk apartmanları, duvar resimleri ve adını eski bir değirmenden alan mahalle.', sure: 0, erisim: 'Düz zemin, dar kaldırım', dogrulanacak: false },
+  { id: 3, ad: 'Bakırcılar Çarşısı', semt: 'Fatih', tur: 'atolye', turEtiketi: 'Atölye', icon: 'ph-hammer', aciklama: 'Kalaycı ustasının yanında küçük bir bakır kase döv, cilasını kendin ver.', sure: 120, erisim: 'Girişte 2 basamak', dogrulanacak: true },
+  { id: 4, ad: 'Süleymaniye Yokuşu', semt: 'Fatih', tur: 'tarihi', turEtiketi: 'Tarihi miras', icon: 'ph-mosque', aciklama: 'Sinan’ın külliyesine çıkan taş yokuş ve Haliç’e bakan teraslar.', sure: 0, erisim: 'Dik yokuş', dogrulanacak: false },
+  { id: 5, ad: 'Kuzguncuk Çarşısı', semt: 'Üsküdar', tur: 'dizi', turEtiketi: 'Dizi/film/edebiyat', icon: 'ph-film-slate', aciklama: 'Pek çok dizinin mahallesi: cami, kilise ve sinagog aynı sokakta.', sure: 0, erisim: 'Düz zemin', dogrulanacak: true },
+  { id: 6, ad: 'Galata Kulesi Çevresi', semt: 'Beyoğlu', tur: 'tarihi', turEtiketi: 'Tarihi miras', icon: 'ph-castle-turret', aciklama: 'Ceneviz surlarından kalan kule ve onu saran merdivenli sokaklar.', sure: 0, erisim: 'Merdivenli', dogrulanacak: false },
+  { id: 7, ad: 'Cihangir Sahafları', semt: 'Beyoğlu', tur: 'dizi', turEtiketi: 'Dizi/film/edebiyat', icon: 'ph-books', aciklama: 'Romanlara konu olmuş yokuşlar ve sahafların sıralandığı sokaklar.', sure: 0, erisim: 'Dik yokuş', dogrulanacak: true },
+  { id: 8, ad: 'Çini Atölyesi', semt: 'Kadıköy', tur: 'atolye', turEtiketi: 'Atölye', icon: 'ph-flower-lotus', aciklama: 'İznik desenlerini fırçayla karoya aktar; fırınlanan karon bir hafta sonra teslim.', sure: 150, erisim: 'Basamaksız giriş', dogrulanacak: true },
+];
+const ASIAN = ['Kadıköy', 'Üsküdar'];
+const STEEP = /Dik|Merdiven/;
+const DURAK = { 'Üsküdar': 'Üsküdar İskelesi', 'Kadıköy': 'Kadıköy İskelesi', 'Fatih': 'T1 Eminönü', 'Beyoğlu': 'M2 Şişhane' };
+const TOPLANMA = { 'Üsküdar': 'Doğancılar Parkı', 'Kadıköy': 'Yoğurtçu Parkı', 'Fatih': 'Beyazıt Meydanı', 'Beyoğlu': 'Taksim Gezi Parkı' };
+const SEMTLER = [
+  { ad: 'Fatih', yaka: 'Tarihi Yarımada', rota: 4, atolye: 6, durak: 18 },
+  { ad: 'Beyoğlu', yaka: 'Avrupa yakası', rota: 3, atolye: 4, durak: 14 },
+  { ad: 'Beşiktaş', yaka: 'Avrupa yakası', rota: 2, atolye: 3, durak: 11 },
+  { ad: 'Sarıyer', yaka: 'Boğaz', rota: 1, atolye: 2, durak: 7 },
+  { ad: 'Kadıköy', yaka: 'Anadolu yakası', rota: 3, atolye: 5, durak: 15 },
+  { ad: 'Üsküdar', yaka: 'Anadolu yakası', rota: 2, atolye: 3, durak: 12 },
+];
+const EVENTS = [
+  { gun: '22', ay: 'Kasım', ad: 'Kuzguncuk’ta ebru gecesi', yer: 'Üsküdar', saat: '19:00', ucret: 'Ücretsiz' },
+  { gun: '29', ay: 'Kasım', ad: 'Yeldeğirmeni duvar resimleri yürüyüşü', yer: 'Kadıköy', saat: '11:00', ucret: 'Ücretsiz' },
+  { gun: '06', ay: 'Aralık', ad: 'Bakırcılar’da usta-çırak buluşması', yer: 'Fatih', saat: '14:00', ucret: '150 TL' },
+];
+const LAYERS = [['mekan', 'Mekanlar'], ['atolye', 'Atölyeler'], ['durak', 'Duraklar'], ['toplanma', 'Toplanma alanları']];
+const fmtSure = (dk) => { const h = Math.floor(dk / 60), m = Math.round(dk % 60); return !h ? `${m} dk` : m ? `${h} sa ${m} dk` : `${h} sa`; };
+const fmtMesafe = (m) => (m < 1000 ? `${Math.round(m)} m` : `${(m / 1000).toFixed(1).replace('.', ',')} km`);
+const reducedMotion = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+class Component extends DCLogic {
+  state = {
+    screen: this.props.baslangic ?? 'anasayfa', tema: this.props.tema ?? 'acik', erisilebilir: this.props.erisilebilir ?? false,
+    semtF: [], turF: [], decided: [], selected: [], history: [], planIds: [],
+    dx: 0, phase: 'idle', building: false, copied: false, layers: ['mekan', 'atolye', 'durak', 'toplanma'],
+  };
+  componentDidMount() {
+    this.onKey = (e) => {
+      if (this.state.screen !== 'kesfet') return;
+      if (e.target && e.target.closest && e.target.closest('input,textarea,select')) return;
+      if (e.key === 'ArrowRight') { e.preventDefault(); this.fling('giderim'); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); this.fling('gec'); }
+    };
+    window.addEventListener('keydown', this.onKey);
+  }
+  componentWillUnmount() { window.removeEventListener('keydown', this.onKey); clearTimeout(this.t); }
+  componentDidUpdate(prev) {
+    if (prev.tema !== this.props.tema && this.props.tema) this.setState({ tema: this.props.tema });
+    if (prev.erisilebilir !== this.props.erisilebilir) this.setState({ erisilebilir: !!this.props.erisilebilir });
+    if (prev.baslangic !== this.props.baslangic && this.props.baslangic) this.go(this.props.baslangic);
+  }
+  go(screen) { this.setState({ screen }); window.scrollTo(0, 0); }
+  deck() {
+    const s = this.state;
+    return PLACES.filter((p) => !s.decided.includes(p.id)
+      && (!s.semtF.length || s.semtF.includes(p.semt))
+      && (!s.turF.length || s.turF.includes(p.tur))
+      && (!s.erisilebilir || !STEEP.test(p.erisim)));
+  }
+  fling(dir) {
+    const top = this.deck()[0];
+    if (!top || this.busy) return;
+    this.busy = true;
+    const ms = reducedMotion() ? 0 : 260;
+    this.setState({ phase: 'out', dx: dir === 'giderim' ? 640 : -640 });
+    this.t = setTimeout(() => {
+      this.setState((s) => ({
+        decided: [...s.decided, top.id],
+        selected: dir === 'giderim' ? [...s.selected, top.id] : s.selected,
+        history: [...s.history, { id: top.id, dir }], dx: 0, phase: 'none',
+      }));
+      this.busy = false;
+    }, ms);
+  }
+  undo() {
+    const h = this.state.history;
+    if (!h.length || this.busy) return;
+    const last = h[h.length - 1];
+    const reduced = reducedMotion();
+    this.setState((s) => ({
+      history: s.history.slice(0, -1), decided: s.decided.filter((i) => i !== last.id), selected: s.selected.filter((i) => i !== last.id),
+      dx: reduced ? 0 : last.dir === 'giderim' ? 560 : -560, phase: 'none',
+    }), () => { if (!reduced) requestAnimationFrame(() => requestAnimationFrame(() => this.setState({ phase: 'settle', dx: 0 }))); });
+  }
+  plan() {
+    const ids = this.state.planIds.length >= 2 ? this.state.planIds : [1, 5, 2, 8, 3];
+    const stops = ids.map((id) => PLACES.find((p) => p.id === id));
+    let walkM = 0, walkDk = 0, transit = 0, visit = 0;
+    const rows = stops.map((p, i) => {
+      const n = stops[i + 1];
+      const ziyaret = p.sure || 45;
+      visit += ziyaret;
+      let leg = null;
+      if (n) {
+        const sideChange = ASIAN.includes(p.semt) !== ASIAN.includes(n.semt);
+        if (!sideChange && p.semt === n.semt) {
+          const m = 350 + ((p.id * 7 + n.id * 13) % 9) * 70;
+          const dk = Math.round(m / 75);
+          walkM += m; walkDk += dk;
+          leg = { icon: 'ph-person-simple-walk', text: `Yürü ${fmtMesafe(m)} · ${dk} dk`, transit: false };
+        } else {
+          transit += 1; walkM += 600; walkDk += 8;
+          leg = sideChange
+            ? { icon: 'ph-boat', text: 'Yaka değişiyor: vapur/Marmaray', transit: true }
+            : { icon: 'ph-train', text: 'Uzak: toplu taşıma önerilir', transit: true };
+        }
+      }
+      return {
+        num: i + 1, ad: p.ad, ziyaret, durak: DURAK[p.semt], toplanma: TOPLANMA[p.semt], erisim: p.erisim,
+        warn: STEEP.test(p.erisim) || /basamak/.test(p.erisim) && !/Basamaksız/.test(p.erisim),
+        hasLeg: !!leg, legIcon: leg ? leg.icon : '', legText: leg ? leg.text : '', legTransit: leg ? leg.transit : false,
+        delay: `${Math.min(i * 60, 300)}ms`,
+      };
+    });
+    return {
+      rows, count: stops.length,
+      figures: [
+        { label: 'Yürüyüş mesafesi', value: fmtMesafe(walkM) },
+        { label: 'Yürüme süresi', value: fmtSure(walkDk) },
+        { label: 'Ziyaret süresi', value: fmtSure(visit) },
+        { label: 'Tahmini toplam', value: fmtSure(visit + walkDk + transit * 25) },
+      ],
+    };
+  }
+  chips(all, key, labelOf) {
+    const val = this.state[key];
+    return all.map((v) => {
+      const pressed = val.includes(v);
+      return { label: labelOf(v), pressed, off: !pressed, toggle: () => this.setState((s) => ({ [key]: pressed ? s[key].filter((x) => x !== v) : [...s[key], v] })) };
+    });
+  }
+  renderVals() {
+    const s = this.state;
+    const deck = this.deck();
+    const top = deck[0] || PLACES[0];
+    const dx = s.dx;
+    const t = s.phase === 'drag' || s.phase === 'none' ? 'none'
+      : s.phase === 'out' ? 'transform 260ms cubic-bezier(0.65,0,0.35,1), opacity 260ms cubic-bezier(0.65,0,0.35,1)'
+      : 'transform 320ms cubic-bezier(0.34,1.56,0.64,1)';
+    const rot = Math.max(-12, Math.min(12, dx / 20));
+    const so = Math.min(1, Math.abs(dx) / 120);
+    const stamp = { position: 'absolute', top: 'var(--space-4)', zIndex: 2, padding: '4px 12px', pointerEvents: 'none', fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: '28px', letterSpacing: '0.08em', border: '4px double currentColor', borderRadius: 'var(--radius-lg)', background: 'color-mix(in srgb, var(--color-bg) 75%, transparent)' };
+    const n = s.selected.length;
+    const plan = this.plan();
+    const tur = { atolye: 'Atölye', tarihi: 'Tarihi miras', dizi: 'Dizi/film/edebiyat' };
+    const isLight = s.tema !== 'koyu';
+    return {
+      tema: isLight ? 'acik' : 'koyu', isLight, isDark: !isLight,
+      themeLabel: isLight ? 'Koyu temaya geç' : 'Açık temaya geç', themeIcon: isLight ? 'ph-moon' : 'ph-sun',
+      toggleTheme: () => this.setState({ tema: isLight ? 'koyu' : 'acik' }),
+      erisilebilir: s.erisilebilir, a11yOff: !s.erisilebilir,
+      toggleA11y: () => this.setState({ erisilebilir: !s.erisilebilir }),
+      isHome: s.screen === 'anasayfa', isKesfet: s.screen === 'kesfet', isPlan: s.screen === 'plan',
+      goHome: () => this.go('anasayfa'), goKesfet: () => this.go('kesfet'),
+      goSemtler: () => { const el = document.getElementById('semtler'); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 80, behavior: reducedMotion() ? 'auto' : 'smooth' }); },
+      nav: [
+        ['Semtler', 'anasayfa'], ['Keşfet', 'kesfet'], ['Gruplar'], ['Atölyeler'], ['Etkinlikler'], ['Pasaportum'],
+      ].map(([label, scr]) => ({ label, active: !!scr && (s.screen === scr || (scr === 'kesfet' && s.screen === 'plan')), inactive: !(scr && (s.screen === scr || (scr === 'kesfet' && s.screen === 'plan'))), go: scr ? () => this.go(scr) : () => {} })),
+      today: new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: 'long', year: 'numeric', weekday: 'long' }).format(new Date()),
+      featured: [PLACES[0], PLACES[4], PLACES[3], PLACES[7]],
+      semtler: SEMTLER.map((x) => ({ ...x, go: () => { this.setState({ semtF: PLACES.some((p) => p.semt === x.ad) ? [x.ad] : [] }); this.go('kesfet'); } })),
+      layers: LAYERS.map(([v, label]) => { const pressed = s.layers.includes(v); return { label, pressed, off: !pressed, toggle: () => this.setState((st) => ({ layers: pressed ? st.layers.filter((x) => x !== v) : [...st.layers, v] })) }; }),
+      layerSummary: s.layers.length ? `${s.layers.length} katman açık` : 'tüm katmanlar kapalı',
+      events: EVENTS,
+      semtChips: this.chips(['Fatih', 'Beyoğlu', 'Kadıköy', 'Üsküdar'], 'semtF', (v) => v),
+      turChips: this.chips(['atolye', 'tarihi', 'dizi'], 'turF', (v) => tur[v]),
+      hasTop: deck.length > 0, deckEmpty: deck.length === 0, top, remaining: deck.length,
+      hasUnder1: deck.length > 1, hasUnder2: deck.length > 2, under1: deck[1] || PLACES[0],
+      topStyle: { position: 'absolute', inset: 0, overflow: 'hidden', touchAction: 'pan-y', userSelect: 'none', cursor: s.phase === 'drag' ? 'grabbing' : 'grab', boxShadow: 'var(--shadow-md)', transform: `translateX(${dx}px) rotate(${rot}deg)`, transition: t, opacity: s.phase === 'out' ? 0 : 1 },
+      stampGiderim: { ...stamp, left: 'var(--space-4)', rotate: '-12deg', color: 'var(--color-accent-700)', opacity: dx > 0 ? so : 0 },
+      stampGec: { ...stamp, right: 'var(--space-4)', rotate: '12deg', color: 'var(--color-text)', opacity: dx < 0 ? so : 0 },
+      onDown: (e) => { if (this.busy) return; e.currentTarget.setPointerCapture && e.currentTarget.setPointerCapture(e.pointerId); this.start = { x: e.clientX, t: Date.now() }; this.setState({ phase: 'drag' }); },
+      onMove: (e) => { if (this.start) this.setState({ dx: e.clientX - this.start.x }); },
+      onUp: (e) => {
+        if (!this.start) return;
+        const d = e.clientX - this.start.x;
+        const v = d / Math.max(Date.now() - this.start.t, 16);
+        this.start = null;
+        const flick = Math.abs(d) >= 40 && Math.abs(v) >= 0.6 && Math.sign(v) === Math.sign(d);
+        if (Math.abs(d) >= 120 || flick) this.fling(d > 0 ? 'giderim' : 'gec');
+        else this.setState({ phase: 'settle', dx: 0 });
+      },
+      pass: () => this.fling('gec'), like: () => this.fling('giderim'), undo: () => this.undo(), noUndo: s.history.length === 0,
+      reset: () => this.setState({ decided: [], history: [], selected: [] }),
+      noSelection: n === 0,
+      selectedItems: s.selected.map((id) => { const p = PLACES.find((x) => x.id === id); return { ad: p.ad, semt: p.semt, removeLabel: `${p.ad} listeden çıkar`, remove: () => this.setState((st) => ({ selected: st.selected.filter((x) => x !== id) })) }; }),
+      hint: n < 2 ? `Rota için en az 2 yer seç (${n}/2).` : n > 15 ? `En fazla 15 yer seçebilirsin; ${n - 15} yeri çıkar.` : `${n} yer seçildi.`,
+      cantBuild: n < 2 || n > 15 || s.building, building: s.building,
+      buildLabel: s.building ? 'Rota hesaplanıyor…' : 'Rotamı oluştur',
+      build: () => { this.setState({ building: true }); setTimeout(() => { this.setState((st) => ({ building: false, planIds: st.selected })); this.go('plan'); }, reducedMotion() ? 0 : 900); },
+      stopCount: String(plan.count), figures: plan.figures, stops: plan.rows,
+      shareLabel: s.copied ? 'Bağlantı kopyalandı' : 'Paylaş', shareIcon: s.copied ? 'ph-check' : 'ph-share-network',
+      share: () => { this.setState({ copied: true }); setTimeout(() => this.setState({ copied: false }), 2000); },
+    };
+  }
+}
+</script>
+</body>
+</html>

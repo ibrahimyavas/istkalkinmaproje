@@ -1,0 +1,226 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Proje 404 tokenları — Claude Design "Proje 404 Preview v2" (tasarim/ klasörü).
+   RGB kanal üçlüleri: Tailwind opaklık niteleyicileri (bg-accent/10 vb.) çalışsın diye.
+   Eski token adları (canvas, ink, surface-raised…) korunur ve yeni paletin karşılıklarına bağlanır,
+   böylece tasarımı yapılmamış sayfalar da aynı görünüme geçer. */
+:root,
+.light {
+  --canvas: 248 250 252;          /* --bg       #F8FAFC */
+  --surface: 255 255 255;         /* --surface  #FFFFFF */
+  --surface-raised: 248 250 252;  /* --surface-2 */
+  --ink: 15 23 42;                /* --text     #0F172A */
+  --ink-muted: 71 85 105;         /* --text-2   #475569 */
+  --ink-faint: 100 116 139;       /* --muted    #64748B */
+  --heading: 10 37 64;            /* --heading  #0A2540 (lacivert) */
+  --fill: 10 37 64;               /* koyu dolgu (ikon kutuları, numaralar) */
+  --on-fill: 255 255 255;
+  --navy: 10 37 64;               /* temadan bağımsız lacivert (üst bant, kahraman, alt bilgi) */
+  --accent: 200 75 38;            /* --accent   #C84B26 (kiremit) */
+  --accent-contrast: 255 255 255;
+  --accent-soft: 249 237 233;     /* vurgu %10 */
+  --lale: 200 75 38;
+  --success: 27 135 85;           /* #1B8755 */
+  --warning: 180 83 9;
+  --danger: 185 28 28;
+  --border: 226 232 240;          /* #E2E8F0 */
+  --border-subtle: 237 242 247;   /* #EDF2F7 */
+  --border-strong: 203 213 225;
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 6px 18px rgba(15, 23, 42, 0.08);
+  color-scheme: light;
+}
+
+.dark {
+  --canvas: 11 19 43;             /* #0B132B */
+  --surface: 28 37 65;            /* #1C2541 */
+  --surface-raised: 20 28 54;     /* #141C36 */
+  --ink: 248 250 252;
+  --ink-muted: 203 213 225;
+  --ink-faint: 148 163 184;
+  --heading: 248 250 252;
+  --fill: 248 250 252;
+  --on-fill: 10 37 64;
+  --accent: 224 106 69;           /* #E06A45 */
+  --accent-contrast: 255 255 255;
+  --accent-soft: 57 47 66;
+  --lale: 224 106 69;
+  --success: 52 178 122;          /* #34B27A */
+  --warning: 251 191 36;
+  --danger: 248 113 113;
+  --border: 42 53 87;             /* #2A3557 */
+  --border-subtle: 34 44 74;
+  --border-strong: 58 71 112;
+  --shadow-xs: 0 0 0 1px rgba(255, 255, 255, 0.02);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+  color-scheme: dark;
+}
+
+/* Erişilebilirlik: büyük yazı tercihi tüm rem ölçülerini büyütür. */
+html.buyuk-yazi {
+  font-size: 118.75%;
+}
+
+@layer base {
+  body {
+    @apply bg-canvas font-body text-ink antialiased;
+    font-size: 14px;
+    line-height: 22px;
+    min-height: 100vh;
+  }
+  h1, h2, h3 {
+    @apply font-display text-heading;
+  }
+  a {
+    color: rgb(var(--accent));
+  }
+  a:hover {
+    color: rgb(var(--heading));
+  }
+  ::selection {
+    background: rgb(var(--accent) / 0.2);
+    color: rgb(var(--accent));
+  }
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent));
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .kart {
+    @apply rounded-[14px] border border-hairline bg-surface shadow-xs;
+  }
+  .panel {
+    @apply rounded-[20px] border border-hairline bg-surface p-5 shadow-xs;
+  }
+  .eyebrow {
+    @apply text-[11px] font-semibold uppercase tracking-[0.06em] text-accent;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 text-[13px] font-semibold transition disabled:cursor-not-allowed disabled:opacity-[.45];
+    min-height: 44px;
+  }
+  .btn-ana {
+    @apply btn bg-accent text-white hover:brightness-105 active:scale-[.98];
+    box-shadow: 0 1px 3px rgb(var(--accent) / 0.3);
+  }
+  .btn-koyu {
+    @apply btn bg-fill text-on-fill shadow-xs hover:opacity-95;
+  }
+  .btn-ikincil {
+    @apply btn border border-hairline bg-surface text-ink shadow-xs hover:bg-surface-raised;
+  }
+  .cip {
+    @apply inline-flex min-h-[44px] cursor-pointer items-center gap-1 rounded-full border px-3.5 text-xs transition-colors;
+  }
+  .cip-acik {
+    @apply cip border-fill bg-fill font-semibold text-on-fill;
+  }
+  .cip-kapali {
+    @apply cip border-hairline bg-surface font-medium text-ink hover:border-accent;
+  }
+  .girdi {
+    @apply w-full rounded-lg border border-hairline bg-surface px-3 py-2.5 text-ink placeholder:text-ink-faint focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/25;
+    min-height: 44px;
+  }
+  .etiket {
+    @apply mb-1.5 block text-[13px] font-semibold text-heading;
+  }
+  .baslik-nokta::before {
+    content: '';
+    @apply mr-2 inline-block h-2.5 w-2.5 rounded-full bg-accent align-middle;
+  }
+}
+
+/* Material Symbols (tasarımın ikon seti) */
+.simge {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1 !important;
+  overflow: hidden;
+  white-space: nowrap;
+  direction: ltr;
+  vertical-align: middle;
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-transform: none;
+  font-feature-settings: 'liga';
+}
+
+/* Tasarımdaki hareketler */
+@keyframes page-in { from { opacity: 0; transform: translateY(6px); } }
+@keyframes item-in { from { opacity: 0; transform: translateX(-8px); } }
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } }
+@keyframes word-up { from { opacity: 0; transform: translateY(60%) rotate(4deg); } }
+@keyframes draw { from { transform: scaleX(0); } }
+@keyframes glow-drift {
+  0% { transform: translate(-18%, -12%) scale(1); }
+  50% { transform: translate(12%, 8%) scale(1.15); }
+  100% { transform: translate(-6%, 14%) scale(0.95); }
+}
+@keyframes route-fill { 0%, 8% { transform: scaleX(0); } 62%, 100% { transform: scaleX(1); } }
+@keyframes ring { 0% { transform: scale(1); opacity: 0.7; } 100% { transform: scale(2.6); opacity: 0; } }
+@keyframes demo-swipe {
+  0%, 22% { transform: translateX(0) rotate(0); }
+  38% { transform: translateX(18px) rotate(6deg); }
+  54% { transform: translateX(140%) rotate(18deg); opacity: 0; }
+  55% { transform: translateX(0) rotate(0) scale(0.92); opacity: 0; }
+  72%, 100% { transform: translateX(0) rotate(0) scale(1); opacity: 1; }
+}
+@keyframes demo-stamp {
+  0%, 24% { opacity: 0; transform: rotate(-12deg) scale(1.3); }
+  36%, 52% { opacity: 1; transform: rotate(-12deg) scale(1); }
+  55%, 100% { opacity: 0; }
+}
+@keyframes demo-under {
+  0%, 40% { transform: scale(0.92) translateY(10px); opacity: 0.55; }
+  56%, 100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+.anim-page { animation: page-in 200ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.anim-rise { animation: rise 520ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.anim-item { animation: item-in 200ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+/* Şiir dizeleri */
+.siir {
+  white-space: pre-line;
+  border-left: 3px solid rgb(var(--lale));
+}
+
+/* Dün-Bugün kaydırıcı */
+.db-range { -webkit-appearance: none; appearance: none; background: transparent; }
+.db-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 9999px;
+  background: rgb(var(--accent));
+  border: 3px solid white;
+  cursor: ew-resize;
+}
+
+.maplibregl-ctrl-attrib { font-size: 11px; }
+
+/* Yazdırma: yalnızca .yazdir-sayfa içeriği, açık renklerle, A4 */
+@page { size: A4; margin: 14mm; }
+@media print {
+  .no-print { display: none !important; }
+  html, body { background: #fff !important; color: #0F172A !important; }
+  .yazdir-sayfa { box-shadow: none !important; }
+  a { color: inherit !important; text-decoration: none !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

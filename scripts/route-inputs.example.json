@@ -1,0 +1,29 @@
+{
+  "$aciklama": "Koordinatlar OpenStreetMap'teki yapı/nokta merkezleridir (Kasım 2026). Valhalla her durağı en yakın yürünebilir yola oturtur.",
+  "rotalar": [
+    {
+      "id": "balat-fener",
+      "ad": "Balat–Fener: Haliç kıyısından yokuşa",
+      "duraklar": [
+        { "id": "fener-iskelesi", "ad": "Fener İskelesi", "lat": 41.03095, "lon": 28.95262 },
+        { "id": "rum-patrikhanesi", "ad": "Fener Rum Patrikhanesi (Aya Yorgi Kilisesi)", "lat": 41.02912, "lon": 28.95189 },
+        { "id": "fener-rum-lisesi", "ad": "Fener Rum Lisesi (Kırmızı Mektep)", "lat": 41.02928, "lon": 28.94939 },
+        { "id": "kiremit-caddesi", "ad": "Kiremit Caddesi renkli evler", "lat": 41.02983, "lon": 28.94773 },
+        { "id": "ahrida-sinagogu", "ad": "Ahrida Sinagogu", "lat": 41.03291, "lon": 28.94552 },
+        { "id": "balat-iskelesi", "ad": "Balat İskelesi", "lat": 41.03482, "lon": 28.94921 }
+      ]
+    },
+    {
+      "id": "kuzguncuk",
+      "ad": "Kuzguncuk: iskeleden bostana",
+      "duraklar": [
+        { "id": "kuzguncuk-iskelesi", "ad": "Kuzguncuk İskelesi", "lat": 41.03687, "lon": 29.02977 },
+        { "id": "surp-krikor", "ad": "Surp Krikor Lusavoriç Ermeni Kilisesi", "lat": 41.03673, "lon": 29.03041 },
+        { "id": "beth-yaakov", "ad": "Beth Yaakov Sinagogu", "lat": 41.03628, "lon": 29.02969 },
+        { "id": "aya-pandeleimon", "ad": "Aya Pandeleimon Rum Ortodoks Kilisesi", "lat": 41.03463, "lon": 29.03049 },
+        { "id": "kuzguncuk-bostani", "ad": "Kuzguncuk Bostanı", "lat": 41.03478, "lon": 29.03178 },
+        { "id": "simitci-tahir-parki", "ad": "Simitçi Tahir Parkı", "lat": 41.03293, "lon": 29.03237 }
+      ]
+    }
+  ]
+}

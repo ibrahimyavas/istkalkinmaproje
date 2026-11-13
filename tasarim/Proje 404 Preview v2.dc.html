@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Proje 404 · Önizleme v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+<style>
+body{margin:0}
+*,*::before,*::after{box-sizing:border-box}
+button,input,select{font-family:inherit;color:inherit}
+a{color:var(--accent)} a:hover{color:var(--heading)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+::selection{background:rgba(200,75,38,.2);color:var(--accent)}
+.material-symbols-outlined{display:inline-block;width:1em;height:1em;line-height:1!important;overflow:hidden;white-space:nowrap;direction:ltr;vertical-align:middle;font-family:'Material Symbols Outlined';font-weight:normal;font-style:normal;letter-spacing:normal;text-transform:none;-webkit-font-feature-settings:'liga';font-feature-settings:'liga'}
+[data-tema]{--accent:#C84B26;--success:#1B8755;--navy:#0A2540;--bg:#F8FAFC;--surface:#FFFFFF;--surface-2:#F8FAFC;--text:#0F172A;--text-2:#475569;--muted:#64748B;--border:#E2E8F0;--border-subtle:#EDF2F7;--heading:#0A2540;--fill:#0A2540;--on-fill:#FFFFFF;--fill-soft:rgba(10,37,64,.08);--accent-soft:rgba(200,75,38,.1);--success-soft:rgba(27,135,85,.1);--shadow-xs:0 1px 2px rgba(15,23,42,.05);--shadow-md:0 6px 18px rgba(15,23,42,.08);color-scheme:light}
+[data-tema="koyu"]{--bg:#0B132B;--surface:#1C2541;--surface-2:#141C36;--text:#F8FAFC;--text-2:#CBD5E1;--muted:#94A3B8;--border:#2A3557;--border-subtle:#222C4A;--heading:#F8FAFC;--fill:#F8FAFC;--on-fill:#0A2540;--fill-soft:rgba(248,250,252,.08);--accent:#E06A45;--success:#34B27A;--shadow-xs:0 0 0 1px rgba(255,255,255,.02);--shadow-md:0 8px 24px rgba(0,0,0,.35);color-scheme:dark}
+@keyframes page-in{from{opacity:0;transform:translateY(6px)}}
+@keyframes item-in{from{opacity:0;transform:translateX(-8px)}}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}}
+@keyframes word-up{from{opacity:0;transform:translateY(60%) rotate(4deg)}}
+@keyframes draw{from{transform:scaleX(0)}}
+@keyframes glow-drift{0%{transform:translate(-18%,-12%) scale(1)}50%{transform:translate(12%,8%) scale(1.15)}100%{transform:translate(-6%,14%) scale(.95)}}
+@keyframes route-fill{0%,8%{transform:scaleX(0)}62%,100%{transform:scaleX(1)}}
+@keyframes ring{0%{transform:scale(1);opacity:.7}100%{transform:scale(2.6);opacity:0}}
+@keyframes demo-swipe{0%,22%{transform:translateX(0) rotate(0)}38%{transform:translateX(18px) rotate(6deg)}54%{transform:translateX(140%) rotate(18deg);opacity:0}55%{transform:translateX(0) rotate(0) scale(.92);opacity:0}72%,100%{transform:translateX(0) rotate(0) scale(1);opacity:1}}
+@keyframes demo-stamp{0%,24%{opacity:0;transform:rotate(-12deg) scale(1.3)}36%,52%{opacity:1;transform:rotate(-12deg) scale(1)}55%,100%{opacity:0}}
+@keyframes demo-under{0%,40%{transform:scale(.92) translateY(10px);opacity:.55}56%,100%{transform:scale(1) translateY(0);opacity:1}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@media (prefers-reduced-motion: reduce){[data-anim],[data-anim] *{animation:none!important}}
+</style>
+</helmet>
+<div data-tema="{{ tema }}" style="min-height:100vh;background:var(--bg);color:var(--text);font-family:Inter,sans-serif;font-size:14px;line-height:22px;display:flex;flex-direction:column">
+
+<aside style="background:var(--navy);color:#FFFFFF;padding:8px 32px;font-size:11px;line-height:16px;font-weight:600;letter-spacing:.2px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px">
+  <span style="display:inline-flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:9999px;background:#1B8755;display:inline-block"></span>DEMO VERİSİ · İçeriklerin bir kısmı örnektir, “Doğrulanacak” işaretliler teyit edilmedi</span>
+  <span style="display:inline-flex;align-items:center;gap:12px"><span style="opacity:.8">{{ today }}</span><span style="background:rgba(255,255,255,.1);padding:2px 8px;border-radius:6px;font-size:10px;text-transform:uppercase;letter-spacing:.06em;font-weight:700">Şehir keşif rehberi</span></span>
+</aside>
+
+<header style="position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--surface) 95%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);box-shadow:var(--shadow-xs)">
+  <div style="max-width:1360px;margin:0 auto;padding:10px 32px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px">
+    <button type="button" onClick="{{ goHome }}" style="display:flex;align-items:center;gap:12px;background:none;border:0;padding:0;cursor:pointer;text-align:left;min-height:44px">
+      <span style="width:40px;height:40px;border-radius:14px;background:var(--fill);color:var(--on-fill);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:16px;letter-spacing:-.3px;box-shadow:var(--shadow-xs)">404</span>
+      <span>
+        <span style="display:flex;align-items:center;gap:8px"><span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:16px;line-height:20px;color:var(--heading)">Proje 404</span><span style="background:var(--fill-soft);color:var(--heading);font-size:10px;font-weight:700;padding:2px 6px;border-radius:6px;border:1px solid var(--border)">İSTANBUL</span></span>
+        
+      </span>
+    </button>
+    <nav aria-label="Ana menü" style="display:flex;flex-wrap:wrap;align-items:center;gap:4px;font-size:13px;line-height:18px">
+      <sc-for list="{{ nav }}" as="n" hint-placeholder-count="6">
+        <sc-if value="{{ n.active }}" hint-placeholder-val="{{ false }}">
+          <button type="button" aria-current="page" onClick="{{ n.go }}" style="min-height:44px;padding:0 14px;border-radius:10px;font-weight:600;color:var(--heading);background:var(--surface-2);border:1px solid var(--border);cursor:pointer">{{ n.label }}</button>
+        </sc-if>
+        <sc-if value="{{ n.inactive }}" hint-placeholder-val="{{ true }}">
+          <button type="button" onClick="{{ n.go }}" style="min-height:44px;padding:0 14px;border-radius:10px;font-weight:500;color:var(--text-2);background:transparent;border:1px solid transparent;cursor:pointer;transition:background-color 120ms cubic-bezier(.16,1,.3,1),color 120ms" style-hover="color:var(--heading);background:var(--surface-2)">{{ n.label }}</button>
+        </sc-if>
+      </sc-for>
+    </nav>
+    <div style="display:flex;align-items:center;gap:8px">
+      <sc-if value="{{ erisilebilir }}" hint-placeholder-val="{{ false }}">
+        <button type="button" aria-pressed="true" onClick="{{ toggleA11y }}" style="display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:8px;border:1px solid var(--success);background:var(--success-soft);color:var(--success);font-size:13px;font-weight:600;cursor:pointer"><span class="material-symbols-outlined" style="font-size:18px" aria-hidden="true">accessible</span>Erişilebilir mod açık</button>
+      </sc-if>
+      <sc-if value="{{ a11yOff }}" hint-placeholder-val="{{ true }}">
+        <button type="button" aria-pressed="false" onClick="{{ toggleA11y }}" style="display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;font-weight:500;cursor:pointer;box-shadow:var(--shadow-xs)" style-hover="background:var(--surface-2)"><span class="material-symbols-outlined" style="font-size:18px;color:var(--muted)" aria-hidden="true">accessible</span>Erişilebilir mod</button>
+      </sc-if>
+      <button type="button" aria-label="{{ themeLabel }}" title="{{ themeLabel }}" onClick="{{ toggleTheme }}" style="width:44px;height:44px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer" style-hover="color:var(--heading);background:var(--surface-2)"><span class="material-symbols-outlined" style="font-size:20px" aria-hidden="true">{{ themeIcon }}</span></button>
+      <button type="button" onClick="{{ goKesfet }}" style="display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border-radius:8px;border:0;background:var(--accent);color:#FFFFFF;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 1px 3px rgba(200,75,38,.3);transition:filter 120ms,transform 120ms" style-hover="filter:brightness(1.05)" style-active="transform:scale(.98)"><span class="material-symbols-outlined" style="font-size:18px" aria-hidden="true">swipe</span>Keşfetmeye başla</button>
+    </div>
+  </div>
+</header>
+
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+<main style="flex:1;max-width:1360px;margin:0 auto;width:100%;padding:32px;animation:page-in 200ms cubic-bezier(.16,1,.3,1) both">
+  <section data-anim="hero" style="margin-bottom:32px;border-radius:20px;border:1px solid var(--border);background:var(--surface);overflow:hidden;box-shadow:var(--shadow-xs);display:flex;flex-wrap:wrap;animation:rise 600ms cubic-bezier(.16,1,.3,1) both">
+    <div style="flex:7 1 460px;min-width:0;padding:32px;display:flex;flex-direction:column;justify-content:space-between;gap:32px">
+      <div>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:12px;animation:rise 520ms cubic-bezier(.16,1,.3,1) 80ms both">
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:9999px;background:var(--fill-soft);color:var(--heading);font-size:11px;line-height:16px;font-weight:600"><span style="position:relative;display:inline-flex;width:8px;height:8px"><span style="position:absolute;inset:0;border-radius:9999px;background:var(--success);animation:ring 1.8s ease-out infinite"></span><span style="position:relative;width:8px;height:8px;border-radius:9999px;background:var(--success)"></span></span>6 semt · 14 hikâye rotası · 23 atölye</span>
+          <span style="font-size:11px;font-weight:600;color:var(--muted)">2026–2027 sezonu</span>
+        </div>
+        <h1 aria-label="İstanbul’u semt semt, durak durak keşfet" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(30px,3.8vw,46px);line-height:1.15;letter-spacing:-.9px;font-weight:700;color:var(--heading);margin:0 0 14px">
+          <span aria-hidden="true" style="display:block"><span style="display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em;margin-bottom:-.08em"><span style="display:inline-block;animation:word-up 640ms cubic-bezier(.16,1,.3,1) 180ms both">İstanbul’u</span></span> <span style="display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em;margin-bottom:-.08em"><span style="display:inline-block;animation:word-up 640ms cubic-bezier(.16,1,.3,1) 250ms both">semt</span></span> <span style="display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em;margin-bottom:-.08em"><span style="display:inline-block;animation:word-up 640ms cubic-bezier(.16,1,.3,1) 320ms both">semt,</span></span></span>
+          <span aria-hidden="true" style="display:block"><span style="display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em;margin-bottom:-.08em"><span style="display:inline-block;animation:word-up 640ms cubic-bezier(.16,1,.3,1) 390ms both">durak</span></span> <span style="display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em;margin-bottom:-.08em"><span style="display:inline-block;animation:word-up 640ms cubic-bezier(.16,1,.3,1) 460ms both">durak</span></span> <span style="position:relative;display:inline-block"><span style="display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em;margin-bottom:-.08em"><span style="display:inline-block;animation:word-up 640ms cubic-bezier(.16,1,.3,1) 530ms both">keşfet</span></span><span aria-hidden="true" style="position:absolute;left:0;right:0;bottom:2px;height:6px;border-radius:9999px;background:var(--accent);opacity:.85;transform-origin:left;animation:draw 700ms cubic-bezier(.16,1,.3,1) 760ms both"></span></span></span>
+        </h1>
+        <p style="font-size:16px;line-height:26px;color:var(--text-2);max-width:640px;margin:0 0 24px;text-wrap:pretty;animation:rise 520ms cubic-bezier(.16,1,.3,1) 560ms both">Atölyeleri, hikâye rotalarını ve deprem toplanma alanlarını tek yerde gör. Beğendiğin yerleri sağa kaydır, yürüyüş rotanı biz çıkaralım.</p>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:13px;animation:rise 520ms cubic-bezier(.16,1,.3,1) 680ms both">
+          <span style="color:var(--muted);font-weight:600;font-size:11px;margin-right:4px">Semtten başla:</span>
+          <sc-for list="{{ heroSemt }}" as="h" hint-placeholder-count="4">
+            <button type="button" onClick="{{ h.go }}" style="display:inline-flex;align-items:center;gap:4px;min-height:44px;padding:0 12px;border-radius:8px;background:var(--surface-2);border:1px solid var(--border);color:var(--text);font-weight:500;cursor:pointer;transition:border-color 120ms,transform 200ms cubic-bezier(.16,1,.3,1),box-shadow 200ms" style-hover="border-color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow-md)" style-active="transform:translateY(0) scale(.98)">{{ h.ad }}<span class="material-symbols-outlined" style="font-size:16px;color:var(--accent)" aria-hidden="true">arrow_forward</span></button>
+          </sc-for>
+        </div>
+      </div>
+      <div style="padding-top:16px;border-top:1px solid var(--border-subtle);display:flex;flex-wrap:wrap;gap:12px 24px;font-size:12px;font-weight:500">
+        <span style="display:inline-flex;align-items:center;gap:6px;animation:rise 420ms cubic-bezier(.16,1,.3,1) 820ms both"><span class="material-symbols-outlined" style="font-size:16px;color:var(--accent)" aria-hidden="true">swipe</span>Kaydır, seç, rotan hazır</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;animation:rise 420ms cubic-bezier(.16,1,.3,1) 900ms both"><span class="material-symbols-outlined" style="font-size:16px;color:var(--success)" aria-hidden="true">accessible</span>Erişilebilir rota seçeneği</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;animation:rise 420ms cubic-bezier(.16,1,.3,1) 980ms both"><span class="material-symbols-outlined" style="font-size:16px;color:var(--heading)" aria-hidden="true">emergency</span>Her durakta toplanma alanı</span>
+      </div>
+    </div>
+    <div style="flex:5 1 340px;min-width:0;position:relative;min-height:420px;background:var(--navy);color:#FFFFFF;overflow:hidden">
+      <div aria-hidden="true" style="position:absolute;width:120%;height:120%;left:-10%;top:-10%;background:radial-gradient(circle at 30% 30%,rgba(200,75,38,.38),transparent 45%),radial-gradient(circle at 75% 70%,rgba(27,135,85,.28),transparent 45%);animation:glow-drift 14s ease-in-out infinite alternate"></div>
+      <div aria-hidden="true" style="position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.08) 1px,transparent 1px);background-size:18px 18px"></div>
+
+      <div aria-hidden="true" style="position:absolute;top:28px;left:50%;width:200px;margin-left:-100px;height:236px;animation:float 5s ease-in-out infinite">
+        <div style="position:absolute;inset:0;border-radius:16px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.14);animation:demo-under 4.6s cubic-bezier(.16,1,.3,1) infinite"></div>
+        <div style="position:absolute;inset:0;border-radius:16px;background:#FFFFFF;color:#0F172A;padding:10px;box-shadow:0 18px 40px rgba(0,0,0,.35);animation:demo-swipe 4.6s cubic-bezier(.16,1,.3,1) infinite;display:flex;flex-direction:column;gap:8px">
+          <div style="flex:1;border-radius:10px;background:#0A2540;display:grid;place-items:center;color:rgba(255,255,255,.4)"><span class="material-symbols-outlined" style="font-size:36px">movie</span></div>
+          <div><div style="font-size:10px;font-weight:700;color:#C84B26;text-transform:uppercase;letter-spacing:.04em">Dizi/film · Üsküdar</div><div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:14px;color:#0A2540">Kuzguncuk Çarşısı</div></div>
+          <span style="position:absolute;top:18px;left:16px;padding:2px 8px;border:2px solid #1B8755;border-radius:8px;color:#1B8755;background:#FFFFFF;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15px;letter-spacing:.06em;animation:demo-stamp 4.6s cubic-bezier(.16,1,.3,1) infinite">GİDERİM</span>
+        </div>
+      </div>
+
+      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,37,64,.96) 0%,rgba(10,37,64,.7) 38%,transparent 62%);display:flex;flex-direction:column;justify-content:flex-end;padding:20px">
+        <span style="font-size:11px;font-weight:600;color:#F08A68;text-transform:uppercase;letter-spacing:.08em;animation:rise 520ms cubic-bezier(.16,1,.3,1) 500ms both">Haftanın rotası</span>
+        <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;line-height:28px;font-weight:600;margin:2px 0 14px;color:#FFFFFF;animation:rise 520ms cubic-bezier(.16,1,.3,1) 580ms both">Kuzguncuk’tan Üsküdar’a dizi sokakları</h2>
+        <div aria-label="Kuzguncuk Çarşısı, Ebru Atölyesi, Üsküdar İskelesi" role="img" style="position:relative;animation:rise 520ms cubic-bezier(.16,1,.3,1) 680ms both">
+          <div aria-hidden="true" style="position:absolute;left:6px;right:6px;top:6px;height:2px;background:rgba(255,255,255,.18);border-radius:2px"></div>
+          <div aria-hidden="true" style="position:absolute;left:6px;right:6px;top:6px;height:2px;background:#F08A68;border-radius:2px;transform-origin:left;animation:route-fill 4.6s cubic-bezier(.16,1,.3,1) infinite"></div>
+          <div aria-hidden="true" style="position:relative;display:grid;grid-template-columns:repeat(3,1fr);font-size:12px;color:rgba(255,255,255,.85)">
+            <span style="display:grid;justify-items:start;gap:6px"><span style="position:relative;width:14px;height:14px"><span style="position:absolute;inset:0;border-radius:9999px;background:#F08A68;animation:ring 2.3s ease-out infinite"></span><span style="position:absolute;inset:0;border-radius:9999px;background:#F08A68;box-shadow:0 0 0 3px #0A2540"></span></span>Kuzguncuk Çarşısı</span>
+            <span style="display:grid;justify-items:center;gap:6px;text-align:center"><span style="position:relative;width:14px;height:14px"><span style="position:absolute;inset:0;border-radius:9999px;background:#F08A68;animation:ring 2.3s ease-out .8s infinite"></span><span style="position:absolute;inset:0;border-radius:9999px;background:#F08A68;box-shadow:0 0 0 3px #0A2540"></span></span>Ebru Atölyesi</span>
+            <span style="display:grid;justify-items:end;gap:6px;text-align:right"><span style="position:relative;width:14px;height:14px"><span style="position:absolute;inset:0;border-radius:9999px;background:#F08A68;animation:ring 2.3s ease-out 1.6s infinite"></span><span style="position:absolute;inset:0;border-radius:9999px;background:#F08A68;box-shadow:0 0 0 3px #0A2540"></span></span>Üsküdar İskelesi</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="one-baslik" style="margin-bottom:48px">
+    <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:16px">
+      <div><h2 id="one-baslik" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;line-height:28px;font-weight:600;color:var(--heading);margin:0">Öne çıkanlar</h2><p style="margin:0;color:var(--muted)">Bu hafta en çok kaydırılan yerler</p></div>
+      <button type="button" onClick="{{ goKesfet }}" style="background:none;border:0;min-height:44px;color:var(--accent);font-weight:600;font-size:13px;cursor:pointer">Tümünü keşfet →</button>
+    </div>
+    <div style="display:grid;gap:20px;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr))">
+      <sc-for list="{{ featured }}" as="f" hint-placeholder-count="4">
+        <article style="background:var(--surface);border-radius:14px;border:1px solid var(--border);padding:16px;box-shadow:var(--shadow-xs);display:flex;flex-direction:column;cursor:pointer;transition:border-color 200ms,box-shadow 200ms" style-hover="border-color:var(--muted);box-shadow:var(--shadow-md)" onClick="{{ goKesfet }}">
+          <div style="position:relative;height:160px;border-radius:10px;overflow:hidden;margin-bottom:12px;background:var(--navy);display:grid;place-items:center;color:rgba(255,255,255,.35)">
+            <span class="material-symbols-outlined" style="font-size:40px" aria-hidden="true">{{ f.icon }}</span>
+            <span style="position:absolute;top:10px;left:10px;background:rgba(10,37,64,.9);color:#FFFFFF;font-size:11px;font-weight:600;padding:2px 10px;border-radius:6px">{{ f.semt }}</span>
+            <span style="position:absolute;top:10px;right:10px;background:#FFFFFF;color:#0F172A;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px">Örnek</span>
+          </div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px"><h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:16px;line-height:24px;color:var(--heading);margin:0">{{ f.ad }}</h3><span style="font-size:11px;font-weight:600;color:var(--muted);white-space:nowrap">{{ f.turEtiketi }}</span></div>
+          <p style="margin:4px 0 0;color:var(--muted);flex:1">{{ f.aciklama }}</p>
+          <div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--border);display:flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--success)"><span class="material-symbols-outlined" style="font-size:16px" aria-hidden="true">accessible</span>{{ f.erisim }}</div>
+        </article>
+      </sc-for>
+    </div>
+  </section>
+
+  <section id="semtler" aria-labelledby="semt-baslik" style="margin-bottom:48px;scroll-margin-top:96px">
+    <div style="margin-bottom:16px"><h2 id="semt-baslik" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;line-height:28px;font-weight:600;color:var(--heading);margin:0">Semtler</h2><p style="margin:0;color:var(--muted)">Bir semt seç, desten o semtle başlasın</p></div>
+    <div style="display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr))">
+      <sc-for list="{{ semtler }}" as="s" hint-placeholder-count="6">
+        <button type="button" onClick="{{ s.go }}" style="text-align:left;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;cursor:pointer;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow-xs);transition:border-color 120ms,box-shadow 200ms" style-hover="border-color:var(--accent);box-shadow:var(--shadow-md)">
+          <span style="width:48px;height:48px;border-radius:14px;background:var(--fill);color:var(--on-fill);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="material-symbols-outlined" style="font-size:24px" aria-hidden="true">{{ s.icon }}</span></span>
+          <span style="flex:1;min-width:0">
+            <span style="display:block;font-size:11px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.06em">{{ s.yaka }}</span>
+            <span style="display:block;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:18px;line-height:24px;color:var(--heading)">{{ s.ad }}</span>
+            <span style="display:block;font-size:13px;color:var(--muted)">{{ s.rota }} rota · {{ s.atolye }} atölye · {{ s.durak }} durak</span>
+          </span>
+          <span class="material-symbols-outlined" style="font-size:20px;color:var(--muted)" aria-hidden="true">chevron_right</span>
+        </button>
+      </sc-for>
+    </div>
+  </section>
+
+  <div style="display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start">
+    <section aria-labelledby="harita-baslik" style="flex:7 1 480px;min-width:0;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:20px;box-shadow:var(--shadow-xs)">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px">
+        <h2 id="harita-baslik" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;line-height:28px;font-weight:600;color:var(--heading);margin:0">Şehir haritası</h2>
+        <span style="font-size:12px;color:var(--muted)">{{ layerSummary }}</span>
+      </div>
+      <fieldset style="border:0;margin:0 0 12px;padding:0;min-width:0">
+        <legend style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Harita katmanları</legend>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;font-size:12px">
+          <sc-for list="{{ layers }}" as="c" hint-placeholder-count="4">
+            <sc-if value="{{ c.pressed }}" hint-placeholder-val="{{ true }}">
+              <button type="button" aria-pressed="true" onClick="{{ c.toggle }}" style="display:inline-flex;align-items:center;gap:4px;min-height:44px;padding:0 14px;border-radius:9999px;background:var(--fill);color:var(--on-fill);border:1px solid var(--fill);font-weight:600;cursor:pointer"><span class="material-symbols-outlined" style="font-size:16px" aria-hidden="true">check</span>{{ c.label }}</button>
+            </sc-if>
+            <sc-if value="{{ c.off }}" hint-placeholder-val="{{ false }}">
+              <button type="button" aria-pressed="false" onClick="{{ c.toggle }}" style="display:inline-flex;align-items:center;gap:4px;min-height:44px;padding:0 14px;border-radius:9999px;background:var(--surface);color:var(--text);border:1px solid var(--border);font-weight:500;cursor:pointer" style-hover="border-color:var(--accent)">{{ c.label }}</button>
+            </sc-if>
+          </sc-for>
+        </div>
+      </fieldset>
+      <div style="position:relative;aspect-ratio:16/9;min-height:260px;border-radius:14px;background:var(--surface-2);border:1px solid var(--border-subtle);display:grid;place-items:center">
+        <span style="display:grid;justify-items:center;gap:6px;color:var(--muted)"><span class="material-symbols-outlined" style="font-size:44px" aria-hidden="true">map</span><span style="font-size:12px">MapLibre haritası</span></span>
+        <span style="position:absolute;right:8px;bottom:8px;font-size:11px;background:var(--surface);padding:2px 6px;border-radius:6px;color:var(--text-2)">© OpenStreetMap katkıcıları</span>
+      </div>
+    </section>
+
+    <section aria-labelledby="etk-baslik" style="flex:5 1 320px;min-width:0;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:20px;box-shadow:var(--shadow-xs)">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px"><span style="width:10px;height:10px;border-radius:9999px;background:var(--accent)"></span><h2 id="etk-baslik" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;line-height:28px;font-weight:600;color:var(--heading);margin:0">Yaklaşan etkinlikler</h2></div>
+      <ol style="list-style:none;margin:0;padding:0;display:grid;gap:12px">
+        <sc-for list="{{ events }}" as="e" hint-placeholder-count="3">
+          <li style="display:flex;gap:14px;align-items:flex-start;padding:14px;border-radius:14px;border:1px solid var(--border);background:var(--surface-2)">
+            <span style="width:52px;flex-shrink:0;text-align:center;border-radius:10px;background:var(--surface);border:1px solid var(--border);padding:6px 0"><span style="display:block;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:20px;line-height:24px;color:var(--heading)">{{ e.gun }}</span><span style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;color:var(--accent)">{{ e.ayKisa }}</span></span>
+            <span style="flex:1;min-width:0">
+              <span style="display:block;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:15px;line-height:22px;color:var(--heading)">{{ e.ad }}</span>
+              <span style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:4px;font-size:12px;color:var(--muted)"><span>{{ e.yer }} · {{ e.saat }}</span><span style="background:var(--success-soft);color:var(--success);font-weight:700;font-size:11px;padding:1px 8px;border-radius:6px">{{ e.ucret }}</span></span>
+            </span>
+          </li>
+        </sc-for>
+      </ol>
+    </section>
+  </div>
+</main>
+</sc-if>
+
+<sc-if value="{{ isKesfet }}" hint-placeholder-val="{{ false }}">
+<main style="flex:1;max-width:1360px;margin:0 auto;width:100%;padding:32px;animation:page-in 200ms cubic-bezier(.16,1,.3,1) both">
+  <div style="display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start">
+    <section style="flex:7 1 480px;min-width:0;display:flex;flex-direction:column;gap:24px">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:20px;box-shadow:var(--shadow-xs)">
+        <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;line-height:28px;font-weight:600;color:var(--heading);margin:0">Sağa kaydır, gideceğin yerleri topla</h1>
+        <p style="margin:0 0 12px;color:var(--muted)">Beğendiğin yerlerden yürüyüş rotanı biz çıkaralım</p>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding-top:12px;border-top:1px solid var(--border-subtle);font-size:12px">
+          <span style="color:var(--muted);font-weight:600;font-size:11px;min-width:40px">Semt:</span>
+          <sc-for list="{{ semtChips }}" as="c" hint-placeholder-count="4">
+            <sc-if value="{{ c.pressed }}" hint-placeholder-val="{{ false }}">
+              <button type="button" aria-pressed="true" onClick="{{ c.toggle }}" style="display:inline-flex;align-items:center;gap:4px;min-height:44px;padding:0 14px;border-radius:9999px;background:var(--fill);color:var(--on-fill);border:1px solid var(--fill);font-weight:600;cursor:pointer"><span class="material-symbols-outlined" style="font-size:16px" aria-hidden="true">check</span>{{ c.label }}</button>
+            </sc-if>
+            <sc-if value="{{ c.off }}" hint-placeholder-val="{{ true }}">
+              <button type="button" aria-pressed="false" onClick="{{ c.toggle }}" style="display:inline-flex;align-items:center;gap:4px;min-height:44px;padding:0 14px;border-radius:9999px;background:var(--surface);color:var(--text);border:1px solid var(--border);font-weight:500;cursor:pointer" style-hover="border-color:var(--accent)">{{ c.label }}</button>
+            </sc-if>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:8px;font-size:12px">
+          <span style="color:var(--muted);font-weight:600;font-size:11px;min-width:40px">Tür:</span>
+          <sc-for list="{{ turChips }}" as="c" hint-placeholder-count="3">
+            <sc-if value="{{ c.pressed }}" hint-placeholder-val="{{ false }}">
+              <button type="button" aria-pressed="true" onClick="{{ c.toggle }}" style="display:inline-flex;align-items:center;gap:4px;min-height:44px;padding:0 14px;border-radius:9999px;background:var(--fill);color:var(--on-fill);border:1px solid var(--fill);font-weight:600;cursor:pointer"><span class="material-symbols-outlined" style="font-size:16px" aria-hidden="true">check</span>{{ c.label }}</button>
+            </sc-if>
+            <sc-if value="{{ c.off }}" hint-placeholder-val="{{ true }}">
+              <button type="button" aria-pressed="false" onClick="{{ c.toggle }}" style="display:inline-flex;align-items:center;gap:4px;min-height:44px;padding:0 14px;border-radius:9999px;background:var(--surface);color:var(--text);border:1px solid var(--border);font-weight:500;cursor:pointer" style-hover="border-color:var(--accent)">{{ c.label }}</button>
+            </sc-if>
+          </sc-for>
+        </div>
+        <sc-if value="{{ erisilebilir }}" hint-placeholder-val="{{ false }}">
+          <p style="display:flex;align-items:center;gap:6px;margin:12px 0 0;padding:8px 12px;border-radius:10px;background:var(--success-soft);color:var(--success);font-size:13px;font-weight:500"><span class="material-symbols-outlined" style="font-size:18px" aria-hidden="true">accessible</span>Erişilebilir mod açık: merdivenli ve dik yokuşlu yerler gösterilmiyor.</p>
+        </sc-if>
+      </div>
+
+      <sc-if value="{{ hasTop }}" hint-placeholder-val="{{ true }}">
+        <div style="display:grid;gap:16px;width:100%;max-width:480px;margin:0 auto">
+          <div style="position:relative;aspect-ratio:3/4">
+            <sc-if value="{{ hasUnder2 }}" hint-placeholder-val="{{ true }}">
+              <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;transform:scale(.92) translateY(26px);opacity:.6;background:var(--surface);border:1px solid var(--border);border-radius:20px"></div>
+            </sc-if>
+            <sc-if value="{{ hasUnder1 }}" hint-placeholder-val="{{ true }}">
+              <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;transform:scale(.96) translateY(13px);background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:16px;overflow:hidden;box-shadow:var(--shadow-xs)">
+                <div style="height:55%;border-radius:14px;background:var(--navy);display:grid;place-items:center;color:rgba(255,255,255,.35)"><span class="material-symbols-outlined" style="font-size:44px">{{ under1.icon }}</span></div>
+                <p style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:20px;color:var(--heading);margin:14px 0 0">{{ under1.ad }}</p>
+              </div>
+            </sc-if>
+            <article aria-label="{{ top.ad }}" onPointerDown="{{ onDown }}" onPointerMove="{{ onMove }}" onPointerUp="{{ onUp }}" onPointerCancel="{{ onUp }}" style="{{ topStyle }}">
+              <span aria-hidden="true" style="{{ stampGiderim }}">GİDERİM</span>
+              <span aria-hidden="true" style="{{ stampGec }}">GEÇ</span>
+              <div style="position:relative;height:55%;border-radius:14px;overflow:hidden;background:var(--navy);display:grid;place-items:center;color:rgba(255,255,255,.35);flex-shrink:0">
+                <span class="material-symbols-outlined" style="font-size:52px" aria-hidden="true">{{ top.icon }}</span>
+                <span style="position:absolute;top:10px;left:10px;background:rgba(10,37,64,.9);color:#FFFFFF;font-size:11px;font-weight:600;padding:2px 10px;border-radius:6px">{{ top.semt }} · {{ top.yaka }}</span>
+                <sc-if value="{{ top.dogrulanacak }}" hint-placeholder-val="{{ true }}"><span style="position:absolute;top:10px;right:10px;display:inline-flex;align-items:center;gap:3px;background:#FFFFFF;color:#0F172A;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px"><span class="material-symbols-outlined" style="font-size:13px;color:#C84B26" aria-hidden="true">help</span>Doğrulanacak</span></sc-if>
+              </div>
+              <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-top:14px">
+                <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:20px;line-height:28px;color:var(--heading);margin:0">{{ top.ad }}</h2>
+                <span style="font-size:11px;font-weight:700;color:var(--accent);white-space:nowrap;text-transform:uppercase;letter-spacing:.04em">{{ top.turEtiketi }}</span>
+              </div>
+              <p style="margin:4px 0 0;color:var(--muted);flex:1">{{ top.aciklama }}</p>
+              <div style="padding-top:12px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;font-weight:600">
+                <sc-if value="{{ top.sure }}" hint-placeholder-val="{{ true }}"><span style="display:inline-flex;align-items:center;gap:4px;color:var(--heading)"><span class="material-symbols-outlined" style="font-size:16px" aria-hidden="true">schedule</span>{{ top.sure }} dk atölye</span></sc-if>
+                <span style="display:inline-flex;align-items:center;gap:4px;color:var(--success)"><span class="material-symbols-outlined" style="font-size:16px" aria-hidden="true">accessible</span>{{ top.erisim }}</span>
+              </div>
+            </article>
+          </div>
+          <div role="group" aria-label="Kararın" style="display:grid;grid-template-columns:1fr auto 1fr;gap:8px;margin-top:20px">
+            <button type="button" onClick="{{ pass }}" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:52px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:14px;font-weight:600;cursor:pointer;box-shadow:var(--shadow-xs);transition:background-color 120ms,transform 120ms" style-hover="background:var(--surface-2)" style-active="transform:scale(.98)"><span class="material-symbols-outlined" style="font-size:22px" aria-hidden="true">close</span>Geç</button>
+            <button type="button" onClick="{{ undo }}" disabled="{{ noUndo }}" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:52px;padding:0 16px;border-radius:10px;border:1px dashed var(--border);background:transparent;color:var(--heading);font-size:14px;font-weight:600;cursor:pointer" style-hover="background:var(--fill-soft)"><span class="material-symbols-outlined" style="font-size:20px" aria-hidden="true">undo</span>Geri al</button>
+            <button type="button" onClick="{{ like }}" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:52px;border-radius:10px;border:0;background:var(--accent);color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 1px 3px rgba(200,75,38,.3);transition:filter 120ms,transform 120ms" style-hover="filter:brightness(1.05)" style-active="transform:scale(.98)"><span class="material-symbols-outlined" style="font-size:22px" aria-hidden="true">favorite</span>Giderim</button>
+          </div>
+          <p style="margin:0;text-align:center;font-size:12px;color:var(--muted)">Kartı sürükle ya da klavyede ← geç, → giderim · {{ remaining }} kart kaldı</p>
+        </div>
+      </sc-if>
+      <sc-if value="{{ deckEmpty }}" hint-placeholder-val="{{ false }}">
+        <div style="background:var(--surface);border:1px dashed var(--border);border-radius:20px;padding:40px 24px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px">
+          <span class="material-symbols-outlined" style="font-size:40px;color:var(--muted)" aria-hidden="true">style</span>
+          <p style="margin:0;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:20px;color:var(--heading)">Deste bitti</p>
+          <p style="margin:0;color:var(--muted);max-width:44ch">Bu filtrelerle gösterilecek yer kalmadı. Filtreleri genişletebilir ya da desteyi yeniden karıştırabilirsin.</p>
+          <button type="button" onClick="{{ reset }}" style="margin-top:8px;min-height:44px;padding:0 16px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-weight:600;font-size:13px;cursor:pointer" style-hover="background:var(--surface-2)">Desteyi baştan karıştır</button>
+        </div>
+      </sc-if>
+    </section>
+
+    <aside aria-labelledby="sec-baslik" style="flex:5 1 340px;min-width:0;position:sticky;top:96px;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:24px;box-shadow:var(--shadow-xs);display:flex;flex-direction:column;gap:20px">
+      <div style="border-bottom:1px solid var(--border);padding-bottom:16px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="width:10px;height:10px;border-radius:9999px;background:var(--accent)"></span><h2 id="sec-baslik" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;line-height:28px;font-weight:600;color:var(--heading);margin:0">Gideceğim yerler</h2></div>
+        <p style="margin:2px 0 0;color:var(--muted)">En az 2, en fazla 15 yer seçebilirsin</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);padding:12px;border-radius:14px;background:var(--surface-2);border:1px solid var(--border-subtle);text-align:center">
+        <div><span style="display:block;font-size:11px;font-weight:600;color:var(--muted)">Seçilen yer</span><span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:16px;color:var(--heading)">{{ selCount }}</span></div>
+        <div style="border-left:1px solid var(--border);border-right:1px solid var(--border)"><span style="display:block;font-size:11px;font-weight:600;color:var(--muted)">Ziyaret süresi</span><span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:16px;color:var(--heading)">{{ selVisit }}</span></div>
+        <div><span style="display:block;font-size:11px;font-weight:600;color:var(--muted)">Semt</span><span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:16px;color:var(--success)">{{ selSemt }}</span></div>
+      </div>
+      <sc-if value="{{ noSelection }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:20px;border-radius:14px;border:1px dashed var(--border);text-align:center">
+          <p style="margin:0;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:15px;color:var(--heading)">Henüz seçim yok</p>
+          <p style="margin:2px 0 0;color:var(--muted);font-size:13px">Beğendiğin kartı sağa kaydır; burada birikir.</p>
+        </div>
+      </sc-if>
+      <ol style="list-style:none;margin:0;padding:0;display:grid;gap:8px">
+        <sc-for list="{{ selectedItems }}" as="s" hint-placeholder-count="0">
+          <li style="display:flex;align-items:center;gap:12px;padding:8px 8px 8px 12px;border-radius:14px;border:1px solid var(--border);background:var(--surface-2);animation:item-in 200ms cubic-bezier(.16,1,.3,1) both">
+            <span style="width:28px;height:28px;border-radius:9999px;background:var(--fill);color:var(--on-fill);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">{{ s.num }}</span>
+            <span style="flex:1;min-width:0"><span style="display:block;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:14px;color:var(--heading)">{{ s.ad }}</span><span style="display:block;font-size:12px;color:var(--muted)">{{ s.semt }} · {{ s.tur }}</span></span>
+            <button type="button" aria-label="{{ s.removeLabel }}" onClick="{{ s.remove }}" style="width:44px;height:44px;border-radius:8px;border:0;background:transparent;color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer" style-hover="color:var(--accent);background:var(--accent-soft)"><span class="material-symbols-outlined" style="font-size:18px" aria-hidden="true">close</span></button>
+          </li>
+        </sc-for>
+      </ol>
+      <div>
+        <p id="sec-ipucu" aria-live="polite" style="margin:0 0 8px;font-size:12px;color:var(--muted)">{{ hint }}</p>
+        <button type="button" disabled="{{ cantBuild }}" aria-busy="{{ building }}" aria-describedby="sec-ipucu" onClick="{{ build }}" style="{{ buildStyle }}"><span class="material-symbols-outlined" style="font-size:18px" aria-hidden="true">{{ buildIcon }}</span>{{ buildLabel }}</button>
+      </div>
+    </aside>
+  </div>
+</main>
+</sc-if>
+
+<sc-if value="{{ isPlan }}" hint-placeholder-val="{{ false }}">
+<main style="flex:1;max-width:1360px;margin:0 auto;width:100%;padding:32px;animation:page-in 200ms cubic-bezier(.16,1,.3,1) both">
+  <div style="display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start">
+    <section style="flex:5 1 420px;min-width:0;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:24px;box-shadow:var(--shadow-xs);display:flex;flex-direction:column;gap:24px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;border-bottom:1px solid var(--border);padding-bottom:16px">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px"><span style="width:10px;height:10px;border-radius:9999px;background:var(--accent)"></span><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;line-height:28px;font-weight:600;color:var(--heading);margin:0">{{ stopCount }} duraklı rotan hazır</h1></div>
+          <p style="margin:2px 0 0;color:var(--muted)">Kişisel rota · {{ planSemtler }}</p>
+        </div>
+        <div style="display:flex;gap:6px">
+          <button type="button" title="{{ shareLabel }}" aria-label="{{ shareLabel }}" onClick="{{ share }}" style="width:44px;height:44px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer" style-hover="color:var(--heading);background:var(--surface-2)"><span class="material-symbols-outlined" style="font-size:18px" aria-hidden="true">{{ shareIcon }}</span></button>
+          <button type="button" title="Seçimlerimi düzenle" aria-label="Seçimlerimi düzenle" onClick="{{ goKesfet }}" style="width:44px;height:44px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer" style-hover="color:var(--heading);background:var(--surface-2)"><span class="material-symbols-outlined" style="font-size:18px" aria-hidden="true">edit</span></button>
+        </div>
+      </div>
+
+      <dl style="display:grid;grid-template-columns:repeat(2,1fr);gap:1px;margin:0;border-radius:14px;overflow:hidden;background:var(--border-subtle);border:1px solid var(--border-subtle);text-align:center">
+        <sc-for list="{{ figures }}" as="f" hint-placeholder-count="4">
+          <div style="background:var(--surface-2);padding:12px">
+            <dt style="font-size:11px;font-weight:600;color:var(--muted)">{{ f.label }}</dt>
+            <dd style="margin:0;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:16px;line-height:24px;color:var(--heading)">{{ f.value }}</dd>
+          </div>
+        </sc-for>
+      </dl>
+      <p style="margin:-12px 0 0;display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)"><span class="material-symbols-outlined" style="font-size:16px" aria-hidden="true">info</span>Yaklaşık güzergâh: gerçek yürüme yolu daha uzun olabilir.</p>
+
+      <ol aria-label="Duraklar" style="list-style:none;margin:0;padding:0;position:relative">
+        <sc-for list="{{ stops }}" as="s" hint-placeholder-count="5">
+          <li style="position:relative">
+            <div style="position:relative;display:flex;align-items:flex-start;gap:16px;animation:page-in 200ms cubic-bezier(.16,1,.3,1) both;animation-delay:{{ s.delay }}">
+              <span aria-hidden="true" style="width:36px;height:36px;border-radius:9999px;background:var(--fill);color:var(--on-fill);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;box-shadow:0 0 0 4px var(--surface);position:relative;z-index:1">{{ s.num }}</span>
+              <div style="flex:1;min-width:0;background:var(--surface-2);border:1px solid var(--border);border-radius:14px;padding:14px;transition:border-color 120ms" style-hover="border-color:var(--muted)">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px"><span style="font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.04em">{{ s.saat }} · {{ s.semt }}</span><span style="font-size:11px;font-weight:600;color:var(--muted)">{{ s.ziyaret }} dk</span></div>
+                <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:16px;line-height:24px;color:var(--heading);margin:0"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Durak {{ s.num }}: </span>{{ s.ad }}</h3>
+                <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px 14px;font-size:11px;font-weight:600;color:var(--muted)">
+                  <span style="display:inline-flex;align-items:center;gap:4px;color:var(--heading)"><span class="material-symbols-outlined" style="font-size:14px" aria-hidden="true">directions_transit</span>{{ s.durak }}</span>
+                  <span style="display:inline-flex;align-items:center;gap:4px;color:var(--success)"><span class="material-symbols-outlined" style="font-size:14px" aria-hidden="true">emergency</span>Toplanma: {{ s.toplanma }}</span>
+                </div>
+                <sc-if value="{{ s.warn }}" hint-placeholder-val="{{ false }}">
+                  <p style="display:flex;align-items:center;gap:4px;margin:8px 0 0;font-size:12px;font-weight:600;color:var(--accent)"><span class="material-symbols-outlined" style="font-size:16px" aria-hidden="true">warning</span>{{ s.erisim }}</p>
+                </sc-if>
+              </div>
+            </div>
+            <sc-if value="{{ s.hasLeg }}" hint-placeholder-val="{{ true }}">
+              <div style="position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:6px 0 6px 52px;min-height:44px;font-size:12px;color:var(--muted)">
+                <span aria-hidden="true" style="position:absolute;left:17px;top:0;bottom:0;width:2px;background:var(--border)"></span>
+                <span class="material-symbols-outlined" style="font-size:16px;color:{{ s.legColor }}" aria-hidden="true">{{ s.legIcon }}</span>
+                <span style="font-weight:{{ s.legWeight }};color:{{ s.legColor }}">{{ s.legText }}</span>
+                <sc-if value="{{ s.legTransit }}" hint-placeholder-val="{{ false }}">
+                  <a href="#" style="display:inline-flex;align-items:center;gap:2px;min-height:44px;font-weight:600;color:var(--accent)">Yol tarifi<span class="material-symbols-outlined" style="font-size:14px" aria-hidden="true">open_in_new</span></a>
+                </sc-if>
+              </div>
+            </sc-if>
+          </li>
+        </sc-for>
+      </ol>
+
+      <div style="display:flex;flex-wrap:wrap;gap:12px">
+        <button type="button" onClick="{{ goKesfet }}" style="flex:1 1 200px;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;border-radius:8px;border:1px dashed color-mix(in srgb,var(--heading) 40%,transparent);background:transparent;color:var(--heading);font-weight:600;font-size:13px;cursor:pointer" style-hover="background:var(--fill-soft)"><span class="material-symbols-outlined" style="font-size:18px" aria-hidden="true">add_circle</span>Başka yer ekle</button>
+        <button type="button" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 16px;border-radius:8px;border:0;background:var(--fill);color:var(--on-fill);font-weight:600;font-size:13px;cursor:pointer;box-shadow:var(--shadow-xs)" style-hover="opacity:.95"><span class="material-symbols-outlined" style="font-size:18px" aria-hidden="true">groups</span>Grup aç</button>
+      </div>
+    </section>
+
+    <section aria-label="Rota haritası" style="flex:7 1 480px;min-width:0;position:sticky;top:96px;display:flex;flex-direction:column;gap:24px">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:20px;box-shadow:var(--shadow-xs)">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px">
+          <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;line-height:28px;font-weight:600;color:var(--heading);margin:0">Rota haritası</h2>
+          <span style="display:flex;flex-wrap:wrap;gap:12px;font-size:11px;font-weight:600;color:var(--muted)"><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:9999px;background:var(--fill)"></span>Durak</span><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:14px;height:2px;background:var(--accent)"></span>Yürüme</span><span style="display:inline-flex;align-items:center;gap:4px"><span class="material-symbols-outlined" style="font-size:14px;color:var(--success)" aria-hidden="true">emergency</span>Toplanma alanı</span></span>
+        </div>
+        <div style="position:relative;height:min(560px,calc(100vh - 220px));min-height:340px;border-radius:14px;background:var(--surface-2);border:1px solid var(--border-subtle);display:grid;place-items:center">
+          <span style="display:grid;justify-items:center;gap:6px;color:var(--muted)"><span class="material-symbols-outlined" style="font-size:44px" aria-hidden="true">route</span><span style="font-size:12px">MapLibre rota haritası</span></span>
+          <span style="position:absolute;right:8px;bottom:8px;font-size:11px;background:var(--surface);padding:2px 6px;border-radius:6px;color:var(--text-2)">© OpenStreetMap katkıcıları</span>
+        </div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:20px;box-shadow:var(--shadow-xs);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px">
+        <div style="display:flex;align-items:center;gap:14px;min-width:0;flex:1 1 280px">
+          <span style="width:48px;height:48px;border-radius:14px;background:var(--fill);color:var(--on-fill);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="material-symbols-outlined" style="font-size:26px" aria-hidden="true">groups</span></span>
+          <div><h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:16px;line-height:24px;color:var(--heading);margin:0">Birlikte yürüyelim</h3><p style="margin:0;color:var(--muted)">Bu rotayla bir gezinti grubu aç; buluşma noktası ilk durak olur.</p></div>
+        </div>
+        <button type="button" style="min-height:44px;padding:0 16px;border-radius:8px;border:0;background:var(--accent);color:#FFFFFF;font-weight:600;font-size:13px;cursor:pointer" style-hover="filter:brightness(1.05)">Grup aç</button>
+      </div>
+    </section>
+  </div>
+</main>
+</sc-if>
+
+<footer style="margin-top:64px;background:var(--navy);color:#FFFFFF;padding:48px 0 32px">
+  <div style="max-width:1360px;margin:0 auto;padding:0 32px">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.1)">
+      <div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px"><span style="width:36px;height:36px;border-radius:10px;background:#FFFFFF;color:#0A2540;display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:14px">404</span><span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:16px">Proje 404</span></div>
+        <p style="margin:0;color:rgba(255,255,255,.75);max-width:36ch">İstanbul’un semtlerini, atölyelerini ve hikâyelerini yürüyerek keşfetmek için.</p>
+      </div>
+      <div>
+        <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.06em;margin:0 0 12px">Keşfet</h3>
+        <ul style="list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:13px"><li><a href="#" style="color:rgba(255,255,255,.75)">Semtler</a></li><li><a href="#" style="color:rgba(255,255,255,.75)">Hikâye rotaları</a></li><li><a href="#" style="color:rgba(255,255,255,.75)">Atölyeler</a></li><li><a href="#" style="color:rgba(255,255,255,.75)">Etkinlikler</a></li></ul>
+      </div>
+      <div>
+        <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.06em;margin:0 0 12px">Birlikte</h3>
+        <ul style="list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:13px"><li><a href="#" style="color:rgba(255,255,255,.75)">Gezinti grupları</a></li><li><a href="#" style="color:rgba(255,255,255,.75)">Pasaportum</a></li><li><a href="#" style="color:rgba(255,255,255,.75)">Yönetim</a></li></ul>
+      </div>
+    </div>
+    <div style="padding-top:24px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;font-size:12px;color:rgba(255,255,255,.7)">
+      <span style="display:inline-flex;align-items:center;gap:8px"><span style="background:rgba(255,255,255,.12);color:#FFFFFF;font-weight:700;font-size:10px;letter-spacing:.06em;padding:2px 8px;border-radius:6px">DEMO VERİSİ</span>İçeriklerin bir kısmı örnektir.</span>
+      <span>Harita verisi © <a href="https://www.openstreetmap.org/copyright" style="color:#FFFFFF">OpenStreetMap katkıcıları</a></span>
+    </div>
+  </div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;tema&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;acik&quot;,&quot;koyu&quot;],&quot;default&quot;:&quot;acik&quot;,&quot;tsType&quot;:&quot;'acik'|'koyu'&quot;},&quot;baslangic&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;anasayfa&quot;,&quot;kesfet&quot;,&quot;plan&quot;],&quot;default&quot;:&quot;anasayfa&quot;,&quot;tsType&quot;:&quot;'anasayfa'|'kesfet'|'plan'&quot;},&quot;erisilebilir&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const PLACES = [
+  { id: 1, ad: 'Ebru Atölyesi', semt: 'Üsküdar', tur: 'atolye', turEtiketi: 'Atölye', icon: 'palette', aciklama: 'Su üstünde boyayla desen: bir saatte ilk ebrunu yap, kurusun, yanında götür.', sure: 90, erisim: 'Basamaksız giriş', dogrulanacak: true },
+  { id: 2, ad: 'Yeldeğirmeni Sokakları', semt: 'Kadıköy', tur: 'tarihi', turEtiketi: 'Tarihi miras', icon: 'apartment', aciklama: 'Cumhuriyet’in ilk apartmanları, duvar resimleri ve adını eski bir değirmenden alan mahalle.', sure: 0, erisim: 'Düz zemin, dar kaldırım', dogrulanacak: false },
+  { id: 3, ad: 'Bakırcılar Çarşısı', semt: 'Fatih', tur: 'atolye', turEtiketi: 'Atölye', icon: 'hardware', aciklama: 'Kalaycı ustasının yanında küçük bir bakır kase döv, cilasını kendin ver.', sure: 120, erisim: 'Girişte 2 basamak', dogrulanacak: true },
+  { id: 4, ad: 'Süleymaniye Yokuşu', semt: 'Fatih', tur: 'tarihi', turEtiketi: 'Tarihi miras', icon: 'mosque', aciklama: 'Sinan’ın külliyesine çıkan taş yokuş ve Haliç’e bakan teraslar.', sure: 0, erisim: 'Dik yokuş', dogrulanacak: false },
+  { id: 5, ad: 'Kuzguncuk Çarşısı', semt: 'Üsküdar', tur: 'dizi', turEtiketi: 'Dizi/film/edebiyat', icon: 'movie', aciklama: 'Pek çok dizinin mahallesi: cami, kilise ve sinagog aynı sokakta.', sure: 0, erisim: 'Düz zemin', dogrulanacak: true },
+  { id: 6, ad: 'Galata Kulesi Çevresi', semt: 'Beyoğlu', tur: 'tarihi', turEtiketi: 'Tarihi miras', icon: 'castle', aciklama: 'Ceneviz surlarından kalan kule ve onu saran merdivenli sokaklar.', sure: 0, erisim: 'Merdivenli', dogrulanacak: false },
+  { id: 7, ad: 'Cihangir Sahafları', semt: 'Beyoğlu', tur: 'dizi', turEtiketi: 'Dizi/film/edebiyat', icon: 'menu_book', aciklama: 'Romanlara konu olmuş yokuşlar ve sahafların sıralandığı sokaklar.', sure: 0, erisim: 'Dik yokuş', dogrulanacak: true },
+  { id: 8, ad: 'Çini Atölyesi', semt: 'Kadıköy', tur: 'atolye', turEtiketi: 'Atölye', icon: 'local_florist', aciklama: 'İznik desenlerini fırçayla karoya aktar; fırınlanan karon bir hafta sonra teslim.', sure: 150, erisim: 'Basamaksız giriş', dogrulanacak: true },
+];
+const ASIAN = ['Kadıköy', 'Üsküdar'];
+const STEEP = /Dik|Merdiven/;
+const DURAK = { 'Üsküdar': 'Üsküdar İskelesi', 'Kadıköy': 'Kadıköy İskelesi', 'Fatih': 'T1 Eminönü', 'Beyoğlu': 'M2 Şişhane' };
+const TOPLANMA = { 'Üsküdar': 'Doğancılar Parkı', 'Kadıköy': 'Yoğurtçu Parkı', 'Fatih': 'Beyazıt Meydanı', 'Beyoğlu': 'Gezi Parkı' };
+const SEMTLER = [
+  { ad: 'Fatih', yaka: 'Tarihi Yarımada', icon: 'mosque', rota: 4, atolye: 6, durak: 18 },
+  { ad: 'Beyoğlu', yaka: 'Avrupa yakası', icon: 'castle', rota: 3, atolye: 4, durak: 14 },
+  { ad: 'Beşiktaş', yaka: 'Avrupa yakası', icon: 'sailing', rota: 2, atolye: 3, durak: 11 },
+  { ad: 'Sarıyer', yaka: 'Boğaz', icon: 'forest', rota: 1, atolye: 2, durak: 7 },
+  { ad: 'Kadıköy', yaka: 'Anadolu yakası', icon: 'directions_boat', rota: 3, atolye: 5, durak: 15 },
+  { ad: 'Üsküdar', yaka: 'Anadolu yakası', icon: 'light', rota: 2, atolye: 3, durak: 12 },
+];
+const EVENTS = [
+  { gun: '22', ayKisa: 'Kas', ad: 'Kuzguncuk’ta ebru gecesi', yer: 'Üsküdar', saat: '19:00', ucret: 'Ücretsiz' },
+  { gun: '29', ayKisa: 'Kas', ad: 'Yeldeğirmeni duvar resimleri yürüyüşü', yer: 'Kadıköy', saat: '11:00', ucret: 'Ücretsiz' },
+  { gun: '06', ayKisa: 'Ara', ad: 'Bakırcılar’da usta-çırak buluşması', yer: 'Fatih', saat: '14:00', ucret: '150 TL' },
+];
+const LAYERS = [['mekan', 'Mekanlar'], ['atolye', 'Atölyeler'], ['durak', 'Duraklar'], ['toplanma', 'Toplanma alanları']];
+const TUR = { atolye: 'Atölye', tarihi: 'Tarihi miras', dizi: 'Dizi/film/edebiyat' };
+const fmtSure = (dk) => { const h = Math.floor(dk / 60), m = Math.round(dk % 60); return !h ? `${m} dk` : m ? `${h} sa ${m} dk` : `${h} sa`; };
+const fmtMesafe = (m) => (m < 1000 ? `${Math.round(m)} m` : `${(m / 1000).toFixed(1).replace('.', ',')} km`);
+const fmtSaat = (dk) => `${String(Math.floor(dk / 60)).padStart(2, '0')}:${String(dk % 60).padStart(2, '0')}`;
+const reducedMotion = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+class Component extends DCLogic {
+  state = {
+    screen: this.props.baslangic ?? 'anasayfa', tema: this.props.tema ?? 'acik', erisilebilir: this.props.erisilebilir ?? false,
+    semtF: [], turF: [], decided: [], selected: [], history: [], planIds: [],
+    dx: 0, phase: 'idle', building: false, copied: false, layers: ['mekan', 'atolye', 'durak', 'toplanma'],
+  };
+  componentDidMount() {
+    this.onKey = (e) => {
+      if (this.state.screen !== 'kesfet') return;
+      if (e.target && e.target.closest && e.target.closest('input,textarea,select')) return;
+      if (e.key === 'ArrowRight') { e.preventDefault(); this.fling('giderim'); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); this.fling('gec'); }
+    };
+    window.addEventListener('keydown', this.onKey);
+  }
+  componentWillUnmount() { window.removeEventListener('keydown', this.onKey); clearTimeout(this.t); }
+  componentDidUpdate(prev) {
+    if (prev.tema !== this.props.tema && this.props.tema) this.setState({ tema: this.props.tema });
+    if (prev.erisilebilir !== this.props.erisilebilir) this.setState({ erisilebilir: !!this.props.erisilebilir });
+    if (prev.baslangic !== this.props.baslangic && this.props.baslangic) this.go(this.props.baslangic);
+  }
+  go(screen) { this.setState({ screen }); window.scrollTo(0, 0); }
+  deck() {
+    const s = this.state;
+    return PLACES.filter((p) => !s.decided.includes(p.id)
+      && (!s.semtF.length || s.semtF.includes(p.semt))
+      && (!s.turF.length || s.turF.includes(p.tur))
+      && (!s.erisilebilir || !STEEP.test(p.erisim)));
+  }
+  fling(dir) {
+    const top = this.deck()[0];
+    if (!top || this.busy) return;
+    this.busy = true;
+    this.setState({ phase: 'out', dx: dir === 'giderim' ? 640 : -640 });
+    this.t = setTimeout(() => {
+      this.setState((s) => ({
+        decided: [...s.decided, top.id],
+        selected: dir === 'giderim' ? [...s.selected, top.id] : s.selected,
+        history: [...s.history, { id: top.id, dir }], dx: 0, phase: 'none',
+      }));
+      this.busy = false;
+    }, reducedMotion() ? 0 : 260);
+  }
+  undo() {
+    const h = this.state.history;
+    if (!h.length || this.busy) return;
+    const last = h[h.length - 1];
+    const reduced = reducedMotion();
+    this.setState((s) => ({
+      history: s.history.slice(0, -1), decided: s.decided.filter((i) => i !== last.id), selected: s.selected.filter((i) => i !== last.id),
+      dx: reduced ? 0 : last.dir === 'giderim' ? 560 : -560, phase: 'none',
+    }), () => { if (!reduced) requestAnimationFrame(() => requestAnimationFrame(() => this.setState({ phase: 'settle', dx: 0 }))); });
+  }
+  plan() {
+    const ids = this.state.planIds.length >= 2 ? this.state.planIds : [1, 5, 2, 8, 3];
+    const stops = ids.map((id) => PLACES.find((p) => p.id === id));
+    let walkM = 0, walkDk = 0, transit = 0, visit = 0, clock = 9 * 60 + 30;
+    const rows = stops.map((p, i) => {
+      const n = stops[i + 1];
+      const ziyaret = p.sure || 45;
+      const saat = fmtSaat(clock);
+      visit += ziyaret; clock += ziyaret;
+      let leg = null;
+      if (n) {
+        const sideChange = ASIAN.includes(p.semt) !== ASIAN.includes(n.semt);
+        if (!sideChange && p.semt === n.semt) {
+          const m = 350 + ((p.id * 7 + n.id * 13) % 9) * 70;
+          const dk = Math.round(m / 75);
+          walkM += m; walkDk += dk; clock += dk;
+          leg = { icon: 'directions_walk', text: `Yürü ${fmtMesafe(m)} · ${dk} dk`, transit: false, color: 'var(--success)', weight: 500 };
+        } else {
+          transit += 1; walkM += 600; walkDk += 8; clock += 33;
+          leg = sideChange
+            ? { icon: 'directions_boat', text: 'Yaka değişiyor: vapur/Marmaray', transit: true, color: 'var(--heading)', weight: 600 }
+            : { icon: 'train', text: 'Uzak: toplu taşıma önerilir', transit: true, color: 'var(--heading)', weight: 600 };
+        }
+      }
+      clock = Math.round(clock / 5) * 5;
+      return {
+        num: i + 1, ad: p.ad, semt: p.semt, saat, ziyaret, durak: DURAK[p.semt], toplanma: TOPLANMA[p.semt], erisim: p.erisim,
+        warn: STEEP.test(p.erisim) || (/basamak/.test(p.erisim) && !/Basamaksız/.test(p.erisim)),
+        hasLeg: !!leg, legIcon: leg ? leg.icon : '', legText: leg ? leg.text : '', legTransit: leg ? leg.transit : false,
+        legColor: leg ? leg.color : 'inherit', legWeight: leg ? leg.weight : 400,
+        delay: `${Math.min(i * 60, 300)}ms`,
+      };
+    });
+    return {
+      rows, count: stops.length, semtler: [...new Set(stops.map((p) => p.semt))].join(', '),
+      figures: [
+        { label: 'Yürüyüş mesafesi', value: fmtMesafe(walkM) },
+        { label: 'Yürüme süresi', value: fmtSure(walkDk) },
+        { label: 'Ziyaret süresi', value: fmtSure(visit) },
+        { label: 'Tahmini toplam', value: fmtSure(visit + walkDk + transit * 25) },
+      ],
+    };
+  }
+  chips(all, key, labelOf) {
+    const val = this.state[key];
+    return all.map((v) => {
+      const pressed = val.includes(v);
+      return { label: labelOf(v), pressed, off: !pressed, toggle: () => this.setState((s) => ({ [key]: pressed ? s[key].filter((x) => x !== v) : [...s[key], v] })) };
+    });
+  }
+  pickSemt(ad) { this.setState({ semtF: PLACES.some((p) => p.semt === ad) ? [ad] : [] }); this.go('kesfet'); }
+  renderVals() {
+    const s = this.state;
+    const deck = this.deck();
+    const top0 = deck[0] || PLACES[0];
+    const top = { ...top0, yaka: ASIAN.includes(top0.semt) ? 'Anadolu' : 'Avrupa' };
+    const dx = s.dx;
+    const t = s.phase === 'drag' || s.phase === 'none' ? 'none'
+      : s.phase === 'out' ? 'transform 260ms cubic-bezier(0.65,0,0.35,1), opacity 260ms cubic-bezier(0.65,0,0.35,1)'
+      : 'transform 320ms cubic-bezier(0.34,1.56,0.64,1)';
+    const rot = Math.max(-12, Math.min(12, dx / 20));
+    const so = Math.min(1, Math.abs(dx) / 120);
+    const stamp = { position: 'absolute', top: '28px', zIndex: 2, padding: '4px 12px', pointerEvents: 'none', fontFamily: "'Plus Jakarta Sans',sans-serif", fontWeight: 700, fontSize: '26px', letterSpacing: '0.06em', border: '3px solid currentColor', borderRadius: '10px', background: 'var(--surface)' };
+    const n = s.selected.length;
+    const sel = s.selected.map((id) => PLACES.find((x) => x.id === id));
+    const plan = this.plan();
+    const isLight = s.tema !== 'koyu';
+    const cantBuild = n < 2 || n > 15 || s.building;
+    const scr = s.screen === 'plan' ? 'kesfet' : s.screen;
+    return {
+      tema: isLight ? 'acik' : 'koyu',
+      themeLabel: isLight ? 'Koyu temaya geç' : 'Açık temaya geç', themeIcon: isLight ? 'dark_mode' : 'light_mode',
+      toggleTheme: () => this.setState({ tema: isLight ? 'koyu' : 'acik' }),
+      erisilebilir: s.erisilebilir, a11yOff: !s.erisilebilir,
+      toggleA11y: () => this.setState({ erisilebilir: !s.erisilebilir }),
+      isHome: s.screen === 'anasayfa', isKesfet: s.screen === 'kesfet', isPlan: s.screen === 'plan',
+      goHome: () => this.go('anasayfa'), goKesfet: () => this.go('kesfet'),
+      nav: [['Semtler', 'anasayfa'], ['Keşfet', 'kesfet'], ['Gruplar'], ['Atölyeler'], ['Etkinlikler'], ['Pasaportum']]
+        .map(([label, to]) => ({ label, active: !!to && scr === to, inactive: !(to && scr === to), go: to ? () => this.go(to) : () => {} })),
+      today: new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date()),
+      heroSemt: ['Fatih', 'Beyoğlu', 'Kadıköy', 'Üsküdar'].map((ad) => ({ ad, go: () => this.pickSemt(ad) })),
+      featured: [PLACES[0], PLACES[4], PLACES[1], PLACES[7]],
+      semtler: SEMTLER.map((x) => ({ ...x, go: () => this.pickSemt(x.ad) })),
+      layers: LAYERS.map(([v, label]) => { const pressed = s.layers.includes(v); return { label, pressed, off: !pressed, toggle: () => this.setState((st) => ({ layers: pressed ? st.layers.filter((x) => x !== v) : [...st.layers, v] })) }; }),
+      layerSummary: s.layers.length ? `${s.layers.length} katman açık` : 'Tüm katmanlar kapalı',
+      events: EVENTS,
+      semtChips: this.chips(['Fatih', 'Beyoğlu', 'Kadıköy', 'Üsküdar'], 'semtF', (v) => v),
+      turChips: this.chips(['atolye', 'tarihi', 'dizi'], 'turF', (v) => TUR[v]),
+      hasTop: deck.length > 0, deckEmpty: deck.length === 0, top, remaining: deck.length,
+      hasUnder1: deck.length > 1, hasUnder2: deck.length > 2, under1: deck[1] || PLACES[0],
+      topStyle: { position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', gap: '0', padding: '16px', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '20px', overflow: 'hidden', touchAction: 'pan-y', userSelect: 'none', cursor: s.phase === 'drag' ? 'grabbing' : 'grab', boxShadow: 'var(--shadow-md)', transform: `translateX(${dx}px) rotate(${rot}deg)`, transition: t, opacity: s.phase === 'out' ? 0 : 1 },
+      stampGiderim: { ...stamp, left: '28px', transform: 'rotate(-12deg)', color: 'var(--success)', opacity: dx > 0 ? so : 0 },
+      stampGec: { ...stamp, right: '28px', transform: 'rotate(12deg)', color: 'var(--accent)', opacity: dx < 0 ? so : 0 },
+      onDown: (e) => { if (this.busy) return; e.currentTarget.setPointerCapture && e.currentTarget.setPointerCapture(e.pointerId); this.start = { x: e.clientX, t: Date.now() }; this.setState({ phase: 'drag' }); },
+      onMove: (e) => { if (this.start) this.setState({ dx: e.clientX - this.start.x }); },
+      onUp: (e) => {
+        if (!this.start) return;
+        const d = e.clientX - this.start.x;
+        const v = d / Math.max(Date.now() - this.start.t, 16);
+        this.start = null;
+        const flick = Math.abs(d) >= 40 && Math.abs(v) >= 0.6 && Math.sign(v) === Math.sign(d);
+        if (Math.abs(d) >= 120 || flick) this.fling(d > 0 ? 'giderim' : 'gec');
+        else this.setState({ phase: 'settle', dx: 0 });
+      },
+      pass: () => this.fling('gec'), like: () => this.fling('giderim'), undo: () => this.undo(), noUndo: s.history.length === 0,
+      reset: () => this.setState({ decided: [], history: [], selected: [] }),
+      noSelection: n === 0, selCount: String(n),
+      selVisit: n ? fmtSure(sel.reduce((a, p) => a + (p.sure || 45), 0)) : '—',
+      selSemt: String(new Set(sel.map((p) => p.semt)).size),
+      selectedItems: sel.map((p, i) => ({ num: i + 1, ad: p.ad, semt: p.semt, tur: p.turEtiketi, removeLabel: `${p.ad} listeden çıkar`, remove: () => this.setState((st) => ({ selected: st.selected.filter((x) => x !== p.id) })) })),
+      hint: n < 2 ? `Rota için en az 2 yer seç (${n}/2).` : n > 15 ? `En fazla 15 yer seçebilirsin; ${n - 15} yeri çıkar.` : `${n} yer seçildi, rotan hazırlanabilir.`,
+      cantBuild, building: s.building,
+      buildLabel: s.building ? 'Rota hesaplanıyor…' : 'Rotamı oluştur', buildIcon: s.building ? 'progress_activity' : 'route',
+      buildStyle: { width: '100%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px', minHeight: '48px', borderRadius: '8px', border: 0, background: 'var(--accent)', color: '#FFFFFF', fontWeight: 600, fontSize: '14px', cursor: cantBuild ? 'not-allowed' : 'pointer', opacity: cantBuild && !s.building ? 0.45 : 1, boxShadow: '0 1px 3px rgba(200,75,38,.3)' },
+      build: () => { this.setState({ building: true }); setTimeout(() => { this.setState((st) => ({ building: false, planIds: st.selected })); this.go('plan'); }, reducedMotion() ? 0 : 900); },
+      stopCount: String(plan.count), planSemtler: plan.semtler, figures: plan.figures, stops: plan.rows,
+      shareLabel: s.copied ? 'Bağlantı kopyalandı' : 'Paylaş', shareIcon: s.copied ? 'check' : 'share',
+      share: () => { this.setState({ copied: true }); setTimeout(() => this.setState({ copied: false }), 2000); },
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+# Proje 404 — kendi harita altyapımız (OpenStreetMap tabanlı, yalnızca İstanbul)
+#
+# Hepsini başlatmak (proje kökünden):
+#   docker compose -f infra/docker-compose.yml up -d
+#
+#   valhalla  http://localhost:8002   yürüme / erişilebilir rota, yükseklik
+#   photon    http://localhost:2322   adres arama ve ters kodlama (yalnızca İstanbul)
+#   martin    http://localhost:3000   vektör karolar: /istanbul/{z}/{x}/{y}
+#   harita    http://localhost:8080   stil (/harita-stili.json), fontlar, sprite, istanbul.pmtiles
+#
+# Veri dosyaları infra/data/ altında durur ve git'e girmez. Hazırlık adımları: infra/README.md
+#   data/valhalla/istanbul.osm.pbf     osmium extract           (README adım 2)
+#   data/tiles/istanbul.pmtiles        pmtiles extract          (README adım 4)
+#   data/harita/{fonts,sprites}        build-harita-stili.js    (README adım 5)
+#   data/photon/photon-istanbul.jsonl  photon-istanbul.js       (README adım 6)
+
+name: proje404-harita
+
+# Bazı Docker Desktop kurulumlarında konteyner içi DNS (192.168.65.7, UDP) yanıt vermiyor;
+# internete çıkan servisler genel DNS'e TCP üzerinden sorar.
+x-dns: &dns
+  dns:
+    - 1.1.1.1
+    - 8.8.8.8
+  dns_opt:
+    - use-vc
+
+services:
+  # Yürüme rotası, erişilebilir rota ve yükseklik (/route, /height, /trace_attributes)
+  valhalla:
+    image: ghcr.io/valhalla/valhalla-scripted:latest
+    container_name: proje404-valhalla
+    <<: *dns
+    ports:
+      - "8002:8002"
+    volumes:
+      # /custom_files içine konan .pbf dosyasından karolar derlenir.
+      # Derlenen karolar, valhalla.json ve elevation_data/ de buraya yazılır.
+      - ./data/valhalla:/custom_files
+    environment:
+      # PBF'yi biz koyuyoruz; uzaktan indirme yok.
+      - tile_urls=
+      # Karolar bir kez derlendikten sonra yeniden başlatmada tekrar derlenmez.
+      - use_tiles_ignore_pbf=True
+      - force_rebuild=False
+      # Eğim için şart: İstanbul'u kapsayan DEM (SRTM, 7 karo) indirilir ve
+      # graf derlenirken kenarlara eğim yazılır. use_hills cezası ve /height buna dayanır.
+      - build_elevation=True
+      - build_admins=True
+      - build_time_zones=True
+      - build_transit=False
+      - serve_tiles=True
+      # Docker Desktop'ta bellek azsa (karo derlemesi öldürülürse) bunu 2'ye indirin.
+      - server_threads=4
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8002/status || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      # İlk açılışta DEM indirme + karo derleme birkaç dakika sürer.
+      start_period: 15m
+    restart: unless-stopped
+
+  # Adres arama ve ters kodlama, yalnızca İstanbul ili kayıtlarıyla.
+  # İlk açılışta data/photon/photon-istanbul.jsonl içe aktarılır (birkaç dakika), sonra sunulur:
+  #   GET http://localhost:2322/api?q=Kuzguncuk%20Bostanı&lang=tr
+  #   GET http://localhost:2322/reverse?lat=41.0348&lon=29.0318&lang=tr
+  photon:
+    image: rtuszik/photon-docker:latest
+    container_name: proje404-photon
+    ports:
+      - "2322:2322"
+    environment:
+      - JAVA_PARAMS=-Xmx2g
+    # İmajın kendi indirme/güncelleme akışı yerine kendi süzdüğümüz dökümü içe aktaran betik.
+    command: ["sh", "/photon-istanbul/baslat.sh"]
+    volumes:
+      - photon_data:/photon/data
+      - ./photon:/photon-istanbul:ro
+      - ./data/photon:/girdi:ro
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS 'http://localhost:2322/api?q=istanbul&limit=1' || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 15m
+    restart: unless-stopped
+
+  # Vektör karo servisi: PMTiles dosyasını XYZ karo olarak sunar (CORS varsayılan olarak açık).
+  #   TileJSON: http://localhost:3000/istanbul
+  #   Karo:     http://localhost:3000/istanbul/{z}/{x}/{y}
+  martin:
+    image: ghcr.io/maplibre/martin:latest
+    container_name: proje404-martin
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data/tiles:/tiles:ro
+    command: ["--listen-addresses", "0.0.0.0:3000", "/tiles/istanbul.pmtiles"]
+    restart: unless-stopped
+
+  # Stil, font, sprite ve PMTiles dosyasının statik sunucusu (CORS açık).
+  # Uygulamada: VITE_HARITA_STIL=http://localhost:8080/harita-stili.json
+  harita:
+    image: nginx:1.27-alpine
+    container_name: proje404-harita
+    ports:
+      - "8080:80"
+    volumes:
+      - ./harita-nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./harita-stili.json:/usr/share/nginx/html/harita-stili.json:ro
+      - ./harita-onizleme.html:/usr/share/nginx/html/onizleme.html:ro
+      - ./data/harita/fonts:/usr/share/nginx/html/fonts:ro
+      - ./data/harita/sprites:/usr/share/nginx/html/sprites:ro
+      - ./data/tiles/istanbul.pmtiles:/usr/share/nginx/html/istanbul.pmtiles:ro
+    depends_on:
+      - martin
+    restart: unless-stopped
+
+  # Uygulama veritabanı (yerel geliştirme). Canlıda Neon gibi barındırılan bir Postgres kullanılır.
+  # Tablolar ve tohum veri, sunucu ilk açıldığında otomatik oluşturulur (server/src/repositories/pg.js).
+  #   DATABASE_URL=postgres://proje404:proje404yerel@localhost:5432/proje404
+  # Yalnızca bu bilgisayardan erişilir (127.0.0.1). Parola infra/.env ile değiştirilebilir.
+  postgres:
+    image: postgres:16-alpine
+    container_name: proje404-postgres
+    environment:
+      - POSTGRES_DB=proje404
+      - POSTGRES_USER=proje404
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-proje404yerel}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U proje404 -d proje404"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  photon_data:
+  pg_data:
