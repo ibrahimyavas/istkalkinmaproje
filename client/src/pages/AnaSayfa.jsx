@@ -9,7 +9,27 @@ import { simgeOf, turEtiketi, erisimOzeti, yakaEtiketi, SEMT_SIMGE } from '../li
 const HaritaGorunumu = lazy(() => import('../components/harita/HaritaGorunumu.jsx'));
 
 const EASE = 'cubic-bezier(.16,1,.3,1)';
-const ONE_CIKAN = ['atolye-ebru-sultanahmet', 'kuzguncuk-cami-kilise', 'sait-faik-muzesi', 'atolye-cini-uskudar'];
+// Fotoğrafı olmayan mekanlar yalnızca yedek olarak kullanılır.
+const ONE_CIKAN_YEDEK = ['atolye-ebru-sultanahmet', 'kuzguncuk-cami-kilise', 'sait-faik-muzesi', 'atolye-cini-uskudar'];
+
+/** Öne çıkanlar: kapak fotoğrafı olan mekanlardan her semtten biri, en fazla 4; eksik kalırsa yedekler. */
+function oneCikanlar(mekanlar, adet = 4) {
+  const secilen = [];
+  const semtler = new Set();
+  for (const m of mekanlar) {
+    if (secilen.length >= adet) break;
+    if (m.gorsel?.url && !semtler.has(m.semtId)) {
+      secilen.push(m);
+      semtler.add(m.semtId);
+    }
+  }
+  for (const id of ONE_CIKAN_YEDEK) {
+    if (secilen.length >= adet) break;
+    const m = mekanlar.find((x) => x.id === id);
+    if (m && !secilen.includes(m)) secilen.push(m);
+  }
+  return secilen;
+}
 const HERO_SEMT = ['sultanahmet', 'balat', 'kadikoy', 'uskudar'];
 // Haftanın rotası: rota uç noktası her çağrıda görüntüleme olayı kaydettiği için burada
 // rota adı listeden, duraklar mekan verisinden okunur.
@@ -31,7 +51,8 @@ function Yukselen({ gecikme = 0, sure = 520, className, children, as: Tag = 'div
 
 function Hero({ semtler, mekanlar, rota, toplamRota, toplamAtolye }) {
   const navigate = useNavigate();
-  const demo = mekanlar.find((m) => m.id === 'kuzguncuk-cami-kilise') || mekanlar[0];
+  // Kayan demo kartı: haftanın rotasından fotoğraflı bir durak (yoksa fotoğraflı herhangi bir mekan).
+  const demo = rota?.duraklar.find((m) => m.gorsel?.url) || mekanlar.find((m) => m.gorsel?.url) || mekanlar[0];
   const demoSemt = semtler.find((s) => s.id === demo?.semtId);
   const rotaDuraklari = rota ? rota.duraklar.slice(0, 3) : [];
 
@@ -94,7 +115,9 @@ function Hero({ semtler, mekanlar, rota, toplamRota, toplamAtolye }) {
           <div aria-hidden="true" className="absolute left-1/2 top-7 -ml-[100px] h-[236px] w-[200px]" style={{ animation: 'float 5s ease-in-out infinite' }}>
             <div className="absolute inset-0 rounded-2xl border border-white/[.14] bg-white/[.12]" style={{ animation: `demo-under 4.6s ${EASE} infinite` }} />
             <div className="absolute inset-0 flex flex-col gap-2 rounded-2xl bg-white p-2.5 text-[#0F172A] shadow-[0_18px_40px_rgba(0,0,0,.35)]" style={{ animation: `demo-swipe 4.6s ${EASE} infinite` }}>
-              <div className="grid flex-1 place-items-center rounded-[10px] bg-[#0A2540] text-white/40"><Simge ad={simgeOf(demo)} boyut={36} /></div>
+              <div className="relative grid flex-1 place-items-center overflow-hidden rounded-[10px] bg-[#0A2540] text-white/40">
+                {demo.gorsel?.url ? <img src={demo.gorsel.url} alt="" className="absolute inset-0 h-full w-full object-cover" /> : <Simge ad={simgeOf(demo)} boyut={36} />}
+              </div>
               <div>
                 <div className="text-[10px] font-bold uppercase tracking-[.04em] text-[#C84B26]">{turEtiketi(demo)} · {demoSemt?.ad}</div>
                 <div className="font-display text-sm font-bold leading-tight text-[#0A2540]">{demo.ad}</div>
@@ -202,7 +225,7 @@ export default function AnaSayfa() {
           <Link to="/kesfet" className="flex min-h-[44px] items-center text-[13px] font-semibold text-accent">Tümünü keşfet →</Link>
         </div>
         <div className="grid gap-5 [grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr))]">
-          {ONE_CIKAN.map((id) => mekanlar.find((m) => m.id === id)).filter(Boolean).map((m) => (
+          {oneCikanlar(mekanlar).map((m) => (
             <OneCikanKart key={m.id} m={m} semt={semtOf(m.semtId)} />
           ))}
         </div>
