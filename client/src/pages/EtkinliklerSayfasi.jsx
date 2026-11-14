@@ -5,29 +5,6 @@ import { useTercihler } from '../context/Tercihler.jsx';
 import Yukleniyor, { HataKutusu } from '../components/common/Yukleniyor.jsx';
 import EtkinlikKarti from '../components/kultur/EtkinlikKarti.jsx';
 
-/** Kültür Yolu Festivali 2026 programı: açılınca yüklenir. */
-function Arsiv({ uygun }) {
-  const [acik, setAcik] = useState(false);
-  const arsiv = useApi(() => (acik ? api.etkinlikArsivi() : Promise.resolve(null)), [acik]);
-  const liste = (arsiv.veri || []).filter(uygun);
-  return (
-    <details className="mt-12" onToggle={(ev) => setAcik(ev.currentTarget.open)}>
-      <summary className="cursor-pointer font-display text-2xl font-bold">Geçmiş: İstanbul Kültür Yolu Festivali 2026</summary>
-      <p className="mt-2 max-w-2xl text-sm text-ink-muted">
-        26 Eylül – 4 Ekim 2026 programı. Ad, tarih ve yer bilgisi festivalin sitesinden alındı; her kartta festival sayfasına bağlantı var.
-      </p>
-      {arsiv.yukleniyor && <Yukleniyor />}
-      {arsiv.hata && <HataKutusu metin={arsiv.hata} yenile={arsiv.yenile} />}
-      {arsiv.veri && (
-        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {liste.map((e) => <EtkinlikKarti key={e.id} e={e} />)}
-          {liste.length === 0 && <p className="text-ink-muted">Bu seçime uyan etkinlik yok.</p>}
-        </div>
-      )}
-    </details>
-  );
-}
-
 export default function EtkinliklerSayfasi() {
   const { erisilebilir } = useTercihler();
   const etk = useApi(() => api.etkinlikler(), []);
@@ -89,7 +66,6 @@ export default function EtkinliklerSayfasi() {
         </div>
       )}
 
-      <Arsiv uygun={uygun} />
     </div>
   );
 }

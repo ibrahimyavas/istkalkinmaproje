@@ -31,13 +31,9 @@ test('sürüyor mu: bitişi gelmemiş sergi sürer, bitişsiz ama notlu sergi s�
   assert.equal(surenMi({ baslangic: '2026-10-01T00:00:00+03:00' }, simdi), false);
 });
 
-test('takvim: süren sergiler gelir, arşiv gelmez; arşiv ayrı uçta', async () => {
+test('takvim: süren sergiler kaynak bağlantısıyla gelir', async () => {
   const liste = await al('/etkinlikler');
   assert.ok(liste.some((e) => e.tur === 'sergi' && e.gercek && e.kaynak));
-  assert.ok(liste.every((e) => !e.arsiv));
-  const arsiv = await al('/etkinlikler/arsiv');
-  assert.ok(arsiv.length > 50 && arsiv.every((e) => e.arsiv && e.kaynak.startsWith('https://kulturyolufestivali.com/')));
-  assert.ok(arsiv[0].baslangic >= arsiv.at(-1).baslangic);
 });
 
 test('gerçek etkinliğe bu sitede kayıt alınmaz', async () => {
@@ -48,4 +44,14 @@ test('gerçek etkinliğe bu sitede kayıt alınmaz', async () => {
     body: JSON.stringify({ etkinlikId: 'sergi-manuel-citak', ad: 'Test', iletisim: 'test@ornek.com', kisi: 1 }),
   });
   assert.equal(y.status, 409);
+});
+
+test('veri: festival kayıtları yok; Vikipedi müzeleri kaynak ve Vikiveri kimliğiyle geliyor', async () => {
+  const mekanlar = await al('/mekanlar');
+  assert.ok(mekanlar.every((m) => !m.id.startsWith('lezzet-') && m.tur !== 'lezzet'));
+  const muzeler = mekanlar.filter((m) => m.id.startsWith('muze-'));
+  assert.ok(muzeler.length >= 15);
+  assert.ok(muzeler.every((m) => m.kaynak.startsWith('https://tr.wikipedia.org/wiki/') && /^Q\d+$/.test(m.wikidata) && m.dogrulandi === false));
+  const etkinlikler = await al('/etkinlikler');
+  assert.ok(etkinlikler.every((e) => !e.id.startsWith('kyf-')));
 });

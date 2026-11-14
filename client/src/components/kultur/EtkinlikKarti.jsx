@@ -14,7 +14,7 @@ export default function EtkinlikKarti({ e }) {
           <Etiket className="bg-accent-soft text-accent"><Accessibility size={12} aria-hidden="true" /> Erişilebilir</Etiket>
         )}
         {e.ornek && <Etiket className="bg-warning/15 text-warning">Örnek etkinlik</Etiket>}
-        {e.gercek && !e.arsiv && <Etiket className="bg-fill/10 text-heading">Kurumun sitesinden</Etiket>}
+        {e.gercek && <Etiket className="bg-fill/10 text-heading">Kurumun sitesinden</Etiket>}
       </div>
       <h3 className="font-display text-lg font-bold leading-snug"><Link to={`/etkinlik/${e.id}`} className="text-heading no-underline hover:underline">{e.baslik}</Link></h3>
       {e.uzman && <p className="-mt-2 mb-0 text-[13px] text-ink-faint">{e.uzman.ad}{e.uzman.atolyeAdi ? ` · ${e.uzman.atolyeAdi}` : ''}</p>}

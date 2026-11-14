@@ -3,7 +3,7 @@ import { MEKAN_TURU, ZANAAT } from './harita.js';
 
 export const TUR_SIMGE = {
   atolye: 'palette', miras: 'account_balance', muze: 'museum', carsi: 'storefront',
-  film: 'movie', edebiyat: 'menu_book', sahne: 'theater_comedy', mekan: 'park', lezzet: 'restaurant',
+  film: 'movie', edebiyat: 'menu_book', sahne: 'theater_comedy', mekan: 'park',
 };
 export const ZANAAT_SIMGE = {
   ebru: 'water_drop', bakircilik: 'hardware', sedef: 'diamond', ahsap: 'carpenter',
@@ -22,11 +22,10 @@ export const TUR_GRUPLARI = {
   atolye: { ad: 'Atölye', turler: ['atolye'] },
   tarihi: { ad: 'Tarihi miras', turler: ['miras', 'muze', 'carsi', 'sahne', 'mekan'] },
   dizi: { ad: 'Dizi/film/edebiyat', turler: ['film', 'edebiyat'] },
-  lezzet: { ad: 'Lezzet', turler: ['lezzet'] },
 };
 
 // Sunucudaki optimizer.js ile aynı ziyaret süreleri
-const ZIYARET_DK = { miras: 45, muze: 60, carsi: 45, film: 15, edebiyat: 30, sahne: 20, mekan: 20, lezzet: 60 };
+const ZIYARET_DK = { miras: 45, muze: 60, carsi: 45, film: 15, edebiyat: 30, sahne: 20, mekan: 20 };
 export const ziyaretDk = (m) => (m.tur === 'atolye' ? m.deneyim?.sureDk ?? 60 : ZIYARET_DK[m.tur] ?? 30);
 
 /** Kart altındaki tek satırlık erişim özeti ve uyarı durumu. */

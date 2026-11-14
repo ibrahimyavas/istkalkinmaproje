@@ -11,7 +11,7 @@ export const YAKA_GECIS_CEZASI_M = 8000;
 // Bu mesafenin üstündeki aynı yaka bacakları için toplu taşıma önerilir.
 export const YURUME_SINIRI_M = 2500;
 
-export const ZIYARET_DK = { miras: 45, muze: 60, carsi: 45, film: 15, edebiyat: 30, sahne: 20, mekan: 20, lezzet: 60 };
+export const ZIYARET_DK = { miras: 45, muze: 60, carsi: 45, film: 15, edebiyat: 30, sahne: 20, mekan: 20 };
 export const ziyaretSuresi = (m) => (m.tur === 'atolye' ? m.deneyim?.sureDk ?? 60 : ZIYARET_DK[m.tur] ?? 30);
 
 export function mesafeMatrisi(noktalar) {

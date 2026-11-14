@@ -170,18 +170,13 @@ export default function PlanSayfasi() {
                   <span aria-hidden="true" className="relative z-[1] flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-fill text-xs font-bold text-on-fill shadow-[0_0_0_4px_rgb(var(--surface))]">{s.sira}</span>
                   <div className="min-w-0 flex-1 rounded-[14px] border border-hairline bg-surface-raised p-3.5 transition-colors hover:border-ink-faint">
                     <div className="mb-1 flex items-center justify-between gap-2">
-                      <span className="text-[11px] font-bold uppercase tracking-[.04em] text-accent">{s.saat} · {s.yemekMolasi ? 'Öğle molası' : semtAd(s.semtId)}</span>
+                      <span className="text-[11px] font-bold uppercase tracking-[.04em] text-accent">{s.saat} · {semtAd(s.semtId)}</span>
                       <span className="text-[11px] font-semibold text-ink-faint">{s.ziyaretDk} dk</span>
                     </div>
                     <h3 className="m-0 font-display text-base font-semibold leading-6">
                       <span className="sr-only">Durak {s.sira}: </span>
                       <Link to={`/mekan/${s.id}`} className="text-heading no-underline hover:underline">{s.ad}</Link>
                     </h3>
-                    {s.yemekMolasi && (
-                      <p className="mb-0 mt-1 flex items-center gap-1 text-xs text-ink-faint">
-                        <Simge ad="restaurant" boyut={14} />Kültür Yolu Festivali lezzet noktası · doğrulanmadı{s.adres ? ` · ${s.adres}` : ''}
-                      </p>
-                    )}
                     <div className="mt-2.5 flex flex-wrap gap-x-3.5 gap-y-1.5 text-[11px] font-semibold text-ink-faint">
                       {s.enYakinDurak && (
                         <span className="inline-flex items-center gap-1 text-heading">

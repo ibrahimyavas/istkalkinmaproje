@@ -38,7 +38,6 @@ const sergi = (id, baslik, baslangic, bitis, mekan, kaynak, ek = {}) => ({
   kaynak,
   sonKontrol: SON_KONTROL,
   gercek: true,
-  arsiv: false,
   dogrulandi: false,
   ornek: false,
   ...ek,

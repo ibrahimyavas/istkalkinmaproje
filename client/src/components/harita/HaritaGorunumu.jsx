@@ -8,7 +8,6 @@ import { HARITA_STILI, HARITA_YAZI_TIPI, ISTANBUL_MERKEZ } from '../../lib/harit
 const RENK = {
   mekan: '#0A2540',
   atolye: '#C84B26',
-  lezzet: '#B7791F',
   durak: '#475569',
   toplanma: '#1B8755',
   rota: '#C84B26',
@@ -72,7 +71,7 @@ export default function HaritaGorunumu({
       'p404-rota': rota?.geometri ? { type: 'Feature', geometry: rota.geometri, properties: {} } : null,
       'p404-toplanma': nokta(toplanma, () => ({ tur: 'toplanma' })),
       'p404-durak': nokta(duraklar, (d) => ({ tur: 'durak', alt: d.tur })),
-      'p404-mekan': nokta(mekanlar, (x) => ({ tur: x.tur === 'atolye' || x.tur === 'lezzet' ? x.tur : 'mekan', sira: x.sira ? String(x.sira) : '' })),
+      'p404-mekan': nokta(mekanlar, (x) => ({ tur: x.tur === 'atolye' ? 'atolye' : 'mekan', sira: x.sira ? String(x.sira) : '' })),
     };
 
     for (const [id, data] of Object.entries(kaynaklar)) {
@@ -102,7 +101,7 @@ export default function HaritaGorunumu({
         id: 'p404-mekan-nokta', type: 'circle', source: 'p404-mekan',
         paint: {
           'circle-radius': numarali ? 13 : 8,
-          'circle-color': ['match', ['get', 'tur'], 'atolye', RENK.atolye, 'lezzet', RENK.lezzet, RENK.mekan],
+          'circle-color': ['match', ['get', 'tur'], 'atolye', RENK.atolye, RENK.mekan],
           'circle-stroke-color': '#fff', 'circle-stroke-width': 2,
         },
       });
@@ -152,7 +151,6 @@ export default function HaritaGorunumu({
       {gosterge && <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-ink-muted" aria-label="Harita göstergesi">
         <li className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-full" style={{ background: RENK.mekan }} />Mekan</li>
         <li className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-full" style={{ background: RENK.atolye }} />Atölye</li>
-        {mekanlar.some((x) => x.tur === 'lezzet') && <li className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-full" style={{ background: RENK.lezzet }} />Lezzet noktası</li>}
         {duraklar.length > 0 && <li className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-full" style={{ background: RENK.durak }} />Toplu taşıma</li>}
         {toplanma.length > 0 && <li className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-full" style={{ background: RENK.toplanma }} />Deprem toplanma alanı</li>}
       </ul>}

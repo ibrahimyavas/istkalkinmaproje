@@ -45,7 +45,6 @@ export const api = {
   rotaYazdir: (id, erisilebilir) => data(http.get(`/rotalar/${id}/yazdir`, { params: { erisilebilir: erisilebilir ? 1 : 0 } })),
   planYazdir: (id) => data(http.get(`/plan/${id}/yazdir`)),
   etkinlik: (id) => data(http.get(`/etkinlikler/${id}`)),
-  etkinlikArsivi: () => data(http.get('/etkinlikler/arsiv')),
 
   uzman: {
     basvuru: (body) => data(http.post('/uzman/basvuru', body)),

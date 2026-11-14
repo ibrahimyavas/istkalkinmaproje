@@ -50,12 +50,17 @@ export function seedState() {
 // Tohum verisi olan içerik koleksiyonları: koddaki yeni alanlar kayıtlı veriye eklenir.
 export const ICERIK_KOLEKSIYONLARI = ['semtler', 'mekanlar', 'rotalar', 'duraklar', 'toplanma', 'siirler', 'etkinlikler', 'dunBugun'];
 
+// Tohumdan kaldırılan kayıtlar (koleksiyon, SQL LIKE deseni): kayıtlı veriden de silinir.
+// Kültür Yolu Festivali lezzet noktaları ve festival arşivi izin belirsizliği nedeniyle çıkarıldı.
+export const KALDIRILAN_TOHUMLAR = [['mekanlar', 'lezzet-%'], ['etkinlikler', 'kyf-%']];
+const kaldirildiMi = (k, id) => KALDIRILAN_TOHUMLAR.some(([kk, d]) => kk === k && String(id).startsWith(d.replace('%', '')));
+
 /** Kayıtlı kayıtta olmayan alanları tohumdan doldurur; kayıtlı değerler korunur. */
 function tohumlaBirlestir(saved, tohum) {
   const sonuc = { ...tohum, ...saved };
   for (const k of ICERIK_KOLEKSIYONLARI) {
     if (!Array.isArray(saved[k])) continue;
-    sonuc[k] = saved[k].map((item) => {
+    sonuc[k] = saved[k].filter((item) => !kaldirildiMi(k, item.id)).map((item) => {
       const t = tohum[k].find((x) => x.id === item.id);
       return t ? { ...t, ...item } : item;
     });

@@ -179,51 +179,11 @@ function enUcuzEkleme(gun, m, tempo) {
   return en;
 }
 
-export const YEMEK_DK = 60;
-const YEMEK_YARICAP_M = 700;
-
-/**
- * Günün ortasına (yaklaşık ziyaret süresinin yarısı geçince) en yakın lezzet noktasını
- * öğle molası olarak yerleştirir. Yakında lezzet noktası yoksa gün olduğu gibi kalır.
- * Dönen dizi sıralıdır; planOlustur sabitSira ile çağrılmalı.
- */
-export function yemekMolasiEkle(parca, lezzetler, kullanilan = new Set()) {
-  const dizi = sirala(parca).map((i) => parca[i]);
-  if (!lezzetler.length || !dizi.length) return { dizi, mola: null };
-  const toplam = dizi.reduce((t, m) => t + ziyaretSuresi(m), 0);
-  let gecen = 0;
-  let orta = 0;
-  for (; orta < dizi.length - 1; orta++) {
-    gecen += ziyaretSuresi(dizi[orta]);
-    if (gecen >= toplam / 2) break;
-  }
-  // Mola orta duraktan sonra gelir; o durağa ya da bir sonrakine en yakın lezzet noktası seçilir.
-  const komsular = [dizi[orta], dizi[orta + 1]].filter(Boolean);
-  let en = null;
-  for (const l of lezzetler) {
-    if (kullanilan.has(l.id)) continue;
-    const d = Math.min(...komsular.map((k) => haversine(k, l)));
-    if (d <= YEMEK_YARICAP_M && (!en || d < en.d)) en = { l, d };
-  }
-  if (!en) return { dizi, mola: null };
-  kullanilan.add(en.l.id);
-  return { dizi: [...dizi.slice(0, orta + 1), en.l, ...dizi.slice(orta + 1)], mola: en.l };
-}
-
-export async function cokGunluPlanOlustur(mekanlar, baglam, { gunSayisi, turler = [], erisilebilir = false, yemek = false }) {
-  // Öğle molası isteniyorsa her güne bir saat ayrılır.
-  const butce = GUNLUK_BUTCE_DK - (yemek ? YEMEK_DK : 0);
-  const { parcalar, disarida, adaySayisi } = gunlereAyir(mekanlar, baglam.semtler, { gunSayisi, turler, erisilebilir, butce });
-  const lezzetler = yemek ? mekanlar.filter((m) => m.tur === 'lezzet' && !(erisilebilir && atlanirMi(m))) : [];
-  const kullanilan = new Set();
+export async function cokGunluPlanOlustur(mekanlar, baglam, { gunSayisi, turler = [], erisilebilir = false }) {
+  const { parcalar, disarida, adaySayisi } = gunlereAyir(mekanlar, baglam.semtler, { gunSayisi, turler, erisilebilir });
   const gunler = [];
   for (const [i, parca] of parcalar.entries()) {
-    const { dizi, mola } = yemek ? yemekMolasiEkle(parca, lezzetler, kullanilan) : { dizi: parca, mola: null };
-    const p = await planOlustur(dizi, baglam, { erisilebilir, sabitSira: yemek });
-    if (mola) {
-      const d = p.duraklar.find((x) => x.id === mola.id);
-      if (d) Object.assign(d, { yemekMolasi: true, adres: mola.adres });
-    }
+    const p = await planOlustur(parca, baglam, { erisilebilir });
     gunler.push({
       gun: i + 1,
       semtIdler: [...new Set(p.duraklar.map((d) => d.semtId))],
@@ -245,7 +205,6 @@ export async function cokGunluPlanOlustur(mekanlar, baglam, { gunSayisi, turler 
     tur: 'cok-gunlu',
     erisilebilir,
     istenenGun: gunSayisi,
-    yemek,
     turler: turler.length ? turler : VARSAYILAN_TURLER,
     adaySayisi,
     gunler,

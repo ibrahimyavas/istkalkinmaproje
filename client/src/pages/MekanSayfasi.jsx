@@ -41,11 +41,18 @@ export default function MekanSayfasi() {
         <h1 className="mt-3 text-3xl font-bold sm:text-4xl">{m.ad}</h1>
         <p className="mt-3 max-w-2xl text-lg text-ink-muted">{m.kisa}</p>
         {m.adres && <p className="mt-2 text-sm text-ink">Adres: {m.adres}</p>}
+        {m.resmiSite && (
+          <p className="mt-2 text-sm">
+            <a href={m.resmiSite} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 font-semibold underline underline-offset-4">
+              Resmî site: saatler ve bilet <ExternalLink size={12} aria-hidden="true" />
+            </a>
+          </p>
+        )}
         <p className="mt-2 text-sm text-ink-muted">
           Kaynak:{' '}
           {kaynakLink ? (
             <a href={m.kaynak} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 underline underline-offset-4">
-              {m.tur === 'lezzet' ? 'Türkiye Kültür Yolu Festivali lezzet noktaları' : 'bağlantı'} <ExternalLink size={12} aria-hidden="true" />
+              bağlantı <ExternalLink size={12} aria-hidden="true" />
             </a>
           ) : (
             m.kaynak

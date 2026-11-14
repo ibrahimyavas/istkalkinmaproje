@@ -67,7 +67,6 @@ export default function EtkinlikSayfasi() {
               <span className="eyebrow">{TUR[e.tur] || e.tur}</span>
               {e.erisilebilir && <span className="inline-flex items-center gap-1 rounded-md bg-success/10 px-2 py-0.5 text-[11px] font-bold text-success"><Simge ad="accessible" boyut={14} />Erişilebilir</span>}
               {e.ornek && <span className="rounded-md bg-warning/10 px-2 py-0.5 text-[11px] font-bold text-warning">Örnek etkinlik</span>}
-              {e.arsiv && <span className="rounded-md bg-surface-raised px-2 py-0.5 text-[11px] font-bold text-ink-muted">Geçmiş etkinlik · {e.festival}</span>}
               {e.durum === 'iptal' && <span className="rounded-md bg-danger/10 px-2 py-0.5 text-[11px] font-bold text-danger">İptal edildi</span>}
             </div>
             <h1 className="mb-0 mt-2 font-display text-3xl font-bold leading-tight">{e.baslik}</h1>
@@ -87,7 +86,7 @@ export default function EtkinlikSayfasi() {
             </dl>
             {e.kaynak && (
               <p className="mb-0 mt-4 text-[13px] text-ink-muted">
-                Kaynak: <a href={e.kaynak} target="_blank" rel="noreferrer" className="font-semibold">{e.arsiv ? 'festival sayfası' : 'kurumun sitesi'}</a>
+                Kaynak: <a href={e.kaynak} target="_blank" rel="noreferrer" className="font-semibold">kurumun sitesi</a>
                 {e.sonKontrol && ` · son kontrol ${new Date(e.sonKontrol).toLocaleDateString('tr-TR')}`}
                 {e.gercek && !e.dogrulandi && ' · tarih ve yer gitmeden kaynaktan doğrulanmalı'}
               </p>
@@ -129,7 +128,7 @@ export default function EtkinlikSayfasi() {
           {kayitEngeli ? (
             <div className="grid gap-3">
               <p className="m-0 rounded-[14px] border border-dashed border-hairline p-4 text-center font-semibold text-ink-muted">{kayitEngeli}</p>
-              {e.gercek && e.kaynak && !e.arsiv && (
+              {e.gercek && e.kaynak && (
                 <a href={e.kaynak} target="_blank" rel="noreferrer" className="btn-ana justify-center"><Simge ad="open_in_new" />Kurumun sayfasına git</a>
               )}
             </div>

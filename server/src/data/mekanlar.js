@@ -12,7 +12,7 @@
 
 import { mekanDetaylari } from './mekanDetaylari.js';
 import { mekanGorselleri } from './mekanGorselleri.js';
-import { lezzetNoktalari } from './lezzetNoktalari.js';
+import { muzeler } from './muzeler.js';
 
 const bilinmiyor = null;
 
@@ -267,8 +267,8 @@ export const mekanlar = [
     // Kapak görseli tohumda hazır gelir (canlıda "Fotoğrafları yenile"ye gerek kalmasın).
     ...(mekanGorselleri[m.id] ? { gorsel: mekanGorselleri[m.id] } : {}),
   })),
-  // Kültür Yolu Festivali lezzet noktaları (scripts/lezzet-noktalari.js). Wikipedia görseli aranmaz.
-  ...lezzetNoktalari.map((m) => ({ ...m, detay: null, gorselMaddesi: null })),
+  // Vikipedi/Vikiveri'den demo semtlerindeki müzeler (scripts/muzeler.js).
+  ...muzeler.map((m) => ({ ...m, detay: null, ...(mekanGorselleri[m.id] ? { gorsel: mekanGorselleri[m.id] } : {}) })),
 ];
 
 export const zanaatlar = {
