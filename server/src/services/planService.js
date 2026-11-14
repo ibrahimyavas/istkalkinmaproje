@@ -8,10 +8,11 @@ import { haversine, nearest } from '../utils/geo.js';
 export const PLAN_AZAMI_DURAK = 15;
 const TEMPO = { normal: 75, erisilebilir: 50 }; // m/dk
 
-export async function planOlustur(mekanlar, { semtler, duraklar, toplanma }, { erisilebilir = false, baslangicId } = {}) {
+export async function planOlustur(mekanlar, { semtler, duraklar, toplanma }, { erisilebilir = false, baslangicId, sabitSira = false } = {}) {
   const yakaOf = (m) => semtler.find((s) => s.id === m.semtId)?.yaka || null;
   const noktalar = mekanlar.map((m) => ({ ...m, yaka: yakaOf(m) }));
-  const sira = sirala(noktalar, { baslangicId });
+  // sabitSira: çağıran sırayı kendisi kurduysa (ör. öğle yemeği molası araya yerleştirildiyse) korunur.
+  const sira = sabitSira ? noktalar.map((_, i) => i) : sirala(noktalar, { baslangicId });
   const sirali = sira.map((i) => noktalar[i]);
   const bacakList = bacaklar(sirali);
 

@@ -59,6 +59,9 @@ function tohumlaBirlestir(saved, tohum) {
       const t = tohum[k].find((x) => x.id === item.id);
       return t ? { ...t, ...item } : item;
     });
+    // Koda yeni eklenen kayıtlar da gelir (Postgres'teki TOHUM_SURUMU davranışıyla aynı).
+    const var_ = new Set(saved[k].map((i) => i.id));
+    sonuc[k].push(...tohum[k].filter((t) => !var_.has(t.id)));
   }
   return sonuc;
 }

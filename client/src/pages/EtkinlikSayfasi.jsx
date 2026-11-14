@@ -5,10 +5,9 @@ import { useApi } from '../hooks/useApi.js';
 import Yukleniyor, { HataKutusu } from '../components/common/Yukleniyor.jsx';
 import Simge from '../components/common/Simge.jsx';
 import { yolTarifiUrl, ZANAAT } from '../lib/harita.js';
+import { ETKINLIK_TURU as TUR, tarihMetni, ucretMetni, yerMetni } from '../lib/etkinlik.js';
 
-const TUR = { atolye: 'Atölye', yuruyus: 'Yürüyüş', konser: 'Konser', edebiyat: 'Edebiyat', soylesi: 'Söyleşi', sergi: 'Sergi', tiyatro: 'Tiyatro', festival: 'Festival' };
 const UZMANLIK = { ...ZANAAT, rehber: 'Kültür rehberi', diger: 'Uzman' };
-const tarihYaz = (iso) => new Date(iso).toLocaleString('tr-TR', { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Istanbul' });
 
 function KayitFormu({ etkinlik, kalan, onKayit }) {
   const [f, setF] = useState({ ad: '', iletisim: '', kisi: 1, erisilebilirlikIhtiyaci: '', not: '' });
@@ -54,7 +53,9 @@ export default function EtkinlikSayfasi() {
   if (yukleniyor) return <Yukleniyor />;
   if (hata) return <HataKutusu metin={hata} yenile={yenile} />;
   const { etkinlik: e, mekan, uzman, kontenjan, kayitEngeli } = veri;
-  const ucret = e.ucret || (e.ucretsiz ? 'Ücretsiz' : 'Ücretli');
+  const ucret = ucretMetni(e);
+  // Konumu bilinen dış mekan (müze vb.) için yol tarifi; uygulamadaki mekanlar kendi sayfasından.
+  const disYer = !mekan && e.lat && e.lon ? { ad: e.mekanAd, lat: e.lat, lon: e.lon } : null;
 
   return (
     <div className="anim-page mx-auto w-full max-w-sayfa flex-1 px-4 py-8 sm:px-8">
@@ -66,16 +67,17 @@ export default function EtkinlikSayfasi() {
               <span className="eyebrow">{TUR[e.tur] || e.tur}</span>
               {e.erisilebilir && <span className="inline-flex items-center gap-1 rounded-md bg-success/10 px-2 py-0.5 text-[11px] font-bold text-success"><Simge ad="accessible" boyut={14} />Erişilebilir</span>}
               {e.ornek && <span className="rounded-md bg-warning/10 px-2 py-0.5 text-[11px] font-bold text-warning">Örnek etkinlik</span>}
+              {e.arsiv && <span className="rounded-md bg-surface-raised px-2 py-0.5 text-[11px] font-bold text-ink-muted">Geçmiş etkinlik · {e.festival}</span>}
               {e.durum === 'iptal' && <span className="rounded-md bg-danger/10 px-2 py-0.5 text-[11px] font-bold text-danger">İptal edildi</span>}
             </div>
             <h1 className="mb-0 mt-2 font-display text-3xl font-bold leading-tight">{e.baslik}</h1>
             {e.aciklama && <p className="mb-0 mt-3 whitespace-pre-line text-[15px] leading-[26px]">{e.aciklama}</p>}
             <dl className="mb-0 mt-5 grid gap-3 sm:grid-cols-2">
               {[
-                ['event', 'Ne zaman', tarihYaz(e.baslangic)],
+                ['event', 'Ne zaman', tarihMetni(e, true)],
                 ['schedule', 'Süre', e.sureDk ? `${e.sureDk} dakika` : '—'],
                 ['payments', 'Ücret', ucret],
-                ['place', 'Yer', mekan ? mekan.ad : e.konumAd || '—'],
+                ['place', 'Yer', yerMetni(e, mekan) + (e.adres ? ` · ${e.adres}` : '')],
               ].map(([s, et, d]) => (
                 <div key={et} className="flex items-start gap-3 rounded-[14px] border border-hairline bg-surface-raised p-3">
                   <Simge ad={s} boyut={20} className="text-accent" />
@@ -83,6 +85,18 @@ export default function EtkinlikSayfasi() {
                 </div>
               ))}
             </dl>
+            {e.kaynak && (
+              <p className="mb-0 mt-4 text-[13px] text-ink-muted">
+                Kaynak: <a href={e.kaynak} target="_blank" rel="noreferrer" className="font-semibold">{e.arsiv ? 'festival sayfası' : 'kurumun sitesi'}</a>
+                {e.sonKontrol && ` · son kontrol ${new Date(e.sonKontrol).toLocaleDateString('tr-TR')}`}
+                {e.gercek && !e.dogrulandi && ' · tarih ve yer gitmeden kaynaktan doğrulanmalı'}
+              </p>
+            )}
+            {disYer && (
+              <div className="mt-4 flex flex-wrap gap-2">
+                <a href={yolTarifiUrl(null, disYer, 'transit')} target="_blank" rel="noreferrer" className="btn-ikincil"><Simge ad="directions_transit" />Yol tarifi</a>
+              </div>
+            )}
             {mekan && (
               <div className="mt-4 flex flex-wrap gap-2">
                 <Link to={`/mekan/${mekan.id}`} className="btn-ikincil"><Simge ad="info" />Mekan sayfası</Link>
@@ -113,7 +127,12 @@ export default function EtkinlikSayfasi() {
             </div>
           )}
           {kayitEngeli ? (
-            <p className="m-0 rounded-[14px] border border-dashed border-hairline p-4 text-center font-semibold text-ink-muted">{kayitEngeli}</p>
+            <div className="grid gap-3">
+              <p className="m-0 rounded-[14px] border border-dashed border-hairline p-4 text-center font-semibold text-ink-muted">{kayitEngeli}</p>
+              {e.gercek && e.kaynak && !e.arsiv && (
+                <a href={e.kaynak} target="_blank" rel="noreferrer" className="btn-ana justify-center"><Simge ad="open_in_new" />Kurumun sayfasına git</a>
+              )}
+            </div>
           ) : (
             <KayitFormu etkinlik={e} kalan={kontenjan?.kalan ?? 20} onKayit={yenile} />
           )}

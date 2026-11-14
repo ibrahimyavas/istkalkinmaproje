@@ -72,3 +72,30 @@ test('çok günlü plan: girdi doğrulanır', async () => {
   const p = await (await post('/plan/gunluk', { gunSayisi: 2, ilgiler: ['atolye'] })).json();
   assert.ok(p.duraklar.every((d) => d.tur === 'atolye'));
 });
+
+test('çok günlü plan: öğle molası her güne en fazla bir lezzet noktası ekler, ortaya yerleştirir', async () => {
+  const p = await (await post('/plan/gunluk', { gunSayisi: 2, yemek: true })).json();
+  assert.equal(p.yemek, true);
+  let molali = 0;
+  for (const g of p.gunler) {
+    const molalar = g.duraklar.filter((d) => d.tur === 'lezzet');
+    assert.ok(molalar.length <= 1);
+    if (molalar.length) {
+      molali += 1;
+      const i = g.duraklar.findIndex((d) => d.tur === 'lezzet');
+      assert.ok(molalar[0].yemekMolasi);
+      assert.ok(i > 0, 'mola günün başında olmamalı');
+    }
+  }
+  assert.ok(molali >= 1);
+  // Mola istenmezse lezzet noktası plana girmez
+  const yok = await (await post('/plan/gunluk', { gunSayisi: 2 })).json();
+  assert.ok(yok.duraklar.every((d) => d.tur !== 'lezzet'));
+});
+
+test('keşfet: lezzet noktaları yalnızca seçilince gelir', async () => {
+  const hepsi = await (await fetch(`${base}/kesfet`)).json();
+  assert.ok(hepsi.length > 0 && hepsi.every((m) => m.tur !== 'lezzet'));
+  const lezzet = await (await fetch(`${base}/kesfet?turler=lezzet`)).json();
+  assert.ok(lezzet.length > 0 && lezzet.every((m) => m.tur === 'lezzet' && m.dogrulandi === false && m.kaynak));
+});

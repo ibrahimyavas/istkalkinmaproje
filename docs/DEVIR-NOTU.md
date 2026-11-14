@@ -29,7 +29,7 @@ Son güncelleme: 14 Kasım 2026 · son commit `00b9483` (5.1, 5.2, 5.8 yapıldı
 - **api/index.js + vercel.json:** Express tek bir sunucusuz fonksiyon olarak çalışır; arayüz statik site.
 - **infra/:** yalnızca yerelde Docker'da çalışır: Valhalla (`:8002`), Photon (`:2322`), martin + PMTiles (`:3000`), stil sunucusu (`:8080`), Postgres (`:5432`). `infra/data` 1,9 GB'tır ve git'e girmez.
 - **Rotalar:** `scripts/build-app-routes.js` Valhalla ile hesaplar ve `server/src/data/routes-geo/*.json` dosyalarına yazar (canlıda bunlar kullanılır).
-- **Testler:** sunucuda 42 (`cd server && npm test`; Postgres için `TEST_DATABASE_URL=postgres://proje404:proje404yerel@localhost:5432/proje404_test npm run test:pg`), arayüzde 6 (`cd client && npm run test:run`).
+- **Testler:** sunucuda 47 (`cd server && npm test`; Postgres için `TEST_DATABASE_URL=postgres://proje404:proje404yerel@localhost:5432/proje404_test npm run test:pg`), arayüzde 6 (`cd client && npm run test:run`).
 - **Ayrıntılı belgeler:** `docs/DEPLOY.md`, `docs/API-YENI.md`, `docs/EKRANLAR.md`, `README.md`.
 
 ## 4. Mevcut özellikler (canlıda)
@@ -68,7 +68,10 @@ Son güncelleme: 14 Kasım 2026 · son commit `00b9483` (5.1, 5.2, 5.8 yapıldı
   - Mekan sayfasında yorum listesi ve ortalama puan.
   - Hız sınırı ve kötüye kullanım bildirimi.
 
-### 5.3 Kültür Yolu Festivali "lezzet noktaları"
+### 5.3 Kültür Yolu Festivali "lezzet noktaları" · YAPILDI (6 semtle sınırlı)
+- **Yapılan:** `scripts/lezzet-noktalari.js` → `server/src/data/lezzetNoktalari.js`. Festival listesindeki 235 işletmeden yalnızca 6 demo semtinde kalan 55'i alındı (Sultanahmet 34, Kadıköy 14, Balat 5, Kuzguncuk 1, Burgazada 1; Üsküdar 0). Yalnızca ad + adres; koordinat yerel Photon (OSM) ile; adresteki ilçe semtle uyuşmuyorsa elendi. Hepsi `dogrulandi: false`, kaynak bağlantılı. Mekan türü `lezzet`.
+- **Arayüz:** semt sayfasında "Lezzet noktaları" filtresi ("Hepsi" kültür mekanlarını gösterir), haritada ayrı renk, Keşfet'te yalnızca "Lezzet" seçilirse, mekan sayfasında adres. Rota sihirbazında "Öğle yemeği molası" (varsayılan açık): günün ortasına 700 m içindeki bir lezzet noktası eklenir, gün bütçesinden 1 saat düşülür.
+- **Not:** Site `robots.txt` genel taramaya izin veriyor (yalnızca GPTBot engelli); kullanım şartları sayfası yok, altbilgide "Tüm hakları saklıdır". Kullanıcı kararıyla listenin yalnızca küçük bir bölümü alındı. Festival düzenleyicisinden yazılı izin hâlâ önerilir.
 - **Kaynak:** https://kulturyolufestivali.com/lezzet-noktasi/istanbul
 - **Önce kontrol et:** sitenin kullanım şartları ve `robots.txt`. İçerik metinleri telifli olabilir.
   - Yalnızca olgusal bilgileri al: ad, adres, konum, mutfak türü.
@@ -103,7 +106,10 @@ Son güncelleme: 14 Kasım 2026 · son commit `00b9483` (5.1, 5.2, 5.8 yapıldı
   - Sunucu tarafında çağır; zaman aşımı ve hız sınırı koy.
   - Hata olursa yapay zekâsız devam et.
 
-### 5.6 İstanbul müzeleri ve aktif sergiler
+### 5.6 İstanbul müzeleri ve aktif sergiler · KISMEN YAPILDI
+- **Yapılan:** `server/src/data/sergiler.js`: 7 kurumdan 13 güncel sergi (İstanbul Modern, Pera, Salt Beyoğlu/Galata, Yapı Kredi Kültür Sanat, Sakıp Sabancı, Meşher, Borusan Contemporary), resmî sitelerden elle, son kontrol 14 Kasım 2026. Bitişi geçen sergi takvimden kendiliğinden düşer. Ücret/erişim bilinmiyorsa `null` ("bilgi yok"). Bu sitede kayıt alınmaz; "Kurumun sayfasına git".
+- **Festival arşivi:** `scripts/festival-arsivi.js` → `server/src/data/festivalArsivi.js`: İstanbul Kültür Yolu Festivali 2026 programı (105 etkinlik, `arsiv: true`), takvim sayfasında açılır "Geçmiş" bölümünde; `GET /api/etkinlikler/arsiv`.
+- **Kalan:** Arter (site içeriği tarayıcıda yüklüyor, elle eklenmeli); Vikipedi müze listesinden müzelerin mekan olarak eklenmesi; 4 Aralık öncesi sergileri yeniden kontrol (Yapı Kredi sergisi 29 Kasım'da bitiyor).
 - **Kaynak (müzeler):** https://tr.wikipedia.org/wiki/İstanbul'daki_müzeler_listesi
   - Vikipedi metni CC BY-SA 4.0 lisanslı. Yalnızca olgusal alanları al: ad, ilçe, tür, resmi site. Açıklamaları kendin yaz.
   - Koordinat ve resmi site için Vikiveri'yi (Q kimlikleri, CC0) kullan. Listedeki bağlantılardan Q kimliğine ulaşılır.

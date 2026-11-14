@@ -14,7 +14,7 @@ import { seedState } from './store.js';
 export const arkaUc = 'postgres';
 
 // Kod içindeki tohum veri (data/*.js) değişince artırın.
-export const TOHUM_SURUMU = '2026-11-14.4'; // .4: mekan kapak görselleri tohuma eklendi
+export const TOHUM_SURUMU = '2026-11-14.5'; // .5: Kültür Yolu lezzet noktaları ve gerçek sergiler
 
 const KOLEKSIYONLAR = [
   'semtler', 'mekanlar', 'rotalar', 'duraklar', 'toplanma', 'siirler', 'etkinlikler',

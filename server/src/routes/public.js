@@ -25,9 +25,13 @@ const siirlerFor = async ({ semtId, mekanId }) =>
     .filter((s) => (semtId && s.semtIdler?.includes(semtId)) || (mekanId && s.mekanIdler?.includes(mekanId)))
     .map(publicSiir);
 
+// Süren (bitişi gelmemiş sergi gibi) ya da yaklaşan etkinlikler; arşiv kayıtları hariç.
+export const surenMi = (e, simdi = Date.now()) => (e.bitis
+  ? new Date(e.bitis).getTime() >= simdi
+  : !!e.bitisNotu || new Date(e.baslangic).getTime() >= simdi - 6 * 3600e3);
 const yaklasanEtkinlikler = (list) =>
   list
-    .filter((e) => e.durum !== 'iptal' && new Date(e.baslangic) >= new Date(Date.now() - 6 * 3600e3))
+    .filter((e) => e.durum !== 'iptal' && !e.arsiv && surenMi(e))
     .sort((a, b) => a.baslangic.localeCompare(b.baslangic));
 
 // Herkese açık bildirim: konum ve yakın mekan önerisi (iç not) çıkarılır.
@@ -48,7 +52,8 @@ r.get('/semtler', wrap(async (req, res) => {
   const [semtler, mekanlar, rotalar] = await Promise.all([semtRepo.list(), mekanRepo.list(), rotaRepo.list()]);
   res.json(semtler.map((s) => ({
     ...s,
-    mekanSayisi: mekanlar.filter((m) => m.semtId === s.id).length,
+    mekanSayisi: mekanlar.filter((m) => m.semtId === s.id && m.tur !== 'lezzet').length,
+    lezzetSayisi: mekanlar.filter((m) => m.semtId === s.id && m.tur === 'lezzet').length,
     atolyeSayisi: mekanlar.filter((m) => m.semtId === s.id && m.tur === 'atolye').length,
     rotaSayisi: rotalar.filter((x) => x.semtId === s.id).length,
   })));
@@ -173,6 +178,12 @@ r.get('/etkinlikler', wrap(async (req, res) => {
   })));
 }));
 
+// Geçmiş etkinlik arşivi (Kültür Yolu Festivali 2026 vb.), en yeni önce.
+r.get('/etkinlikler/arsiv', wrap(async (req, res) => {
+  const list = (await etkinlikRepo.list()).filter((e) => e.arsiv);
+  res.json(list.sort((a, b) => b.baslangic.localeCompare(a.baslangic)));
+}));
+
 r.get('/etkinlikler/:id', wrap(async (req, res) => {
   const e = await etkinlikRepo.get(req.params.id);
   if (!e) return res.status(404).json({ hata: 'Etkinlik bulunamadı' });
@@ -181,7 +192,7 @@ r.get('/etkinlikler/:id', wrap(async (req, res) => {
     e.uzmanId ? uzmanRepo.get(e.uzmanId) : null,
     doluKontenjan(e.id),
   ]);
-  const gecmis = new Date(e.baslangic) < new Date();
+  const gecmis = e.arsiv || !surenMi(e);
   res.json({
     etkinlik: e,
     mekan,
@@ -189,6 +200,7 @@ r.get('/etkinlikler/:id', wrap(async (req, res) => {
     kontenjan: e.kapasite ? { toplam: e.kapasite, dolu, kalan: Math.max(0, e.kapasite - dolu) } : null,
     kayitEngeli: e.durum === 'iptal' ? 'Bu etkinlik iptal edildi'
       : gecmis ? 'Bu etkinlik sona erdi'
+        : e.gercek ? 'Bilet ve kayıt bilgisi düzenleyicinin sitesinde'
         : e.kapasite && dolu >= e.kapasite ? 'Kontenjan doldu' : null,
   });
 }));
@@ -224,7 +236,9 @@ r.post('/talepler', wrap(async (req, res) => {
     const e = await etkinlikRepo.get(b.etkinlikId);
     if (!e) return bad(res, 'Etkinlik bulunamadı');
     if (e.durum === 'iptal') return res.status(409).json({ hata: 'Bu etkinlik iptal edildi' });
-    if (new Date(e.baslangic) < new Date()) return res.status(409).json({ hata: 'Bu etkinlik sona erdi' });
+    if (e.arsiv || !surenMi(e)) return res.status(409).json({ hata: 'Bu etkinlik sona erdi' });
+    // Kurumların kendi etkinlikleri için bu sitede kayıt alınmaz; bilet ve kayıt kaynakta.
+    if (e.gercek) return res.status(409).json({ hata: 'Bu etkinliğin kaydı düzenleyicinin sitesinden yapılır' });
     // Not: kontenjan kontrolü iki ayrı sorgu; demo ölçeğinde yeterli. Yoğun kullanımda
     // gruplardaki gibi kilitli kayıtla yapılmalı.
     if (e.kapasite && (await doluKontenjan(e.id)) + kisi > e.kapasite) {

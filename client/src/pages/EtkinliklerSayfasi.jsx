@@ -5,6 +5,29 @@ import { useTercihler } from '../context/Tercihler.jsx';
 import Yukleniyor, { HataKutusu } from '../components/common/Yukleniyor.jsx';
 import EtkinlikKarti from '../components/kultur/EtkinlikKarti.jsx';
 
+/** Kültür Yolu Festivali 2026 programı: açılınca yüklenir. */
+function Arsiv({ uygun }) {
+  const [acik, setAcik] = useState(false);
+  const arsiv = useApi(() => (acik ? api.etkinlikArsivi() : Promise.resolve(null)), [acik]);
+  const liste = (arsiv.veri || []).filter(uygun);
+  return (
+    <details className="mt-12" onToggle={(ev) => setAcik(ev.currentTarget.open)}>
+      <summary className="cursor-pointer font-display text-2xl font-bold">Geçmiş: İstanbul Kültür Yolu Festivali 2026</summary>
+      <p className="mt-2 max-w-2xl text-sm text-ink-muted">
+        26 Eylül – 4 Ekim 2026 programı. Ad, tarih ve yer bilgisi festivalin sitesinden alındı; her kartta festival sayfasına bağlantı var.
+      </p>
+      {arsiv.yukleniyor && <Yukleniyor />}
+      {arsiv.hata && <HataKutusu metin={arsiv.hata} yenile={arsiv.yenile} />}
+      {arsiv.veri && (
+        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {liste.map((e) => <EtkinlikKarti key={e.id} e={e} />)}
+          {liste.length === 0 && <p className="text-ink-muted">Bu seçime uyan etkinlik yok.</p>}
+        </div>
+      )}
+    </details>
+  );
+}
+
 export default function EtkinliklerSayfasi() {
   const { erisilebilir } = useTercihler();
   const etk = useApi(() => api.etkinlikler(), []);
@@ -12,25 +35,28 @@ export default function EtkinliklerSayfasi() {
   const [semtId, setSemtId] = useState('');
   const [ucretsiz, setUcretsiz] = useState(false);
 
-  const liste = useMemo(
-    () =>
-      (etk.veri || []).filter(
-        (e) => (!semtId || e.semtId === semtId) && (!ucretsiz || e.ucretsiz) && (!erisilebilir || e.erisilebilir),
-      ),
-    [etk.veri, semtId, ucretsiz, erisilebilir],
-  );
+  // Erişim bilgisi olmayan (null) etkinlikler erişilebilir modda gizlenmez, "bilgi yok" olarak kalır.
+  const uygun = (e) => (!semtId || e.semtId === semtId) && (!ucretsiz || e.ucretsiz === true) && (!erisilebilir || e.erisilebilir !== false);
+  const { sergiler, digerleri } = useMemo(() => {
+    const l = (etk.veri || []).filter(uygun);
+    return { sergiler: l.filter((e) => e.tur === 'sergi' && e.gercek), digerleri: l.filter((e) => !(e.tur === 'sergi' && e.gercek)) };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [etk.veri, semtId, ucretsiz, erisilebilir]);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
       <h1 className="text-4xl font-bold">Etkinlik takvimi</h1>
-      <p className="mt-3 max-w-2xl text-lg text-ink-muted">Atölyeler, yürüyüşler, konserler ve okuma günleri.</p>
-      <p className="mt-2 text-sm text-warning">Demo sürümde listelenen etkinlikler örnektir.</p>
+      <p className="mt-3 max-w-2xl text-lg text-ink-muted">Süren sergiler, atölyeler, yürüyüşler ve konserler.</p>
+      <p className="mt-2 max-w-2xl text-sm text-ink-muted">
+        Sergiler kurumların kendi sitelerinden derlendi (son kontrol 14 Kasım 2026); bilet ve saat için kaynağa bakın.
+        “Örnek etkinlik” etiketli kayıtlar demo amaçlıdır.
+      </p>
 
       <div className="mt-6 flex flex-wrap items-end gap-4">
         <div>
           <label htmlFor="semt" className="etiket">Semt</label>
           <select id="semt" className="girdi w-56" value={semtId} onChange={(e) => setSemtId(e.target.value)}>
-            <option value="">Tüm semtler</option>
+            <option value="">Tüm İstanbul</option>
             {(semtler.veri || []).map((s) => <option key={s.id} value={s.id}>{s.ad}</option>)}
           </select>
         </div>
@@ -38,17 +64,32 @@ export default function EtkinliklerSayfasi() {
           <input type="checkbox" className="h-5 w-5 accent-[rgb(var(--accent))]" checked={ucretsiz} onChange={(e) => setUcretsiz(e.target.checked)} />
           Yalnızca ücretsiz
         </label>
-        {erisilebilir && <p className="pb-3 text-sm font-semibold text-accent">Erişilebilir mod: yalnızca erişilebilir etkinlikler</p>}
+        {erisilebilir && <p className="pb-3 text-sm font-semibold text-accent">Erişilebilir mod: erişilemez olduğu bilinen etkinlikler gizli</p>}
       </div>
 
       {etk.yukleniyor && <Yukleniyor />}
       {etk.hata && <HataKutusu metin={etk.hata} yenile={etk.yenile} />}
       {etk.veri && (
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-live="polite">
-          {liste.map((e) => <EtkinlikKarti key={e.id} e={e} />)}
-          {liste.length === 0 && <p className="text-ink-muted">Bu seçime uyan etkinlik yok.</p>}
+        <div aria-live="polite">
+          {sergiler.length > 0 && (
+            <section aria-labelledby="sergi-baslik" className="mt-8">
+              <h2 id="sergi-baslik" className="text-2xl font-bold">Şu an süren sergiler</h2>
+              <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {sergiler.map((e) => <EtkinlikKarti key={e.id} e={e} />)}
+              </div>
+            </section>
+          )}
+          <section aria-labelledby="yaklasan-baslik" className="mt-10">
+            <h2 id="yaklasan-baslik" className="text-2xl font-bold">Yaklaşan etkinlikler</h2>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {digerleri.map((e) => <EtkinlikKarti key={e.id} e={e} />)}
+              {digerleri.length === 0 && <p className="text-ink-muted">Bu seçime uyan etkinlik yok.</p>}
+            </div>
+          </section>
         </div>
       )}
+
+      <Arsiv uygun={uygun} />
     </div>
   );
 }

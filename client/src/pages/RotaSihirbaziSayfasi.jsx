@@ -18,6 +18,7 @@ export default function RotaSihirbaziSayfasi() {
   const [gun, setGun] = useState(2);
   const [ilgiler, setIlgiler] = useState([]);
   const [erisilebilir, setErisilebilir] = useState(tercih);
+  const [yemek, setYemek] = useState(true);
   const [olusturuluyor, setOlusturuluyor] = useState(false);
   const [hata, setHata] = useState('');
 
@@ -27,7 +28,7 @@ export default function RotaSihirbaziSayfasi() {
     setHata('');
     setOlusturuluyor(true);
     try {
-      const plan = await api.planGunluk({ gunSayisi: gun, ilgiler, erisilebilir });
+      const plan = await api.planGunluk({ gunSayisi: gun, ilgiler, erisilebilir, yemek });
       sonPlanKaydet(plan.id);
       navigate(`/plan/${plan.id}`);
     } catch (e) {
@@ -79,6 +80,14 @@ export default function RotaSihirbaziSayfasi() {
             <p className="mb-0 mt-2 text-xs text-ink-faint">Atölyeler önceden kayıt ister; plandaki saatler yaklaşıktır.</p>
           )}
         </fieldset>
+
+        <label className="flex min-h-[44px] cursor-pointer items-center gap-3 rounded-[14px] border border-hairline bg-surface-raised px-4 py-3">
+          <input type="checkbox" checked={yemek} onChange={(e) => setYemek(e.target.checked)} className="h-5 w-5 accent-[rgb(var(--accent))]" />
+          <span>
+            <span className="block font-semibold text-heading">Öğle yemeği molası</span>
+            <span className="block text-xs text-ink-faint">Günün ortasına, yakındaki bir Kültür Yolu Festivali lezzet noktası eklenir (1 saat).</span>
+          </span>
+        </label>
 
         <label className="flex min-h-[44px] cursor-pointer items-center gap-3 rounded-[14px] border border-hairline bg-surface-raised px-4 py-3">
           <input type="checkbox" checked={erisilebilir} onChange={(e) => setErisilebilir(e.target.checked)} className="h-5 w-5 accent-[rgb(var(--success))]" />

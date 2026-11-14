@@ -41,6 +41,7 @@ export const MEKAN_TURU = {
   edebiyat: 'Edebiyat',
   sahne: 'Sahne',
   mekan: 'Mekan',
+  lezzet: 'Lezzet noktası',
 };
 
 export const ZANAAT = {

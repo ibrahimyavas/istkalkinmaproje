@@ -19,6 +19,7 @@ const FILTRELER = [
   ['atolye', 'Atölyeler'],
   ['miras', 'Tarihi miras'],
   ['film-edebiyat', 'Dizi, film ve edebiyat'],
+  ['lezzet', 'Lezzet noktaları'],
 ];
 
 export default function SemtSayfasi() {
@@ -30,7 +31,8 @@ export default function SemtSayfasi() {
 
   const mekanlar = useMemo(() => {
     if (!veri) return [];
-    if (filtre === 'hepsi') return veri.mekanlar;
+    // "Hepsi" kültür mekanlarını gösterir; lezzet noktaları kendi filtresinde.
+    if (filtre === 'hepsi') return veri.mekanlar.filter((m) => m.tur !== 'lezzet');
     if (filtre === 'film-edebiyat') return veri.mekanlar.filter((m) => m.tur === 'film' || m.tur === 'edebiyat');
     if (filtre === 'miras') return veri.mekanlar.filter((m) => ['miras', 'muze', 'carsi', 'sahne'].includes(m.tur));
     return veri.mekanlar.filter((m) => m.tur === filtre);
@@ -85,7 +87,7 @@ export default function SemtSayfasi() {
               onClick={() => setFiltre(v)}
               className={filtre === v ? 'btn-ana' : 'btn-ikincil'}
             >
-              {ad}
+              {ad}{v === 'lezzet' ? ` (${veri.mekanlar.filter((m) => m.tur === 'lezzet').length})` : ''}
             </button>
           ))}
         </div>

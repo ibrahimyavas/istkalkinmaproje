@@ -12,6 +12,7 @@
 
 import { mekanDetaylari } from './mekanDetaylari.js';
 import { mekanGorselleri } from './mekanGorselleri.js';
+import { lezzetNoktalari } from './lezzetNoktalari.js';
 
 const bilinmiyor = null;
 
@@ -258,13 +259,17 @@ const hamMekanlar = [
 // Wikipedia görsel yenilemesi bunlara görsel atamaz (wikimediaService.gorselBasligi).
 const WIKI_GORSELI_UYGUN_DEGIL = new Set(['baris-manco-evi', 'sait-faik-muzesi', 'kadikoy-carsi', 'moda-sahili', 'aya-yani', 'kalpazankaya']);
 
-export const mekanlar = hamMekanlar.map((m) => ({
-  ...m,
-  detay: mekanDetaylari[m.id] || null,
-  ...(WIKI_GORSELI_UYGUN_DEGIL.has(m.id) ? { gorselMaddesi: null } : {}),
-  // Kapak görseli tohumda hazır gelir (canlıda "Fotoğrafları yenile"ye gerek kalmasın).
-  ...(mekanGorselleri[m.id] ? { gorsel: mekanGorselleri[m.id] } : {}),
-}));
+export const mekanlar = [
+  ...hamMekanlar.map((m) => ({
+    ...m,
+    detay: mekanDetaylari[m.id] || null,
+    ...(WIKI_GORSELI_UYGUN_DEGIL.has(m.id) ? { gorselMaddesi: null } : {}),
+    // Kapak görseli tohumda hazır gelir (canlıda "Fotoğrafları yenile"ye gerek kalmasın).
+    ...(mekanGorselleri[m.id] ? { gorsel: mekanGorselleri[m.id] } : {}),
+  })),
+  // Kültür Yolu Festivali lezzet noktaları (scripts/lezzet-noktalari.js). Wikipedia görseli aranmaz.
+  ...lezzetNoktalari.map((m) => ({ ...m, detay: null, gorselMaddesi: null })),
+];
 
 export const zanaatlar = {
   ebru: 'Ebru',

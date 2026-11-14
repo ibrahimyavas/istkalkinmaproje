@@ -30,7 +30,8 @@ r.get('/kesfet', wrap(async (req, res) => {
   const erisilebilir = req.query.erisilebilir === '1';
   let list = await mekanRepo.list();
   if (semtIdler.length) list = list.filter((m) => semtIdler.includes(m.semtId));
-  if (turler.length) list = list.filter((m) => turler.includes(m.tur));
+  // Lezzet noktaları yalnızca açıkça seçilirse gelir (desteyi restoranlar doldurmasın).
+  list = turler.length ? list.filter((m) => turler.includes(m.tur)) : list.filter((m) => m.tur !== 'lezzet');
   if (erisilebilir) list = list.filter((m) => !atlanirMi(m));
 
   const gruplar = new Map();
@@ -82,7 +83,7 @@ r.post('/plan/gunluk', planSiniri, wrap(async (req, res) => {
     mekanRepo.list(), semtRepo.list(), durakRepo.list(), toplanmaRepo.list(),
   ]);
   const hesap = await cokGunluPlanOlustur(mekanlar, { semtler, duraklar, toplanma }, {
-    gunSayisi, turler, erisilebilir: Boolean(b.erisilebilir),
+    gunSayisi, turler, erisilebilir: Boolean(b.erisilebilir), yemek: b.yemek === true,
   });
   if (!hesap.gunler.length) return bad(res, 'Bu seçimlerle uygun yer bulunamadı; ilgi alanlarını genişletin');
   const plan = await planRepo.create({ secilenIdler: hesap.duraklar.map((d) => d.id), ...hesap });
