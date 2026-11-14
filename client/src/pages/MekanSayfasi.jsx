@@ -10,6 +10,7 @@ import SiirKarti from '../components/kultur/SiirKarti.jsx';
 import EtkinlikKarti from '../components/kultur/EtkinlikKarti.jsx';
 import Simge from '../components/common/Simge.jsx';
 import { FotoEkleFormu } from '../components/foto/FotoAlanlari.jsx';
+import YorumBolumu from '../components/mekan/Yorumlar.jsx';
 import { MEKAN_TURU, ZANAAT, DURAK_TURU, mesafeYaz, yolTarifiUrl } from '../lib/harita.js';
 
 const HaritaGorunumu = lazy(() => import('../components/harita/HaritaGorunumu.jsx'));
@@ -155,6 +156,8 @@ export default function MekanSayfasi() {
           <div className="mt-4 grid gap-4 sm:grid-cols-2">{etkinlikler.map((e) => <EtkinlikKarti key={e.id} e={e} />)}</div>
         </section>
       )}
+
+      <YorumBolumu mekan={m} />
 
       <section aria-labelledby="galeri-baslik" className="mt-10 grid gap-6 md:grid-cols-[1.4fr_1fr]">
         <div>

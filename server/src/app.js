@@ -8,6 +8,7 @@ import adminRoutes from './routes/admin.js';
 import sosyalRoutes from './routes/sosyal.js';
 import fotografRoutes from './routes/fotograf.js';
 import uzmanRoutes from './routes/uzman.js';
+import yorumRoutes from './routes/yorum.js';
 import { arkaUc, hazirla } from './repositories/index.js';
 
 const uretim = process.env.NODE_ENV === 'production' || Boolean(process.env.VERCEL);
@@ -44,6 +45,7 @@ app.use('/api', (req, res, next) => {
 app.use('/api/admin', adminRoutes);
 app.use('/api/uzman', uzmanRoutes);
 app.use('/api', fotografRoutes);
+app.use('/api', yorumRoutes);
 app.use('/api', sosyalRoutes);
 app.use('/api', publicRoutes);
 

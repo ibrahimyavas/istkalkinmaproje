@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, Navigate, Route, Routes } from 'react-router-dom';
-import { BarChart3, Inbox, ClipboardList, FileText, QrCode, Settings, LogOut, KeyRound, Users, Camera, BadgeCheck } from 'lucide-react';
+import { BarChart3, Inbox, ClipboardList, FileText, QrCode, Settings, LogOut, KeyRound, Users, Camera, BadgeCheck, Star } from 'lucide-react';
 import Fotograflar from './Fotograflar.jsx';
+import Yorumlar from './Yorumlar.jsx';
 import Uzmanlar from './Uzmanlar.jsx';
 import clsx from 'clsx';
 import { api, hataMesaji } from '../../services/api.js';
@@ -17,6 +18,7 @@ const SEKMELER = [
   { to: 'bildirimler', ad: 'Bildirimler', ikon: Inbox },
   { to: 'talepler', ad: 'Atölye talepleri', ikon: ClipboardList },
   { to: 'gruplar', ad: 'Gruplar', ikon: Users },
+  { to: 'yorumlar', ad: 'Yorumlar', ikon: Star },
   { to: 'fotograflar', ad: 'Fotoğraflar', ikon: Camera },
   { to: 'uzmanlar', ad: 'Uzmanlar', ikon: BadgeCheck },
   { to: 'icerik', ad: 'İçerik', ikon: FileText },
@@ -88,6 +90,7 @@ export default function AdminSayfasi() {
           <Route path="bildirimler" element={<Bildirimler />} />
           <Route path="talepler" element={<Talepler />} />
           <Route path="gruplar" element={<Gruplar />} />
+          <Route path="yorumlar" element={<Yorumlar />} />
           <Route path="fotograflar" element={<Fotograflar />} />
           <Route path="uzmanlar" element={<Uzmanlar />} />
           <Route path="icerik" element={<Icerik />} />

@@ -18,7 +18,7 @@ export const TOHUM_SURUMU = '2026-11-14.4'; // .4: mekan kapak görselleri tohum
 
 const KOLEKSIYONLAR = [
   'semtler', 'mekanlar', 'rotalar', 'duraklar', 'toplanma', 'siirler', 'etkinlikler',
-  'dunBugun', 'gruplar', 'planlar', 'bildirimler', 'talepler', 'fotograflar', 'uzmanlar',
+  'dunBugun', 'gruplar', 'planlar', 'bildirimler', 'talepler', 'fotograflar', 'uzmanlar', 'yorumlar',
 ];
 
 let havuz;
@@ -264,6 +264,8 @@ export const olayRepo = {
 };
 
 // Fotoğraflar: üst veri `kayitlar`da (koleksiyon 'fotograflar'), dosya `foto_dosyalari`nda.
+export const yorumRepo = collection('yorumlar', { prefix: 'yorum' });
+
 export const fotoRepo = {
   ...collection('fotograflar', { prefix: 'foto' }),
   async create(meta, { mime, buffer }) {

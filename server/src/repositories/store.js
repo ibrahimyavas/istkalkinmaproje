@@ -40,6 +40,7 @@ export function seedState() {
     talepler: [],
     olaylar: [],
     fotograflar: [],
+    yorumlar: [],
     fotoDosyalari: {}, // id → { mime, base64 }
     uzmanlar: [],
     ayarlar: { ai: { saglayici: '', model: '', apiAnahtari: '' }, here: { apiAnahtari: '' } },

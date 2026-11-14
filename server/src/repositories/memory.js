@@ -55,6 +55,7 @@ function collection(name, { prefix = name, editable = true } = {}) {
 }
 
 export const semtRepo = collection('semtler', { editable: false });
+export const yorumRepo = collection('yorumlar', { prefix: 'yorum' });
 export const mekanRepo = {
   ...collection('mekanlar', { prefix: 'mekan' }),
   async getByDamgaKodu(kod) {

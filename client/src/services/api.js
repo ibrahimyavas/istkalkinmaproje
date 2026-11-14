@@ -27,6 +27,7 @@ export const api = {
     data(http.get('/kesfet', { params: { semtIdler: semtIdler.join(','), turler: turler.join(','), erisilebilir: erisilebilir ? 1 : 0 } })),
   kesfetOlay: (mekanId, karar) => http.post('/kesfet/olay', { mekanId, karar }).catch(() => {}),
   planOlustur: (body) => data(http.post('/plan', body)),
+  planGunluk: (body) => data(http.post('/plan/gunluk', body, { timeout: 60000 })),
   plan: (id) => data(http.get(`/plan/${id}`)),
 
   gruplar: (params) => data(http.get('/gruplar', { params })),
@@ -37,6 +38,9 @@ export const api = {
   grupYonetim: (id, anahtar) => data(http.get(`/gruplar/${id}/yonetim`, { headers: { 'X-Yonetim-Anahtari': anahtar } })),
   grupIptal: (id, anahtar) => data(http.post(`/gruplar/${id}/iptal`, {}, { headers: { 'X-Yonetim-Anahtari': anahtar } })),
 
+  yorumlar: (mekanId) => data(http.get(`/mekanlar/${mekanId}/yorumlar`)),
+  yorumGonder: (mekanId, body) => data(http.post(`/mekanlar/${mekanId}/yorumlar`, body)),
+  yorumSikayet: (id, neden) => data(http.post(`/yorumlar/${id}/sikayet`, { neden })),
   fotoYukle: (body) => data(http.post('/fotograflar', body, { timeout: 60000 })),
   rotaYazdir: (id, erisilebilir) => data(http.get(`/rotalar/${id}/yazdir`, { params: { erisilebilir: erisilebilir ? 1 : 0 } })),
   planYazdir: (id) => data(http.get(`/plan/${id}/yazdir`)),
@@ -59,6 +63,9 @@ export const api = {
     fotograflar: (durum) => data(http.get('/admin/fotograflar', { params: { durum } })),
     fotoDurum: (id, durum) => data(http.patch(`/admin/fotograflar/${id}`, { durum })),
     fotoSil: (id) => data(http.delete(`/admin/fotograflar/${id}`)),
+    yorumlar: (durum) => data(http.get('/admin/yorumlar', { params: { durum } })),
+    yorumDurum: (id, durum) => data(http.patch(`/admin/yorumlar/${id}`, { durum })),
+    yorumSil: (id) => data(http.delete(`/admin/yorumlar/${id}`)),
     fotoKapak: (id) => data(http.post(`/admin/fotograflar/${id}/kapak`)),
     fotolariYenile: () => data(http.post('/admin/fotograflar/yenile', {}, { timeout: 60000 })),
     uzmanlar: () => data(http.get('/admin/uzmanlar')),

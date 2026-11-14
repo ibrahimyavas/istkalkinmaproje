@@ -41,56 +41,12 @@ function RotaCizimi({ geometri, sinirlar, duraklar }) {
   );
 }
 
-export default function YazdirSayfasi({ tur }) {
-  const { id } = useParams();
-  const { erisilebilir } = useTercihler();
-  const { veri: v, yukleniyor, hata, yenile } = useApi(
-    () => (tur === 'plan' ? api.planYazdir(id) : api.rotaYazdir(id, erisilebilir)),
-    [id, tur, erisilebilir],
-  );
-  const [qr, setQr] = useState(null);
-  const cevrimici = `${window.location.origin}/${tur === 'plan' ? 'plan' : 'rota'}/${id}`;
-
-  useEffect(() => {
-    QRCode.toDataURL(cevrimici, { margin: 1, width: 220 }).then(setQr).catch(() => {});
-  }, [cevrimici]);
-
-  if (yukleniyor) return <Yukleniyor metin="Yazdırma sayfası hazırlanıyor…" />;
-  if (hata) return <HataKutusu metin={hata} yenile={yenile} />;
-
-  const baslik = tur === 'plan' ? `${v.duraklar.length} duraklı kişisel rota` : v.rota.ad;
-  const aktif = v.duraklar.filter((d) => !d.atlanabilir);
-  const ozet = tur === 'plan'
-    ? [['Yürüyüş', mesafeYazTr(v.toplam.yurumeM)], ['Yürüme', sureYaz(v.toplam.yurumeDk)], ['Ziyaret', sureYaz(v.toplam.ziyaretDk)], ['Toplam', sureYaz(v.toplam.tahminiToplamDk)]]
-    : [['Yürüyüş', mesafeYazTr(v.mesafeM)], ['Süre', `${v.sureDk} dk`], ['Zorluk', ZORLUK[v.zorluk]?.ad || v.zorluk], ['Merdiven', v.merdivenM != null ? `${v.merdivenM} m` : '—']];
-
+/** Özet kutuları, rota çizimi ve durak listesi (tek gün ya da tek rota). */
+function Bolum({ b, tur }) {
   return (
-    <div className="yazdir-sayfa mx-auto max-w-[820px] bg-surface px-6 py-8 text-ink print:max-w-none print:p-0">
-      <div className="no-print mb-6 flex flex-wrap items-center justify-between gap-3">
-        <Link to={tur === 'plan' ? `/plan/${id}` : `/rota/${id}`} className="inline-flex items-center gap-1 font-semibold"><Simge ad="arrow_back" />Rotaya dön</Link>
-        <button type="button" onClick={() => window.print()} className="btn-ana"><Simge ad="print" />Yazdır / PDF olarak kaydet</button>
-      </div>
-
-      <header className="flex items-start justify-between gap-6 border-b-2 border-[#0A2540] pb-4">
-        <div>
-          <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[.08em] text-[#C84B26]">
-            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#0A2540] text-[11px] text-white">404</span>
-            Proje 404 · İstanbul {tur === 'plan' ? 'kişisel rota' : 'hikâye rotası'}
-          </div>
-          <h1 className="mb-0 mt-2 font-display text-3xl font-bold leading-tight text-[#0A2540]">{baslik}</h1>
-          {tur !== 'plan' && <p className="mb-0 mt-1 text-ink-muted">{v.semt?.ad} · {v.rota.ozet}</p>}
-          {v.erisilebilir && <p className="mb-0 mt-1 text-sm font-semibold text-[#1B8755]">Erişilebilir mod: merdivenli ve dik yokuşlu duraklar çıkarıldı.</p>}
-        </div>
-        {qr && (
-          <figure className="m-0 shrink-0 text-center">
-            <img src={qr} alt="Rotanın çevrim içi sürümüne giden QR kod" className="h-24 w-24" />
-            <figcaption className="text-[10px] text-ink-faint">Güncel sürüm ve sesli rehber</figcaption>
-          </figure>
-        )}
-      </header>
-
+    <>
       <dl className="my-5 grid grid-cols-4 gap-3">
-        {ozet.map(([e, d]) => (
+        {b.ozet.map(([e, d]) => (
           <div key={e} className="rounded-[10px] border border-hairline p-2.5 text-center">
             <dt className="text-[11px] font-semibold text-ink-faint">{e}</dt>
             <dd className="m-0 font-display text-base font-bold text-[#0A2540]">{d}</dd>
@@ -98,18 +54,18 @@ export default function YazdirSayfasi({ tur }) {
         ))}
       </dl>
 
-      {v.sadeGeometri && v.sinirlar && (
+      {b.sadeGeometri && b.sinirlar && (
         <section className="mb-6 break-inside-avoid">
-          <RotaCizimi geometri={v.sadeGeometri} sinirlar={v.sinirlar} duraklar={aktif.map((d, i) => ({ ...d, sira: i + 1 }))} />
+          <RotaCizimi geometri={b.sadeGeometri} sinirlar={b.sinirlar} duraklar={b.aktif.map((d, i) => ({ ...d, sira: i + 1 }))} />
           <p className="mb-0 mt-1 text-[10px] text-ink-faint">
-            Çizim ölçeklidir, harita değildir. {v.geometriKaynagi === 'valhalla' ? 'Güzergâh OpenStreetMap verisiyle hesaplandı.' : 'Güzergâh yaklaşıktır.'} Harita verisi © OpenStreetMap katkıcıları.
+            Çizim ölçeklidir, harita değildir. {b.geometriKaynagi === 'valhalla' ? 'Güzergâh OpenStreetMap verisiyle hesaplandı.' : 'Güzergâh yaklaşıktır.'} Harita verisi © OpenStreetMap katkıcıları.
           </p>
         </section>
       )}
 
       <ol className="m-0 list-none p-0">
-        {aktif.map((d, i) => {
-          const bacak = tur === 'plan' ? v.bacaklar?.[i] : null;
+        {b.aktif.map((d, i) => {
+          const bacak = tur === 'plan' ? b.bacaklar?.[i] : null;
           return (
             <li key={d.id} className="break-inside-avoid border-b border-hairline py-4 last:border-0">
               <div className="flex items-start gap-3">
@@ -141,6 +97,73 @@ export default function YazdirSayfasi({ tur }) {
           );
         })}
       </ol>
+
+    </>
+  );
+}
+
+export default function YazdirSayfasi({ tur }) {
+  const { id } = useParams();
+  const { erisilebilir } = useTercihler();
+  const { veri: v, yukleniyor, hata, yenile } = useApi(
+    () => (tur === 'plan' ? api.planYazdir(id) : api.rotaYazdir(id, erisilebilir)),
+    [id, tur, erisilebilir],
+  );
+  const [qr, setQr] = useState(null);
+  const semtler = useApi(() => api.semtler(), []);
+  const cevrimici = `${window.location.origin}/${tur === 'plan' ? 'plan' : 'rota'}/${id}`;
+
+  useEffect(() => {
+    QRCode.toDataURL(cevrimici, { margin: 1, width: 220 }).then(setQr).catch(() => {});
+  }, [cevrimici]);
+
+  if (yukleniyor) return <Yukleniyor metin="Yazdırma sayfası hazırlanıyor…" />;
+  if (hata) return <HataKutusu metin={hata} yenile={yenile} />;
+
+  const baslik = tur !== 'plan' ? v.rota.ad
+    : v.gunler ? `${v.gunler.length} günlük şehir rotası` : `${v.duraklar.length} duraklı kişisel rota`;
+  const semtAd = (sid) => semtler.veri?.find((s) => s.id === sid)?.ad || sid;
+  const bolumOf = (x) => ({
+    ...x,
+    aktif: x.duraklar.filter((d) => !d.atlanabilir),
+    ozet: tur === 'plan'
+      ? [['Yürüyüş', mesafeYazTr(x.toplam.yurumeM)], ['Yürüme', sureYaz(x.toplam.yurumeDk)], ['Ziyaret', sureYaz(x.toplam.ziyaretDk)], ['Toplam', sureYaz(x.toplam.tahminiToplamDk)]]
+      : [['Yürüyüş', mesafeYazTr(x.mesafeM)], ['Süre', `${x.sureDk} dk`], ['Zorluk', ZORLUK[x.zorluk]?.ad || x.zorluk], ['Merdiven', x.merdivenM != null ? `${x.merdivenM} m` : '—']],
+  });
+
+  return (
+    <div className="yazdir-sayfa mx-auto max-w-[820px] bg-surface px-6 py-8 text-ink print:max-w-none print:p-0">
+      <div className="no-print mb-6 flex flex-wrap items-center justify-between gap-3">
+        <Link to={tur === 'plan' ? `/plan/${id}` : `/rota/${id}`} className="inline-flex items-center gap-1 font-semibold"><Simge ad="arrow_back" />Rotaya dön</Link>
+        <button type="button" onClick={() => window.print()} className="btn-ana"><Simge ad="print" />Yazdır / PDF olarak kaydet</button>
+      </div>
+
+      <header className="flex items-start justify-between gap-6 border-b-2 border-[#0A2540] pb-4">
+        <div>
+          <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[.08em] text-[#C84B26]">
+            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#0A2540] text-[11px] text-white">404</span>
+            Proje 404 · İstanbul {tur === 'plan' ? 'kişisel rota' : 'hikâye rotası'}
+          </div>
+          <h1 className="mb-0 mt-2 font-display text-3xl font-bold leading-tight text-[#0A2540]">{baslik}</h1>
+          {tur !== 'plan' && <p className="mb-0 mt-1 text-ink-muted">{v.semt?.ad} · {v.rota.ozet}</p>}
+          {v.erisilebilir && <p className="mb-0 mt-1 text-sm font-semibold text-[#1B8755]">Erişilebilir mod: merdivenli ve dik yokuşlu duraklar çıkarıldı.</p>}
+        </div>
+        {qr && (
+          <figure className="m-0 shrink-0 text-center">
+            <img src={qr} alt="Rotanın çevrim içi sürümüne giden QR kod" className="h-24 w-24" />
+            <figcaption className="text-[10px] text-ink-faint">Güncel sürüm ve sesli rehber</figcaption>
+          </figure>
+        )}
+      </header>
+
+      {v.gunler ? v.gunler.map((gun) => (
+        <section key={gun.gun} className="mt-6 break-before-page first-of-type:break-before-auto">
+          <h2 className="mb-0 mt-0 border-b border-[#0A2540] pb-1 font-display text-xl font-bold text-[#0A2540]">
+            {gun.gun}. gün <span className="text-sm font-semibold text-ink-muted">· {gun.semtIdler.map(semtAd).join(', ')}</span>
+          </h2>
+          <Bolum tur={tur} b={bolumOf(gun)} />
+        </section>
+      )) : <Bolum tur={tur} b={bolumOf(v)} />}
 
       <footer className="mt-6 border-t-2 border-[#0A2540] pt-3 text-[10px] leading-4 text-ink-faint">
         Proje 404 · {new Date(v.olusturma || Date.now()).toLocaleDateString('tr-TR')} tarihinde yazdırıldı. Acil durumda 112'yi arayın.

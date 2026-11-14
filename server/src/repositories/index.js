@@ -10,5 +10,5 @@ const arka = process.env.DATABASE_URL ? await import('./pg.js') : await import('
 export const {
   arkaUc, hazirla, sifirla,
   semtRepo, mekanRepo, rotaRepo, durakRepo, toplanmaRepo, siirRepo, etkinlikRepo, dunBugunRepo,
-  planRepo, grupRepo, bildirimRepo, talepRepo, olayRepo, ayarRepo, hizRepo, fotoRepo, uzmanRepo,
+  planRepo, grupRepo, bildirimRepo, talepRepo, olayRepo, ayarRepo, hizRepo, fotoRepo, uzmanRepo, yorumRepo,
 } = arka;

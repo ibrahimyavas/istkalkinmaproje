@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import {
   semtRepo, mekanRepo, rotaRepo, siirRepo, etkinlikRepo, dunBugunRepo,
-  bildirimRepo, talepRepo, olayRepo, ayarRepo, grupRepo, fotoRepo, uzmanRepo,
+  bildirimRepo, talepRepo, olayRepo, ayarRepo, grupRepo, fotoRepo, uzmanRepo, yorumRepo,
 } from '../repositories/index.js';
 import { yonetimGrup, anahtarUret, anahtarOzeti } from '../services/grupService.js';
 import { gorselleriYenile } from '../services/wikimediaService.js';
@@ -85,6 +85,36 @@ r.patch('/gruplar/:id', wrap(async (req, res) => {
   const g = await grupRepo.update(req.params.id, { durum });
   if (!g) return res.status(404).json({ hata: 'Bulunamadı' });
   res.json(yonetimGrup(g));
+}));
+
+// ── Yorumlar ────────────────────────────────────────────
+r.get('/yorumlar', wrap(async (req, res) => {
+  const durum = typeof req.query.durum === 'string' ? req.query.durum : undefined;
+  const [list, mekanlar] = await Promise.all([yorumRepo.list({ durum }), mekanRepo.list()]);
+  const mekanAd = new Map(mekanlar.map((m) => [m.id, m.ad]));
+  res.json(list
+    .map((y) => ({ ...y, mekanAd: mekanAd.get(y.mekanId) || y.mekanId, fotoUrl: y.fotoId ? `/api/fotograflar/${y.fotoId}/dosya` : null }))
+    .sort((a, b) => (b.sikayetler?.length || 0) - (a.sikayetler?.length || 0) || b.tarih.localeCompare(a.tarih)));
+}));
+
+r.patch('/yorumlar/:id', wrap(async (req, res) => {
+  const durum = req.body?.durum;
+  if (!['onaylandi', 'reddedildi', 'bekliyor'].includes(durum)) return res.status(400).json({ hata: 'Durum geçersiz' });
+  const once = await yorumRepo.get(req.params.id);
+  if (!once) return res.status(404).json({ hata: 'Bulunamadı' });
+  // Yeniden onaylanan (şikâyetle düşmüş) yorumun şikâyet sayacı sıfırlanır; geçmiş saklanır.
+  const ek = durum === 'onaylandi' && once.sikayetler?.length
+    ? { sikayetler: [], eskiSikayetler: [...(once.eskiSikayetler || []), ...once.sikayetler] }
+    : {};
+  const y = await yorumRepo.update(once.id, { durum, inceleme: new Date().toISOString(), ...ek });
+  // Yorumla gelen fotoğraf yorumla birlikte onaylanır ya da reddedilir.
+  if (y.fotoId && durum !== 'bekliyor') await fotoRepo.update(y.fotoId, { durum, inceleme: new Date().toISOString() });
+  res.json(y);
+}));
+
+r.delete('/yorumlar/:id', wrap(async (req, res) => {
+  if (!(await yorumRepo.remove(req.params.id))) return res.status(404).json({ hata: 'Bulunamadı' });
+  res.status(204).end();
 }));
 
 // ── Fotoğraflar ─────────────────────────────────────────

@@ -4,6 +4,7 @@ import {
   semtRepo, mekanRepo, rotaRepo, durakRepo, toplanmaRepo, planRepo, grupRepo, olayRepo,
 } from '../repositories/index.js';
 import { planOlustur, PLAN_AZAMI_DURAK } from '../services/planService.js';
+import { cokGunluPlanOlustur, GUN_AZAMI, TURLER } from '../services/gunPlanService.js';
 import {
   grupGirdisi, publicGrup, yonetimGrup, anahtarUret, anahtarOzeti, anahtarDogruMu, katilabilirMi,
 } from '../services/grupService.js';
@@ -69,6 +70,26 @@ r.post('/plan', planSiniri, wrap(async (req, res) => {
   res.status(201).json(plan);
 }));
 
+// Gün sayısına göre şehir geneli rota (rota sihirbazı).
+r.post('/plan/gunluk', planSiniri, wrap(async (req, res) => {
+  const b = req.body || {};
+  const gunSayisi = Number(b.gunSayisi);
+  if (!Number.isInteger(gunSayisi) || gunSayisi < 1 || gunSayisi > GUN_AZAMI) return bad(res, `Gün sayısı 1 ile ${GUN_AZAMI} arasında olmalı`);
+  const turler = [...new Set(Array.isArray(b.ilgiler) ? b.ilgiler.map(String) : [])];
+  if (turler.some((t) => !TURLER.includes(t))) return bad(res, 'İlgi alanlarından biri geçersiz');
+
+  const [mekanlar, semtler, duraklar, toplanma] = await Promise.all([
+    mekanRepo.list(), semtRepo.list(), durakRepo.list(), toplanmaRepo.list(),
+  ]);
+  const hesap = await cokGunluPlanOlustur(mekanlar, { semtler, duraklar, toplanma }, {
+    gunSayisi, turler, erisilebilir: Boolean(b.erisilebilir),
+  });
+  if (!hesap.gunler.length) return bad(res, 'Bu seçimlerle uygun yer bulunamadı; ilgi alanlarını genişletin');
+  const plan = await planRepo.create({ secilenIdler: hesap.duraklar.map((d) => d.id), ...hesap });
+  await olayRepo.record('plan_olusturma', { planId: plan.id, durak: hesap.duraklar.length, gun: hesap.gunler.length, erisilebilir: hesap.erisilebilir });
+  res.status(201).json(plan);
+}));
+
 r.get('/plan/:id', wrap(async (req, res) => {
   const plan = await planRepo.get(req.params.id);
   if (!plan) return bad(res, 'Plan bulunamadı', 404);
@@ -87,8 +108,23 @@ r.get('/plan/:id/yazdir', wrap(async (req, res) => {
     kaynak: mekanlar[i]?.kaynak || null,
   }));
   await olayRepo.record('plan_yazdirma', { planId: plan.id });
+  // Çok günlü planda her gün kendi çizimi ve bacaklarıyla ayrı sayfada basılır.
+  const gunler = plan.gunler?.map((g) => {
+    const gd = duraklar.filter((d) => d.gun === g.gun);
+    return {
+      gun: g.gun,
+      semtIdler: g.semtIdler,
+      toplam: g.toplam,
+      bacaklar: g.bacaklar,
+      geometriKaynagi: g.geometriKaynagi,
+      sadeGeometri: sadeGeometri(g.geometri),
+      sinirlar: sinirKutusu(g.geometri, gd),
+      duraklar: gd,
+    };
+  }) || null;
   res.json({
     tur: 'plan',
+    gunler,
     plan: { id: plan.id, olusturma: plan.olusturma, erisilebilir: plan.erisilebilir },
     toplam: plan.toplam,
     bacaklar: plan.bacaklar,
