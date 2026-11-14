@@ -14,7 +14,7 @@ import { seedState } from './store.js';
 export const arkaUc = 'postgres';
 
 // Kod içindeki tohum veri (data/*.js) değişince artırın.
-export const TOHUM_SURUMU = '2026-11-14.3';
+export const TOHUM_SURUMU = '2026-11-14.4'; // .4: mekan kapak görselleri tohuma eklendi
 
 const KOLEKSIYONLAR = [
   'semtler', 'mekanlar', 'rotalar', 'duraklar', 'toplanma', 'siirler', 'etkinlikler',
@@ -25,7 +25,9 @@ let havuz;
 function pool() {
   if (!havuz) {
     havuz = new pg.Pool({
-      connectionString: process.env.DATABASE_URL,
+      // Neon "sslmode=require" verir; pg bunu zaten verify-full olarak uygular. Açıkça yazmak
+      // davranışı değiştirmez, her bağlantıdaki pg güvenlik uyarısını susturur.
+      connectionString: process.env.DATABASE_URL.replace(/sslmode=(require|prefer|verify-ca)\b/, 'sslmode=verify-full'),
       // Sunucusuz ortamda her örnek az bağlantı tutar (Neon'un havuzlu adresiyle kullanın).
       max: process.env.VERCEL ? 3 : 10,
       idleTimeoutMillis: 10_000,

@@ -11,6 +11,7 @@
 // Erişilebilirlik alanları demoda tahmini; yerinde gözlemle doğrulanacak.
 
 import { mekanDetaylari } from './mekanDetaylari.js';
+import { mekanGorselleri } from './mekanGorselleri.js';
 
 const bilinmiyor = null;
 
@@ -261,6 +262,8 @@ export const mekanlar = hamMekanlar.map((m) => ({
   ...m,
   detay: mekanDetaylari[m.id] || null,
   ...(WIKI_GORSELI_UYGUN_DEGIL.has(m.id) ? { gorselMaddesi: null } : {}),
+  // Kapak görseli tohumda hazır gelir (canlıda "Fotoğrafları yenile"ye gerek kalmasın).
+  ...(mekanGorselleri[m.id] ? { gorsel: mekanGorselleri[m.id] } : {}),
 }));
 
 export const zanaatlar = {
