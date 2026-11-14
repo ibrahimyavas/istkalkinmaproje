@@ -224,3 +224,40 @@ html.buyuk-yazi {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Ana sayfa: bölüm parçaları görünür olunca sırayla yükselir. Betik çalışmazsa içerik görünür kalır
+   (gizleme yalnızca html.acilis-hazir varken uygulanır). */
+html.acilis-hazir .acil {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 640ms cubic-bezier(0.16, 1, 0.3, 1), transform 640ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--gecikme, 0ms);
+}
+html.acilis-hazir .acil.gorundu {
+  opacity: 1;
+  transform: none;
+}
+@keyframes yavas-yakin { from { transform: scale(1.08); } to { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) {
+  html.acilis-hazir .acil { opacity: 1; transform: none; }
+}
+
+/* Kaydırma çubukları: ince, yuvarlak, temaya uyumlu. Chrome/Edge/Safari ::-webkit-scrollbar'ı,
+   Firefox scrollbar-color'ı kullanır (Chrome ikisi birden verilirse webkit stilini yok sayar). */
+:root { --kaydirma: 148 163 184; --kaydirma-ust: 100 116 139; }
+.dark { --kaydirma: 58 71 112; --kaydirma-ust: 90 105 150; }
+.kaydirma-koyu { --kaydirma: 255 255 255 / 0.28; --kaydirma-ust: 255 255 255 / 0.5; }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background-color: rgb(var(--kaydirma));
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover { background-color: rgb(var(--kaydirma-ust)); }
+::-webkit-scrollbar-corner { background: transparent; }
+@supports not selector(::-webkit-scrollbar) {
+  * { scrollbar-width: thin; scrollbar-color: rgb(var(--kaydirma)) transparent; }
+}

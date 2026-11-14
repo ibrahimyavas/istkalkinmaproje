@@ -6,6 +6,7 @@ const SUTUNLAR = [
     baslik: 'Keşfet',
     linkler: [
       ['/#semtler', 'Semtler'],
+      ['/rota-sihirbazi', 'Rota sihirbazı'],
       ['/semt/balat', 'Hikâye rotaları'],
       ['/atolyeler', 'Atölyeler'],
       ['/etkinlikler', 'Etkinlikler'],

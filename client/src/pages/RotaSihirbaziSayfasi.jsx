@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { api, hataMesaji } from '../services/api.js';
 import { useTercihler } from '../context/Tercihler.jsx';
 import { sonPlanKaydet } from '../lib/yerel.js';
@@ -15,7 +15,9 @@ const ILGILER = ['miras', 'muze', 'carsi', 'edebiyat', 'sahne', 'mekan', 'film',
 export default function RotaSihirbaziSayfasi() {
   const navigate = useNavigate();
   const { erisilebilir: tercih } = useTercihler();
-  const [gun, setGun] = useState(2);
+  const [params] = useSearchParams();
+  // Ana sayfadaki gün seçici ?gun=N ile gelir.
+  const [gun, setGun] = useState(() => (GUNLER.includes(Number(params.get('gun'))) ? Number(params.get('gun')) : 2));
   const [ilgiler, setIlgiler] = useState([]);
   const [erisilebilir, setErisilebilir] = useState(tercih);
   const [olusturuluyor, setOlusturuluyor] = useState(false);
