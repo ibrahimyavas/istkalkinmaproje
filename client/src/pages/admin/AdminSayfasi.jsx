@@ -70,7 +70,7 @@ export default function AdminSayfasi() {
           <LogOut size={16} aria-hidden="true" /> Çıkış
         </button>
       </div>
-      <nav aria-label="Yönetim sekmeleri" className="mt-6 flex gap-1 overflow-x-auto border-b border-hairline">
+      <nav aria-label="Yönetim sekmeleri" className="mt-6 flex gap-1 overflow-x-auto">
         {SEKMELER.map(({ to, ad, ikon: Ikon }) => (
           <NavLink
             key={to}

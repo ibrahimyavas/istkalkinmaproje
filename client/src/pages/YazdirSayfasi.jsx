@@ -24,7 +24,7 @@ function RotaCizimi({ geometri, sinirlar, duraklar }) {
   const cizgiler = !geometri ? [] : geometri.type === 'LineString' ? [geometri.coordinates] : geometri.coordinates;
 
   return (
-    <svg viewBox={`0 0 ${G} ${H}`} role="img" aria-label="Rota çizimi" className="w-full rounded-[14px] border border-hairline bg-surface-raised">
+    <svg viewBox={`0 0 ${G} ${H}`} role="img" aria-label="Rota çizimi" className="w-full rounded-[14px] bg-surface-raised">
       {cizgiler.map((c, i) => (
         <polyline key={i} points={c.map((p) => xy(p).join(',')).join(' ')} fill="none" stroke="#C84B26" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
       ))}
@@ -47,7 +47,7 @@ function Bolum({ b, tur }) {
     <>
       <dl className="my-5 grid grid-cols-4 gap-3">
         {b.ozet.map(([e, d]) => (
-          <div key={e} className="rounded-[10px] border border-hairline p-2.5 text-center">
+          <div key={e} className="rounded-[10px] p-2.5 text-center">
             <dt className="text-[11px] font-semibold text-ink-faint">{e}</dt>
             <dd className="m-0 font-display text-base font-bold text-[#0A2540]">{d}</dd>
           </div>
@@ -67,12 +67,12 @@ function Bolum({ b, tur }) {
         {b.aktif.map((d, i) => {
           const bacak = tur === 'plan' ? b.bacaklar?.[i] : null;
           return (
-            <li key={d.id} className="break-inside-avoid border-b border-hairline py-4 last:border-0">
+            <li key={d.id} className="break-inside-avoid py-4 last:border-0">
               <div className="flex items-start gap-3">
                 <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#0A2540] text-sm font-bold text-white">{i + 1}</span>
                 <div className="min-w-0 flex-1">
                   <h2 className="m-0 font-display text-lg font-bold text-[#0A2540]">
-                    {d.ad} <span className="text-[11px] font-semibold uppercase tracking-[.04em] text-[#C84B26]">{turEtiketi(d)}</span>
+                    {d.ad} <span className="text-[13px] font-semibold text-[#C84B26]">{turEtiketi(d)}</span>
                   </h2>
                   {d.anlatim && <p className="mb-0 mt-1.5 italic text-ink-muted">{d.anlatim}</p>}
                   <p className="mb-0 mt-1.5 text-[13px] leading-[21px]">{d.detay?.metin || d.kisa}</p>
@@ -140,7 +140,7 @@ export default function YazdirSayfasi({ tur }) {
 
       <header className="flex items-start justify-between gap-6 border-b-2 border-[#0A2540] pb-4">
         <div>
-          <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[.08em] text-[#C84B26]">
+          <div className="flex items-center gap-2 text-[13px] font-bold text-[#C84B26]">
             <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#0A2540] text-[11px] text-white">404</span>
             Proje 404 · İstanbul {tur === 'plan' ? 'kişisel rota' : 'hikâye rotası'}
           </div>

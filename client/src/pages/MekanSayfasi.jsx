@@ -63,7 +63,7 @@ export default function MekanSayfasi() {
       {(m.gorsel?.url || m.detay) && (
         <div className="mb-6 grid gap-6 md:grid-cols-[1.1fr_1fr]">
           {m.gorsel?.url && (
-            <figure className="m-0 overflow-hidden rounded-[20px] border border-hairline bg-surface shadow-xs">
+            <figure className="m-0 overflow-hidden rounded-[20px] bg-surface">
               <img src={m.gorsel.url} alt={m.ad} className="aspect-[4/3] w-full object-cover" />
               <figcaption className="px-4 py-2 text-[11px] text-ink-faint">
                 {m.gorsel.tur === 'wikimedia' ? (
@@ -176,7 +176,7 @@ export default function MekanSayfasi() {
             <ul className="mt-3 grid list-none grid-cols-2 gap-3 p-0 sm:grid-cols-3">
               {fotograflar.map((f) => (
                 <li key={f.id}>
-                  <figure className="m-0 overflow-hidden rounded-[14px] border border-hairline bg-surface">
+                  <figure className="m-0 overflow-hidden rounded-[14px] bg-surface">
                     <img src={f.url} alt={f.aciklama || `${m.ad} ziyaretçi fotoğrafı`} loading="lazy" className="aspect-square w-full object-cover" />
                     <figcaption className="px-2.5 py-1.5 text-[11px] text-ink-faint">{f.aciklama ? `${f.aciklama} · ` : ''}{f.ad || 'Ziyaretçi'}</figcaption>
                   </figure>

@@ -57,7 +57,7 @@ export default function SemtSayfasi() {
         <ul className="mt-4 grid gap-4 md:grid-cols-2">
           {rotalar.map((r) => (
             <li key={r.id}>
-              <Link to={`/rota/${r.id}`} className="kart group flex items-start gap-4 p-5 transition-colors hover:border-accent">
+              <Link to={`/rota/${r.id}`} className="kart group flex items-start gap-4 p-5 transition-colors">
                 <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-accent text-accent-contrast">
                   <RouteIcon size={22} aria-hidden="true" />
                 </span>
@@ -65,7 +65,7 @@ export default function SemtSayfasi() {
                   <Etiket>{ROTA_TURU[r.tur] || r.tur}</Etiket>
                   <span className="mt-2 block font-display text-xl font-bold leading-snug">{r.ad}</span>
                   <span className="mt-1 block text-ink-muted">{r.ozet}</span>
-                  <span className="mt-2 block font-mono text-xs text-ink-muted">{r.durakSayisi} durak · sesli anlatım</span>
+                  <span className="mt-2 block text-xs text-ink-muted">{r.durakSayisi} durak · sesli anlatım</span>
                 </span>
                 <ChevronRight className="mt-4 text-ink-faint group-hover:text-accent" aria-hidden="true" />
               </Link>

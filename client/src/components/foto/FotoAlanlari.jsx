@@ -34,7 +34,7 @@ export function FotoSecici({ deger, onDegis, etiket = 'Fotoğraf (isteğe bağl�
       <input ref={girdi} id={id} type="file" accept="image/*" capture="environment" onChange={sec} className="sr-only" />
       {deger ? (
         <div className="flex items-center gap-3">
-          <img src={deger.dataUrl} alt="Seçilen fotoğrafın önizlemesi" className="h-20 w-28 rounded-lg border border-hairline object-cover" />
+          <img src={deger.dataUrl} alt="Seçilen fotoğrafın önizlemesi" className="h-20 w-28 rounded-lg object-cover" />
           <div className="flex flex-col gap-1 text-xs text-ink-faint">
             <span>{deger.genislik}×{deger.yukseklik} px · konum bilgisi silindi</span>
             <button type="button" onClick={() => onDegis(null)} className="w-fit font-semibold text-accent underline-offset-4 hover:underline">Kaldır</button>

@@ -31,7 +31,7 @@ export function Bildirimler() {
             <div className="mt-2 flex flex-wrap items-center gap-3 text-xs">
               {b.konum && <a href={`https://www.openstreetmap.org/?mlat=${b.konum.lat}&mlon=${b.konum.lon}#map=18/${b.konum.lat}/${b.konum.lon}`} target="_blank" rel="noreferrer" className="font-semibold">Konumu haritada aç (±{b.konum.dogrulukM ?? '?'} m)</a>}
               {b.enYakinMekan && <span className="text-ink-faint">En yakın mekan: {b.enYakinMekan.ad || b.enYakinMekan.id}</span>}
-              {(b.fotoIdler || []).map((id) => <a key={id} href={`/api/fotograflar/${id}/dosya`} target="_blank" rel="noreferrer"><img src={`/api/fotograflar/${id}/dosya`} alt="Bildirim fotoğrafı" className="h-16 w-20 rounded-md border border-hairline object-cover" /></a>)}
+              {(b.fotoIdler || []).map((id) => <a key={id} href={`/api/fotograflar/${id}/dosya`} target="_blank" rel="noreferrer"><img src={`/api/fotograflar/${id}/dosya`} alt="Bildirim fotoğrafı" className="h-16 w-20 rounded-md object-cover" /></a>)}
             </div>
           )}
           {b.durum === 'bekliyor' && (

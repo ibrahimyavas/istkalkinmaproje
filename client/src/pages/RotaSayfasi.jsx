@@ -168,7 +168,7 @@ export default function RotaSayfasi() {
             return (
               <li key={d.id} className={clsx('kart p-5', d.atlanabilir && 'opacity-60', konusanId === d.id && 'border-accent ring-2 ring-accent/30')}>
                 <div className="flex items-start gap-3">
-                  <span className={clsx('grid h-9 w-9 shrink-0 place-items-center rounded-full font-mono text-sm font-bold', d.atlanabilir ? 'bg-surface-raised text-ink-muted' : 'bg-accent text-accent-contrast')}>
+                  <span className={clsx('grid h-9 w-9 shrink-0 place-items-center rounded-full text-sm font-bold', d.atlanabilir ? 'bg-surface-raised text-ink-muted' : 'bg-accent text-accent-contrast')}>
                     {d.atlanabilir ? '–' : aktif.indexOf(d) + 1}
                   </span>
                   <div className="min-w-0 flex-1">

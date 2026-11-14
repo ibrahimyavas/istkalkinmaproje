@@ -89,10 +89,10 @@ function Deste({ kartlar, semtOf, onKarar, geriAlSinyali, onGeriAl, geriAlinabil
     <>
       <div className="relative aspect-[3/4]">
         {kartlar.length > 2 && (
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-[20px] border border-hairline bg-surface opacity-60" style={{ transform: 'scale(.92) translateY(26px)' }} />
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-[20px] bg-surface opacity-60" style={{ transform: 'scale(.92) translateY(26px)' }} />
         )}
         {alt1 && (
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden rounded-[20px] border border-hairline bg-surface p-4 shadow-xs" style={{ transform: 'scale(.96) translateY(13px)' }}>
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden rounded-[20px] bg-surface p-4" style={{ transform: 'scale(.96) translateY(13px)' }}>
             <KartGorseli m={alt1} />
             <p className="mt-3.5 font-display text-xl font-bold text-heading">{alt1.ad}</p>
           </div>
@@ -116,7 +116,7 @@ function Deste({ kartlar, semtOf, onKarar, geriAlSinyali, onGeriAl, geriAlinabil
             else { setFaz('settle'); setDx(0); }
           }}
           onPointerCancel={() => { baslangic.current = null; setFaz('settle'); setDx(0); }}
-          className="absolute inset-0 flex select-none flex-col overflow-hidden rounded-[20px] border border-hairline bg-surface p-4 shadow-md"
+          className="absolute inset-0 flex select-none flex-col overflow-hidden rounded-[20px] bg-surface p-4 shadow-md"
           style={{
             touchAction: 'pan-y',
             cursor: faz === 'drag' ? 'grabbing' : 'grab',
@@ -137,10 +137,10 @@ function Deste({ kartlar, semtOf, onKarar, geriAlSinyali, onGeriAl, geriAlinabil
           </KartGorseli>
           <div className="mt-3.5 flex items-baseline justify-between gap-2">
             <h2 className="m-0 font-display text-xl font-bold leading-7">{ust.ad}</h2>
-            <span className="whitespace-nowrap text-[11px] font-bold uppercase tracking-[.04em] text-accent">{turEtiketi(ust)}</span>
+            <span className="whitespace-nowrap text-[13px] font-bold text-accent">{turEtiketi(ust)}</span>
           </div>
           <p className="mt-1 line-clamp-4 flex-1 text-ink-faint">{ust.kisa}</p>
-          <div className="flex flex-wrap gap-x-4 gap-y-1.5 border-t border-hairline pt-3 text-xs font-semibold">
+          <div className="flex flex-wrap gap-x-4 gap-y-1.5 pt-3 text-xs font-semibold">
             {ust.tur === 'atolye' && ust.deneyim?.sureDk && (
               <span className="inline-flex items-center gap-1 text-heading"><Simge ad="schedule" boyut={16} />{ust.deneyim.sureDk} dk atölye</span>
             )}
@@ -149,10 +149,10 @@ function Deste({ kartlar, semtOf, onKarar, geriAlSinyali, onGeriAl, geriAlinabil
         </article>
       </div>
       <div role="group" aria-label="Kararın" className="mt-5 grid grid-cols-[1fr_auto_1fr] gap-2">
-        <button type="button" onClick={() => firlat('gec')} className="inline-flex min-h-[52px] items-center justify-center gap-1.5 rounded-[10px] border border-hairline bg-surface text-sm font-semibold text-ink shadow-xs transition hover:bg-surface-raised active:scale-[.98]">
+        <button type="button" onClick={() => firlat('gec')} className="inline-flex min-h-[52px] items-center justify-center gap-1.5 rounded-[10px] bg-surface text-sm font-semibold text-ink transition hover:bg-surface-raised active:scale-[.98]">
           <Simge ad="close" boyut={22} />Geç
         </button>
-        <button type="button" onClick={onGeriAl} disabled={!geriAlinabilir} className="inline-flex min-h-[52px] items-center justify-center gap-1.5 rounded-[10px] border border-dashed border-hairline bg-transparent px-4 text-sm font-semibold text-heading hover:bg-fill/[.08] disabled:cursor-not-allowed disabled:opacity-[.45]">
+        <button type="button" onClick={onGeriAl} disabled={!geriAlinabilir} className="inline-flex min-h-[52px] items-center justify-center gap-1.5 rounded-[10px] bg-heading/[.07] px-4 text-sm font-semibold text-heading hover:bg-fill/[.08] disabled:cursor-not-allowed disabled:opacity-[.45]">
           <Simge ad="undo" boyut={20} />Geri al
         </button>
         <button type="button" onClick={() => firlat('begen')} className="inline-flex min-h-[52px] items-center justify-center gap-1.5 rounded-[10px] bg-accent text-sm font-semibold text-white transition hover:brightness-105 active:scale-[.98]" style={{ boxShadow: '0 1px 3px rgb(var(--accent) / .3)' }}>
@@ -215,7 +215,7 @@ export default function KesfetSayfasi() {
           <div className="panel">
             <h1 className="m-0 font-display text-xl font-semibold leading-7">Sağa kaydır, gideceğin yerleri topla</h1>
             <p className="mb-3 mt-0 text-ink-faint">Beğendiğin yerlerden yürüyüş rotanı biz çıkaralım</p>
-            <div className="flex flex-wrap items-center gap-2 border-t border-hairline-subtle pt-3">
+            <div className="flex flex-wrap items-center gap-2 pt-3">
               <span className="min-w-[40px] text-[11px] font-semibold text-ink-faint">Semt:</span>
               {(semtler.veri || []).map((s) => (
                 <Cip key={s.id} acik={semtIdler.includes(s.id)} onClick={() => degistir(semtIdler, setSemtIdler, s.id)}>{s.ad}</Cip>
@@ -242,7 +242,7 @@ export default function KesfetSayfasi() {
               <p className="m-0 text-center text-xs text-ink-faint">Kartı sürükle ya da klavyede ← geç, → giderim · {k.kartlar.length} kart kaldı</p>
             </div>
           ) : (
-            <div className="flex flex-col items-center gap-2 rounded-[20px] border border-dashed border-hairline bg-surface px-6 py-10 text-center">
+            <div className="flex flex-col items-center gap-2 rounded-[20px] bg-surface px-6 py-10 text-center">
               <Simge ad="style" boyut={40} className="text-ink-faint" />
               <p className="m-0 font-display text-xl font-bold text-heading">Deste bitti</p>
               <p className="m-0 max-w-[44ch] text-ink-faint">Bu filtrelerle gösterilecek yer kalmadı. Filtreleri genişletebilir ya da desteyi yeniden karıştırabilirsin.</p>
@@ -251,18 +251,18 @@ export default function KesfetSayfasi() {
           ))}
         </section>
 
-        <aside aria-labelledby="sec-baslik" className="flex min-w-0 flex-[5_1_340px] flex-col gap-5 rounded-[20px] border border-hairline bg-surface p-6 shadow-xs lg:sticky lg:top-24">
-          <div className="border-b border-hairline pb-4">
+        <aside aria-labelledby="sec-baslik" className="flex min-w-0 flex-[5_1_340px] flex-col gap-5 rounded-[20px] bg-surface p-6 lg:sticky lg:top-24">
+          <div className="pb-4">
             <h2 id="sec-baslik" className="baslik-nokta m-0 font-display text-xl font-semibold leading-7">Gideceğim yerler</h2>
             <p className="mb-0 mt-0.5 text-ink-faint">En az 2, en fazla {AZAMI} yer seçebilirsin</p>
           </div>
-          <div className="grid grid-cols-3 rounded-[14px] border border-hairline-subtle bg-surface-raised p-3 text-center">
+          <div className="grid grid-cols-3 rounded-[14px] bg-surface-raised p-3 text-center">
             <div><span className="block text-[11px] font-semibold text-ink-faint">Seçilen yer</span><span className="font-display text-base font-bold text-heading">{n}</span></div>
-            <div className="border-x border-hairline"><span className="block text-[11px] font-semibold text-ink-faint">Ziyaret süresi</span><span className="font-display text-base font-bold text-heading">{n ? sureYaz(ziyaret) : '—'}</span></div>
+            <div><span className="block text-[11px] font-semibold text-ink-faint">Ziyaret süresi</span><span className="font-display text-base font-bold text-heading">{n ? sureYaz(ziyaret) : '—'}</span></div>
             <div><span className="block text-[11px] font-semibold text-ink-faint">Semt</span><span className="font-display text-base font-bold text-success">{semtSayisi}</span></div>
           </div>
           {n === 0 && (
-            <div className="rounded-[14px] border border-dashed border-hairline p-5 text-center">
+            <div className="rounded-[14px] bg-heading/[.04] p-5 text-center">
               <p className="m-0 font-display text-[15px] font-semibold text-heading">Henüz seçim yok</p>
               <p className="mb-0 mt-0.5 text-[13px] text-ink-faint">Beğendiğin kartı sağa kaydır; burada birikir.</p>
             </div>
@@ -270,7 +270,7 @@ export default function KesfetSayfasi() {
           {n > 0 && (
             <ol className="m-0 grid list-none grid-cols-[minmax(0,1fr)] gap-2 p-0">
               {k.begenilenler.map((m, i) => (
-                <li key={m.id} className="anim-item flex items-center gap-3 rounded-[14px] border border-hairline bg-surface-raised py-2 pl-3 pr-2">
+                <li key={m.id} className="anim-item flex items-center gap-3 rounded-[14px] bg-surface-raised py-2 pl-3 pr-2">
                   <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-fill text-[11px] font-bold text-on-fill">{i + 1}</span>
                   <span className="min-w-0 flex-1">
                     <span className="block truncate font-display text-sm font-semibold text-heading">{m.ad}</span>

@@ -78,7 +78,7 @@ export default function EtkinlikSayfasi() {
                 ['payments', 'Ücret', ucret],
                 ['place', 'Yer', yerMetni(e, mekan) + (e.adres ? ` · ${e.adres}` : '')],
               ].map(([s, et, d]) => (
-                <div key={et} className="flex items-start gap-3 rounded-[14px] border border-hairline bg-surface-raised p-3">
+                <div key={et} className="flex items-start gap-3 rounded-[14px] bg-surface-raised p-3">
                   <Simge ad={s} boyut={20} className="text-accent" />
                   <div><dt className="text-[11px] font-semibold text-ink-faint">{et}</dt><dd className="m-0 font-semibold text-heading">{d}</dd></div>
                 </div>
@@ -107,7 +107,7 @@ export default function EtkinlikSayfasi() {
             <div className="panel flex items-center gap-3.5">
               <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[14px] bg-fill text-on-fill"><Simge ad="workspace_premium" boyut={26} /></span>
               <div>
-                <p className="m-0 text-[11px] font-semibold uppercase tracking-[.06em] text-accent">Düzenleyen uzman</p>
+                <p className="m-0 text-[13px] font-semibold text-accent">Düzenleyen uzman</p>
                 <p className="m-0 font-display text-base font-bold text-heading">{uzman.ad}</p>
                 <p className="m-0 text-[13px] text-ink-faint">{UZMANLIK[uzman.uzmanlik] || uzman.uzmanlik}{uzman.atolyeAdi ? ` · ${uzman.atolyeAdi}` : ''}</p>
               </div>
@@ -115,7 +115,7 @@ export default function EtkinlikSayfasi() {
           )}
         </section>
 
-        <aside className="flex min-w-0 flex-[5_1_320px] flex-col gap-4 rounded-[20px] border border-hairline bg-surface p-6 shadow-xs lg:sticky lg:top-24">
+        <aside className="flex min-w-0 flex-[5_1_320px] flex-col gap-4 rounded-[20px] bg-surface p-6 lg:sticky lg:top-24">
           <h2 className="baslik-nokta m-0 font-display text-xl font-semibold">Kayıt</h2>
           {kontenjan && (
             <div>
@@ -127,7 +127,7 @@ export default function EtkinlikSayfasi() {
           )}
           {kayitEngeli ? (
             <div className="grid gap-3">
-              <p className="m-0 rounded-[14px] border border-dashed border-hairline p-4 text-center font-semibold text-ink-muted">{kayitEngeli}</p>
+              <p className="m-0 rounded-[14px] bg-heading/[.05] p-4 text-center font-semibold text-ink-muted">{kayitEngeli}</p>
               {e.gercek && e.kaynak && (
                 <a href={e.kaynak} target="_blank" rel="noreferrer" className="btn-ana justify-center"><Simge ad="open_in_new" />Kurumun sayfasına git</a>
               )}

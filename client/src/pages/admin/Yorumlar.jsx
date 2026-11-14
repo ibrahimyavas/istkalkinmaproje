@@ -53,7 +53,7 @@ export default function Yorumlar() {
                   <Simge ad="flag" boyut={16} />{y.sikayetler.length} şikâyet: {y.sikayetler.map((s) => NEDEN[s.neden] || s.neden).join(', ')}
                 </p>
               )}
-              {y.fotoUrl && <img src={y.fotoUrl} alt="Yorumla gelen fotoğraf" className="mt-2 h-32 w-auto rounded-[10px] border border-hairline object-cover" loading="lazy" />}
+              {y.fotoUrl && <img src={y.fotoUrl} alt="Yorumla gelen fotoğraf" className="mt-2 h-32 w-auto rounded-[10px] object-cover" loading="lazy" />}
             </div>
             <div className="flex flex-wrap items-start gap-2 sm:flex-col">
               {y.durum !== 'onaylandi' && <button type="button" className="btn-ana min-h-[36px] px-3" onClick={() => islem(() => api.admin.yorumDurum(y.id, 'onaylandi'))}>Onayla</button>}

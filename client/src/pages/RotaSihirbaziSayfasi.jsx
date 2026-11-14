@@ -38,12 +38,12 @@ export default function RotaSihirbaziSayfasi() {
     }
   };
 
-  const etiket = 'mb-2 mt-0 text-[11px] font-bold uppercase tracking-[.06em] text-ink-faint';
+  const etiket = 'mb-2 mt-0 text-[13px] font-bold text-ink-faint';
 
   return (
     <div className="anim-page mx-auto w-full max-w-[760px] flex-1 px-4 py-8 sm:px-8">
-      <section className="flex flex-col gap-7 rounded-[20px] border border-hairline bg-surface p-6 shadow-xs sm:p-8">
-        <div className="border-b border-hairline pb-4">
+      <section className="flex flex-col gap-7 rounded-[20px] bg-surface p-6 sm:p-8">
+        <div className="pb-4">
           <h1 className="baslik-nokta m-0 font-display text-2xl font-semibold leading-8">Rota sihirbazı</h1>
           <p className="mb-0 mt-1 text-ink-faint">
             Kaç gün kalacağını söyle; yerleri yakaya ve mesafeye göre günlere bölelim. Her gün yaklaşık 7 saatlik bir yürüyüş ve ziyaret planı olur.
@@ -82,7 +82,7 @@ export default function RotaSihirbaziSayfasi() {
           )}
         </fieldset>
 
-        <label className="flex min-h-[44px] cursor-pointer items-center gap-3 rounded-[14px] border border-hairline bg-surface-raised px-4 py-3">
+        <label className="flex min-h-[44px] cursor-pointer items-center gap-3 rounded-[14px] bg-surface-raised px-4 py-3">
           <input type="checkbox" checked={erisilebilir} onChange={(e) => setErisilebilir(e.target.checked)} className="h-5 w-5 accent-[rgb(var(--success))]" />
           <span>
             <span className="block font-semibold text-heading">Erişilebilir rota</span>

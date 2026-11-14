@@ -9,7 +9,7 @@ const IKON = { atolye: Palette, film: Film, edebiyat: Feather };
 export default function MekanKarti({ m }) {
   const Ikon = IKON[m.tur] || Landmark;
   return (
-    <Link to={`/mekan/${m.id}`} className="kart group flex items-start gap-3 p-4 transition-colors hover:border-accent">
+    <Link to={`/mekan/${m.id}`} className="kart group flex items-start gap-3 p-4 transition-colors">
       <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-accent-soft text-accent">
         <Ikon size={20} aria-hidden="true" />
       </span>

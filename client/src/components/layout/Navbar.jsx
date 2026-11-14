@@ -28,7 +28,7 @@ function DemoBant() {
       </span>
       <span className="inline-flex items-center gap-3">
         <span className="opacity-80">{bugun()}</span>
-        <span className="rounded-md bg-white/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[.06em]">Şehir keşif rehberi</span>
+        <span className="rounded-md bg-white/10 px-2 py-0.5 text-[12px] font-semibold">Şehir keşif rehberi</span>
       </span>
     </aside>
   );
@@ -80,7 +80,7 @@ function SagMenu({ erisilebilir, setErisilebilir, acik, temaDegistir, temaEtiket
         animate={{ x: 0, opacity: 1 }}
         exit={azHareket ? undefined : { x: 80, opacity: 0 }}
         transition={gecis}
-        className="flex flex-col gap-1 rounded-[18px] border border-hairline bg-surface/95 p-1.5 shadow-md backdrop-blur-md"
+        className="flex flex-col gap-1 rounded-[18px] bg-surface p-1.5 shadow-md"
       >
         {LINKLER.map((l) => (
           <NavLink
@@ -140,13 +140,13 @@ export default function Navbar() {
           <SagMenu key="sag-menu" erisilebilir={erisilebilir} setErisilebilir={setErisilebilir} acik={acik} temaDegistir={temaDegistir} temaEtiketi={temaEtiketi} />
         )}
       </AnimatePresence>
-      <header className={clsx('top-0 z-40 border-b border-hairline bg-surface/95 shadow-xs backdrop-blur-md', kaydirildi ? 'relative' : 'sticky')}>
+      <header className={clsx('top-0 z-40 bg-surface', kaydirildi ? 'relative' : 'sticky')}>
         <div className="mx-auto flex max-w-sayfa flex-wrap items-center justify-between gap-x-6 gap-y-3 px-4 py-2.5 sm:px-8">
           <Link to="/" className="flex min-h-[44px] items-center gap-3 text-left no-underline" aria-label="Proje 404 ana sayfa">
-            <span className="flex h-10 w-10 items-center justify-center rounded-[14px] bg-fill font-display text-base font-bold tracking-[-.3px] text-on-fill shadow-xs">404</span>
+            <span className="flex h-10 w-10 items-center justify-center rounded-[14px] bg-fill font-display text-base font-bold tracking-[-.3px] text-on-fill">404</span>
             <span className="flex items-center gap-2">
               <span className="font-display text-base font-bold leading-5 text-heading">Proje 404</span>
-              <span className="rounded-md border border-hairline bg-fill/[.08] px-1.5 py-0.5 text-[10px] font-bold text-heading">İSTANBUL</span>
+              <span className="rounded-md bg-fill/[.08] px-1.5 py-0.5 text-[12px] font-semibold text-heading">İstanbul</span>
             </span>
           </Link>
 
@@ -158,10 +158,10 @@ export default function Navbar() {
                 end={l.end}
                 className={({ isActive }) =>
                   clsx(
-                    'flex min-h-[44px] items-center rounded-[10px] border px-3.5 no-underline transition-colors',
+                    'flex min-h-[44px] items-center rounded-full px-3.5 no-underline transition-colors',
                     isActive
-                      ? 'border-hairline bg-surface-raised font-semibold text-heading'
-                      : 'border-transparent font-medium text-ink-muted hover:bg-surface-raised hover:text-heading',
+                      ? 'bg-heading/[.07] font-semibold text-heading'
+                      : 'font-medium text-ink-muted hover:bg-heading/[.05] hover:text-heading',
                   )
                 }
               >
@@ -176,10 +176,10 @@ export default function Navbar() {
               aria-pressed={erisilebilir}
               onClick={() => setErisilebilir(!erisilebilir)}
               className={clsx(
-                'inline-flex min-h-[44px] items-center gap-1.5 rounded-lg border px-3.5 text-[13px]',
+                'inline-flex min-h-[44px] items-center gap-1.5 rounded-full px-4 text-[13px] transition-colors active:scale-[.98]',
                 erisilebilir
-                  ? 'border-success bg-success/10 font-semibold text-success'
-                  : 'border-hairline bg-surface font-medium text-ink shadow-xs hover:bg-surface-raised',
+                  ? 'bg-success/15 font-semibold text-success'
+                  : 'bg-heading/[.07] font-medium text-ink hover:bg-accent-soft',
               )}
             >
               <Simge ad="accessible" className={erisilebilir ? '' : 'text-ink-faint'} />
@@ -190,7 +190,7 @@ export default function Navbar() {
               aria-label={temaEtiketi}
               title={temaEtiketi}
               onClick={temaDegistir}
-              className="flex h-11 w-11 items-center justify-center rounded-lg border border-hairline bg-surface text-ink-faint hover:bg-surface-raised hover:text-heading"
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-heading/[.07] text-ink-muted transition-colors hover:bg-accent-soft hover:text-heading"
             >
               <Simge ad={acik ? 'dark_mode' : 'light_mode'} boyut={20} />
             </button>

@@ -9,7 +9,7 @@ export const tarihYaz = (iso) =>
 
 export default function GrupKarti({ g }) {
   return (
-    <Link to={`/grup/${g.id}`} className="kart flex h-full flex-col gap-3 p-4 transition-colors hover:border-accent">
+    <Link to={`/grup/${g.id}`} className="kart flex h-full flex-col gap-3 p-4 transition-colors">
       <div className="flex flex-wrap items-center gap-2">
         {g.erisilebilir && <Etiket className="bg-accent-soft text-accent"><Accessibility size={12} aria-hidden="true" /> Erişilebilir</Etiket>}
         {g.dolu && <Etiket className="bg-danger/15 text-danger">Dolu</Etiket>}

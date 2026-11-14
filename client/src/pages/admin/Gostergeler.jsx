@@ -53,7 +53,7 @@ export default function Gostergeler() {
         {KPI.map(([k, ad]) => (
           <div key={k} className="kart p-4">
             <dt className="eyebrow">{ad}</dt>
-            <dd className="mt-2 font-mono text-3xl font-bold tabular-nums">{g[k].toLocaleString('tr-TR')}</dd>
+            <dd className="mt-2 text-3xl font-bold tabular-nums">{g[k].toLocaleString('tr-TR')}</dd>
           </div>
         ))}
       </dl>

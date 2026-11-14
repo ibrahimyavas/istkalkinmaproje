@@ -28,7 +28,7 @@ export default function Footer() {
   return (
     <footer className="mt-16 bg-navy pb-8 pt-12 text-white">
       <div className="mx-auto max-w-sayfa px-4 sm:px-8">
-        <div className="grid gap-8 border-b border-white/10 pb-10 [grid-template-columns:repeat(auto-fit,minmax(200px,1fr))]">
+        <div className="grid gap-8 pb-10 [grid-template-columns:repeat(auto-fit,minmax(200px,1fr))]">
           <div>
             <div className="mb-3 flex items-center gap-3">
               <span className="flex h-9 w-9 items-center justify-center rounded-[10px] bg-white font-display text-sm font-bold text-[#0A2540]">404</span>
@@ -38,7 +38,7 @@ export default function Footer() {
           </div>
           {SUTUNLAR.map((s) => (
             <div key={s.baslik}>
-              <h3 className="mb-3 font-display text-[13px] font-semibold uppercase tracking-[.06em] text-white">{s.baslik}</h3>
+              <h3 className="mb-3 font-display text-[13px] font-semibold text-white">{s.baslik}</h3>
               <ul className="grid gap-2 text-[13px]">
                 {s.linkler.map(([to, ad]) => (
                   <li key={to}>

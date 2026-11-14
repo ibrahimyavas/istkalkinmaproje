@@ -91,13 +91,13 @@ export default function PlanSayfasi() {
     }
   };
 
-  const ikonDugme = 'flex h-11 w-11 items-center justify-center rounded-lg border border-hairline bg-transparent text-ink-faint hover:bg-surface-raised hover:text-heading';
+  const ikonDugme = 'flex h-11 w-11 items-center justify-center rounded-lg bg-transparent text-ink-faint hover:bg-surface-raised hover:text-heading';
 
   return (
     <div className="anim-page mx-auto w-full max-w-sayfa flex-1 px-4 py-8 sm:px-8">
       <div className="flex flex-wrap items-start gap-8">
-        <section className="flex min-w-0 flex-[5_1_420px] flex-col gap-6 rounded-[20px] border border-hairline bg-surface p-6 shadow-xs">
-          <div className="flex items-start justify-between gap-3 border-b border-hairline pb-4">
+        <section className="flex min-w-0 flex-[5_1_420px] flex-col gap-6 rounded-[20px] bg-surface p-6">
+          <div className="flex items-start justify-between gap-3 pb-4">
             <div>
               <h1 className="baslik-nokta m-0 font-display text-xl font-semibold leading-7">{baslik}</h1>
               <p className="mb-0 mt-0.5 text-ink-faint">{altBaslik}</p>
@@ -148,7 +148,7 @@ export default function PlanSayfasi() {
           )}
 
           <div id="gun-paneli" role={cokGunlu ? 'tabpanel' : undefined} aria-labelledby={cokGunlu ? `gun-sekme-${g.gun}` : undefined} className="flex flex-col gap-6">
-          <dl className="m-0 grid grid-cols-2 gap-px overflow-hidden rounded-[14px] border border-hairline-subtle bg-[rgb(var(--border-subtle))] text-center">
+          <dl className="m-0 grid grid-cols-2 gap-px overflow-hidden rounded-[14px] bg-[rgb(var(--border-subtle))] text-center">
             {rakamlar.map(([etiket, deger]) => (
               <div key={etiket} className="bg-surface-raised p-3">
                 <dt className="text-[11px] font-semibold text-ink-faint">{etiket}</dt>
@@ -168,9 +168,9 @@ export default function PlanSayfasi() {
               <li key={s.id} className="relative">
                 <div className="anim-page relative flex items-start gap-4" style={{ animationDelay: `${Math.min(i * 60, 300)}ms` }}>
                   <span aria-hidden="true" className="relative z-[1] flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-fill text-xs font-bold text-on-fill shadow-[0_0_0_4px_rgb(var(--surface))]">{s.sira}</span>
-                  <div className="min-w-0 flex-1 rounded-[14px] border border-hairline bg-surface-raised p-3.5 transition-colors hover:border-ink-faint">
+                  <div className="min-w-0 flex-1 rounded-[14px] bg-surface-raised p-3.5 transition-colors">
                     <div className="mb-1 flex items-center justify-between gap-2">
-                      <span className="text-[11px] font-bold uppercase tracking-[.04em] text-accent">{s.saat} · {semtAd(s.semtId)}</span>
+                      <span className="text-[13px] font-bold text-accent">{s.saat} · {semtAd(s.semtId)}</span>
                       <span className="text-[11px] font-semibold text-ink-faint">{s.ziyaretDk} dk</span>
                     </div>
                     <h3 className="m-0 font-display text-base font-semibold leading-6">
@@ -214,7 +214,7 @@ export default function PlanSayfasi() {
           </div>
 
           {cokGunlu && p.disarida?.length > 0 && (
-            <details className="rounded-[14px] border border-hairline-subtle bg-surface-raised px-4 py-3 text-[13px]">
+            <details className="rounded-[14px] bg-surface-raised px-4 py-3 text-[13px]">
               <summary className="min-h-[24px] cursor-pointer font-semibold text-heading">
                 {p.disarida.length} yer {p.gunler.length} güne sığmadı
               </summary>
@@ -222,7 +222,7 @@ export default function PlanSayfasi() {
               <ul className="m-0 flex flex-wrap gap-1.5 p-0">
                 {p.disarida.map((m) => (
                   <li key={m.id} className="list-none">
-                    <Link to={`/mekan/${m.id}`} className="inline-flex min-h-[32px] items-center rounded-full border border-hairline bg-surface px-3 text-xs font-medium text-ink no-underline hover:border-accent">{m.ad}</Link>
+                    <Link to={`/mekan/${m.id}`} className="inline-flex min-h-[32px] items-center rounded-full bg-surface px-3 text-xs font-medium text-ink no-underline">{m.ad}</Link>
                   </li>
                 ))}
               </ul>

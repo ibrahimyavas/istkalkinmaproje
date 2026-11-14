@@ -128,7 +128,7 @@ function SikayetDugmesi({ id }) {
         <Simge ad="flag" boyut={16} />Bildir
       </button>
       {acik && (
-        <ul className="absolute right-0 z-10 m-0 mt-1 grid w-56 list-none gap-0.5 rounded-[12px] border border-hairline bg-surface p-1 shadow-md">
+        <ul className="absolute right-0 z-10 m-0 mt-1 grid w-56 list-none gap-0.5 rounded-[12px] bg-surface p-1 shadow-md">
           {SIKAYET.map(([k, ad]) => (
             <li key={k}>
               <button type="button" onClick={() => bildir(k)} className="w-full rounded-lg px-3 py-2 text-left text-[13px] hover:bg-surface-raised">{ad}</button>
@@ -164,7 +164,7 @@ export default function YorumBolumu({ mekan }) {
         ) : (
           <ul className="m-0 mt-3 grid list-none gap-3 p-0">
             {yorumlar.map((y) => (
-              <li key={y.id} className="rounded-[14px] border border-hairline bg-surface p-4">
+              <li key={y.id} className="rounded-[14px] bg-surface p-4">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <span className="flex items-center gap-2">
                     <Yildizlar puan={y.puan} boyut={16} />
@@ -174,7 +174,7 @@ export default function YorumBolumu({ mekan }) {
                   <SikayetDugmesi id={y.id} />
                 </div>
                 <p className="mb-0 mt-2 whitespace-pre-line text-[14px] leading-[22px]">{y.metin}</p>
-                {y.foto && <img src={y.foto.url} alt={`${y.rumuz} tarafından eklenen fotoğraf`} loading="lazy" className="mt-3 h-36 w-auto max-w-full rounded-[10px] border border-hairline object-cover" />}
+                {y.foto && <img src={y.foto.url} alt={`${y.rumuz} tarafından eklenen fotoğraf`} loading="lazy" className="mt-3 h-36 w-auto max-w-full rounded-[10px] object-cover" />}
               </li>
             ))}
           </ul>

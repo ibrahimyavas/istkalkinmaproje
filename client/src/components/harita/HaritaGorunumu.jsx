@@ -147,7 +147,7 @@ export default function HaritaGorunumu({
 
   return (
     <div className="relative">
-      <div ref={kap} role="region" aria-label={etiket} className={`${yukseklik} w-full overflow-hidden rounded-[14px] border border-hairline-subtle`} />
+      <div ref={kap} role="region" aria-label={etiket} className={`${yukseklik} w-full overflow-hidden rounded-[14px]`} />
       {gosterge && <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-ink-muted" aria-label="Harita göstergesi">
         <li className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-full" style={{ background: RENK.mekan }} />Mekan</li>
         <li className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-full" style={{ background: RENK.atolye }} />Atölye</li>

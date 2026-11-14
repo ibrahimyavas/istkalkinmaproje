@@ -211,7 +211,7 @@ function Panel({ onCikis }) {
         <h2 id="kat-baslik" className="baslik-nokta mb-3 mt-0 font-display text-xl font-semibold">Gelen kayıtlar</h2>
         {katilim.veri && katilim.veri.length === 0 && <p className="text-ink-faint">Henüz kayıt yok.</p>}
         {katilim.veri?.length > 0 && (
-          <div className="overflow-x-auto rounded-[14px] border border-hairline bg-surface">
+          <div className="overflow-x-auto rounded-[14px] bg-surface">
             <table className="w-full min-w-[640px] text-left text-[13px]">
               <thead className="border-b border-hairline text-ink-faint">
                 <tr><th className="p-3">Etkinlik</th><th className="p-3">Ad</th><th className="p-3">İletişim</th><th className="p-3">Kişi</th><th className="p-3">Erişilebilirlik ihtiyacı</th></tr>
