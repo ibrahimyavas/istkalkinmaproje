@@ -11,6 +11,7 @@ export const ZANAAT_SIMGE = {
 };
 export const SEMT_SIMGE = {
   sultanahmet: 'mosque', balat: 'church', kuzguncuk: 'cottage', uskudar: 'light', kadikoy: 'directions_boat', burgazada: 'sailing',
+  eyup: 'gondola_lift', beyoglu: 'tram', bogaz: 'castle',
 };
 
 export const simgeOf = (m) => (m.tur === 'atolye' && ZANAAT_SIMGE[m.zanaat]) || TUR_SIMGE[m.tur] || 'place';

@@ -79,7 +79,7 @@ async function maddeDosyalari(basliklar, o) {
 }
 
 /** Dosya adları → { dosya: görsel nesnesi | null (özgür değil / Commons'ta yok) } */
-async function dosyaBilgileri(dosyalar, o) {
+export async function dosyaBilgileri(dosyalar, o) {
   const sonuc = {};
   for (const parti of parcala(dosyalar, PARTI)) {
     const d = await getJson(

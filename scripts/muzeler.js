@@ -30,8 +30,12 @@ const WD = 'https://www.wikidata.org/w/api.php';
 const UA = 'Proje404-veri-betigi/1.0 (tek seferlik icerik aktarimi; Node fetch)';
 const BEKLE_MS = 1000;
 
-const SEMT_YARICAP_M = { sultanahmet: 1000, balat: 1000, kuzguncuk: 800, uskudar: 1000, kadikoy: 1000, burgazada: 1500 };
-const SEMT_ILCE = { sultanahmet: 'Fatih', balat: 'Fatih', kuzguncuk: 'Üsküdar', uskudar: 'Üsküdar', kadikoy: 'Kadıköy', burgazada: 'Adalar' };
+const SEMT_YARICAP_M = { sultanahmet: 1000, balat: 1000, kuzguncuk: 800, uskudar: 1000, kadikoy: 1000, burgazada: 1500, eyup: 1000, beyoglu: 800, bogaz: 900 };
+// Semt birden çok ilçeye yayılabilir (Hasköy Beyoğlu'nda, Rumelihisarı Sarıyer'de).
+const SEMT_ILCE = {
+  sultanahmet: ['Fatih'], balat: ['Fatih'], kuzguncuk: ['Üsküdar'], uskudar: ['Üsküdar'], kadikoy: ['Kadıköy'], burgazada: ['Adalar'],
+  eyup: ['Eyüpsultan', 'Beyoğlu'], beyoglu: ['Beyoğlu'], bogaz: ['Beşiktaş', 'Sarıyer'],
+};
 const AYNI_YER_M = 40; // yalnızca neredeyse aynı nokta; yan yana müzeler (Ayasofya–Aya İrini) ayrı kalır
 
 const { values: arg } = parseArgs({ options: { yenile: { type: 'boolean', default: false }, kuru: { type: 'boolean', default: false } } });
@@ -112,17 +116,19 @@ if (!arg.yenile && fs.existsSync(HAM)) {
 }
 
 // ── Süz ve dönüştür ──────────────────────────────────────
-const kultur = mekanlar.filter((m) => m.tur !== 'atolye');
+// Önceki çalıştırmanın ürettiği müzeler karşılaştırmaya girmez (yoksa yeniden üretimde kendilerini "zaten var" sayarlar).
+const elle = mekanlar.filter((m) => !m.id.startsWith('muze-'));
+const kultur = elle.filter((m) => m.tur !== 'atolye');
 const maddeOf = (url) => { try { return decodeURIComponent(new URL(url).pathname.split('/wiki/')[1] || '').replace(/_/g, ' '); } catch { return ''; } };
-const mevcutMaddeler = new Set(mekanlar.map((m) => maddeOf(m.kaynak)));
+const mevcutMaddeler = new Set(elle.map((m) => maddeOf(m.kaynak)));
 const adAnahtari = (s) => s.toLocaleLowerCase('tr').replace(/\(.*?\)|müzesi|müze|[^a-zçğıöşü0-9]/g, '');
-const mevcutAdlar = new Set(mekanlar.map((m) => adAnahtari(m.ad)));
+const mevcutAdlar = new Set(elle.map((m) => adAnahtari(m.ad)));
 
 function semtBul(n, ilce) {
   let en = null;
   for (const m of kultur) {
     const d = haversine(n, m);
-    if (d <= SEMT_YARICAP_M[m.semtId] && SEMT_ILCE[m.semtId] === ilce && (!en || d < en.d)) en = { semtId: m.semtId, d };
+    if (d <= SEMT_YARICAP_M[m.semtId] && SEMT_ILCE[m.semtId]?.includes(ilce) && (!en || d < en.d)) en = { semtId: m.semtId, d };
   }
   return en?.semtId || null;
 }
@@ -140,7 +146,7 @@ for (const m of ham) {
   if (m.lat == null) { sayac.konumsuz += 1; continue; }
   const semtId = semtBul(m, m.ilce);
   if (!semtId) { sayac.semtDisi += 1; continue; }
-  if (mevcutMaddeler.has(m.madde) || mevcutAdlar.has(adAnahtari(m.ad)) || mekanlar.some((x) => haversine(m, x) < AYNI_YER_M && x.tur !== 'atolye')) { sayac.mevcut += 1; continue; }
+  if (mevcutMaddeler.has(m.madde) || mevcutAdlar.has(adAnahtari(m.ad)) || elle.some((x) => haversine(m, x) < AYNI_YER_M && x.tur !== 'atolye')) { sayac.mevcut += 1; continue; }
   const turMetni = m.tur.length ? m.tur.join(', ').toLocaleLowerCase('tr') : null;
   kayitlar.push({
     id: `muze-${slug(m.ad)}`,

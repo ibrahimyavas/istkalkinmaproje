@@ -9,12 +9,12 @@
 // panelinde yapılan düzenlemeler ezilmez.
 import crypto from 'node:crypto';
 import pg from 'pg';
-import { seedState, KALDIRILAN_TOHUMLAR } from './store.js';
+import { seedState, KALDIRILAN_TOHUMLAR, YENILENEN_TOHUMLAR } from './store.js';
 
 export const arkaUc = 'postgres';
 
 // Kod içindeki tohum veri (data/*.js) değişince artırın.
-export const TOHUM_SURUMU = '2026-11-14.6'; // .6: festival verisi kaldırıldı, Vikipedi müzeleri eklendi
+export const TOHUM_SURUMU = '2026-11-15.1'; // .1: Eyüp, Beyoğlu ve Boğaz semtleri, klasik tur mekanları, yeni müzeler
 
 const KOLEKSIYONLAR = [
   'semtler', 'mekanlar', 'rotalar', 'duraklar', 'toplanma', 'siirler', 'etkinlikler',
@@ -82,7 +82,8 @@ const SEMA = `
 async function tohumla(c) {
   const s = seedState();
   // Koddan kaldırılan tohum kayıtları (izin sorunu nedeniyle çıkarılan festival verisi) silinir.
-  for (const [k, desen] of KALDIRILAN_TOHUMLAR) {
+  // Koddan yönetilen kayıtlar (sergiler) de silinir; aşağıda tohumdaki hâliyle yeniden yazılır.
+  for (const [k, desen] of [...KALDIRILAN_TOHUMLAR, ...YENILENEN_TOHUMLAR]) {
     await c.query('DELETE FROM kayitlar WHERE koleksiyon = $1 AND id LIKE $2', [k, desen]);
   }
   for (const k of KOLEKSIYONLAR) {

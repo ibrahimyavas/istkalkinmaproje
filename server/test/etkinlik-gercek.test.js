@@ -55,3 +55,22 @@ test('veri: festival kayıtları yok; Vikipedi müzeleri kaynak ve Vikiveri kiml
   const etkinlikler = await al('/etkinlikler');
   assert.ok(etkinlikler.every((e) => !e.id.startsWith('kyf-')));
 });
+
+test('veri: Eyüp, Beyoğlu ve Boğaz semtleri klasik tur mekanları ve rotalarıyla geliyor', async () => {
+  const semtler = await al('/semtler');
+  for (const id of ['eyup', 'beyoglu', 'bogaz']) {
+    const s = semtler.find((x) => x.id === id);
+    assert.ok(s, id);
+    assert.equal(s.yaka, 'Avrupa');
+    assert.ok(s.rotaSayisi >= 1 && s.mekanSayisi >= 5, `${id}: ${s.rotaSayisi} rota, ${s.mekanSayisi} mekan`);
+  }
+  const mekanlar = await al('/mekanlar');
+  for (const id of ['galata-kulesi', 'dolmabahce-sarayi', 'eyup-sultan-camii', 'rumelihisari', 'pera-muzesi']) {
+    const m = mekanlar.find((x) => x.id === id);
+    assert.ok(m && m.kaynak.startsWith('https://tr.wikipedia.org/wiki/') && m.dogrulandi === false, id);
+  }
+  // Sergiler artık semtlerine bağlı; İstanbul Modern sergisi mekan kaydına bağlanır.
+  const sergi = (await al('/etkinlikler')).find((e) => e.id === 'sergi-manuel-citak');
+  assert.equal(sergi.semtId, 'beyoglu');
+  assert.equal(sergi.mekanId, 'istanbul-modern');
+});

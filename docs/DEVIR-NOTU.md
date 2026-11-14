@@ -33,7 +33,7 @@ Son güncelleme: 14 Kasım 2026 · son commit `00b9483` (5.1, 5.2, 5.8 yapıldı
 - **Ayrıntılı belgeler:** `docs/DEPLOY.md`, `docs/API-YENI.md`, `docs/EKRANLAR.md`, `README.md`.
 
 ## 4. Mevcut özellikler (canlıda)
-- **Semtler ve rotalar:** 6 semt, 6 hikâye rotası (Valhalla güzergâhı, eğim profili, merdiven bilgisi), sesli rehber (tarayıcı konuşma sentezi).
+- **Semtler ve rotalar:** 9 semt (15 Kasım'da Eyüp–Haliç, Beyoğlu–Galata, Beşiktaş–Boğaz eklendi), 9 hikâye rotası (Valhalla güzergâhı, eğim profili, merdiven bilgisi), sesli rehber (tarayıcı konuşma sentezi).
 - **Erişilebilirlik:** erişilebilir mod; her durakta en yakın toplu taşıma durağı ve deprem toplanma alanı.
 - **Keşfet:** Tinder tarzı kart destesi → kişisel rota optimizasyonu (en yakın komşu + 2-opt, yaka geçişinde vapur/Marmaray önerisi).
 - **Gezinti grupları:** aç, katıl, ayrıl; yönetim anahtarı, kontenjan kilidi, şikâyet bildirimi.
@@ -99,6 +99,15 @@ Son güncelleme: 14 Kasım 2026 · son commit `00b9483` (5.1, 5.2, 5.8 yapıldı
 - **Müzeler:** `scripts/muzeler.js` → `server/src/data/muzeler.js`. Vikipedi "İstanbul'daki müzeler listesi" (99 müze; CC BY-SA, yalnızca ad/ilçe/tür) + Vikiveri (CC0; koordinat P625, resmî site P856). Demo semtlerinde kalan 21 müze eklendi (Sultanahmet 18, Balat 2, Kadıköy 1); var olanlarla (ad, madde ya da 40 m) çakışanlar atlandı. 20'sine Wikimedia'dan özgür lisanslı kapak (yazar + lisans) `mekanGorselleri.js`'e eklendi. Mekan sayfasında "Resmî site" bağlantısı. Hepsi `dogrulandi: false`; erişim bilgisi yok.
 - **Sergiler:** `server/src/data/sergiler.js`: 7 kurumdan 13 güncel sergi (resmî sitelerden, olgusal alanlar, son kontrol 14 Kasım). Bu sitede kayıt alınmaz.
 - **Kalan:** Arter elle eklenmeli; 20 müzenin konumu Vikiveri'de yok (liste dışında kaldı); semt dışındaki 56 müze (semt sayfası olmadığı için) eklenmedi; 4 Aralık öncesi sergileri yeniden kontrol (Yapı Kredi sergisi 29 Kasım'da bitiyor).
+
+### 5.10 Klasik İstanbul turu: Eyüp, Beyoğlu, Boğaz · YAPILDI (15 Kasım)
+- Üç yeni Avrupa yakası semti (`semtler.js`): `eyup` (Eyüp–Haliç), `beyoglu` (Beyoğlu–Galata), `bogaz` (Beşiktaş–Boğaz).
+- 22 elle seçilmiş mekan (`mekanlar.js`, damga kodları 32–53): Eyüp Sultan, Mihrişah Valide Sultan Külliyesi, Zal Mahmud Paşa, Pierre Loti, Rahmi M. Koç, santralistanbul; Kamondo Merdivenleri, Galata Kulesi, Tünel, Galata Mevlevihanesi, Pera Müzesi, Masumiyet Müzesi, Çiçek Pasajı, İstiklal, İstanbul Modern; Dolmabahçe, Deniz Müzesi, Ortaköy Camii, Bebek Sahili, Rumelihisarı, Sakıp Sabancı Müzesi; ayrıca Kuzguncuk'a Beylerbeyi Sarayı. Koordinat Vikiveri P625 (yoksa OSM/Photon), açıklama Vikipedi maddesinden kısa özet. Hepsi `dogrulandi: false`, erişim bilgisi çoğunlukla yok.
+- `scripts/muzeler.js` yeni semtlere genişletildi (semt birden çok ilçeye yayılabilir) ve kendi önceki çıktısını "zaten var" saymayacak şekilde düzeltildi: +12 müze (Beyoğlu 7, Boğaz 3, Eyüp 2).
+- Commons kapakları `mekanGorselleri.js`'e eklendi; Pera Müzesi ve Rahmi M. Koç için logo/ilgisiz görsel yerine bina fotoğrafı elle seçildi, Musevi Müzesi'nin logo görseli çıkarıldı. Admin "Fotoğrafları yenile" bunları maddenin ana görseline geri çevirebilir.
+- Duraklar (`ulasim.js`): Eyüp/Hasköy/Karaköy/Kabataş/Beşiktaş/Ortaköy/Bebek/Rumelihisarı/Beylerbeyi iskeleleri, Şişhane/Taksim/Tünel, Feshane T5, Eyüp teleferiği (yeni tür `teleferik`). Toplanma alanları yine **örnek**.
+- Hikâye rotaları: `eyup-halic`, `galata-pera`, `bogaz-saraydan-hisara`; geometri `scripts/build-app-routes.js` ile (Valhalla). Boğaz rotası 8,3 km ve kıyıdan ayrılmıyor; "dik" etiketi ve %47 azami eğim SRTM'nin kıyıdaki gürültüsünden.
+- Sergiler semtlerine (ve varsa mekana) bağlandı; `YENILENEN_TOHUMLAR` (`store.js`) sayesinde sergi kayıtları her tohum sürümünde koddaki hâliyle yeniden yazılır. `TOHUM_SURUMU = 2026-11-15.1`.
 
 ### 5.7 Vikisöz'den şiir (şiir katmanını genişletme)
 - **Kaynak:** https://tr.wikiquote.org (Vikisöz). Sayfalar CC BY-SA lisanslı, ama alıntılanan şiirin hakkı şairde kalır.

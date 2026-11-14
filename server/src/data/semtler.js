@@ -1,4 +1,4 @@
-// Demo kapsamındaki altı semt. Koordinatlar semt merkezini kabaca gösterir
+// Demo kapsamındaki semtler. Koordinatlar semt merkezini kabaca gösterir
 // (harita odağı için); OSM ile doğrulanacak.
 export const semtler = [
   {
@@ -18,6 +18,33 @@ export const semtler = [
     lon: 28.9488,
     ozet: 'Haliç kıyısında Rum, Yahudi ve Ermeni mirasının iç içe geçtiği renkli, yokuşlu sokaklar.',
     renk: 'lale',
+  },
+  {
+    id: 'eyup',
+    ad: 'Eyüp–Haliç',
+    yaka: 'Avrupa',
+    lat: 41.0480,
+    lon: 28.9345,
+    ozet: 'Haliç\'in ucunda Eyüp Sultan Camii, Pierre Loti tepesi ve kıyıdaki sanayi mirası müzeleri.',
+    renk: 'zeytin',
+  },
+  {
+    id: 'beyoglu',
+    ad: 'Beyoğlu–Galata',
+    yaka: 'Avrupa',
+    lat: 41.0300,
+    lon: 28.9765,
+    ozet: 'Galata Kulesi\'nden İstiklal\'e; pasajları, müzeleri ve 1875\'ten beri çalışan Tünel\'iyle Pera\'nın yokuşları.',
+    renk: 'lale',
+  },
+  {
+    id: 'bogaz',
+    ad: 'Beşiktaş–Boğaz',
+    yaka: 'Avrupa',
+    lat: 41.0620,
+    lon: 29.0300,
+    ozet: 'Dolmabahçe\'den Rumelihisarı\'na Boğaz kıyısı boyunca saraylar, camiler, hisar ve müzeler.',
+    renk: 'iznik',
   },
   {
     id: 'kuzguncuk',

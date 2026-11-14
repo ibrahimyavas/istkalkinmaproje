@@ -252,12 +252,172 @@ const hamMekanlar = [
     erisilebilirlik: { rampa: false, asansor: false, wc: false, basamak: false, zemin: 'yokus', not: 'Uzun ve eğimli yürüyüş; tekerlekli sandalyeye uygun değil.' },
     damgaKodu: 'KLP-31', kaynak: 'https://tr.wikipedia.org/wiki/Burgazada', dogrulandi: false,
   },
+  // ── Klasik İstanbul turu: Eyüp, Beyoğlu ve Boğaz (Kasım 2026) ─────
+  // Koordinatlar Vikiveri P625 ya da OSM; açıklamalar Vikipedi maddelerinden özetlendi, erişim bilgisi yok.
+  // ── Eyüp–Haliç ─────────────────────────────
+  {
+    id: 'eyup-sultan-camii', semtId: 'eyup', tur: 'miras', ad: 'Eyüp Sultan Camii',
+    lat: 41.04795, lon: 28.93379,
+    kisa: 'Fatih Sultan Mehmed\'in 1458\'de Ebu Eyyub el-Ensari\'nin türbesinin yanında yaptırdığı cami; bugünkü yapı III. Selim döneminden.',
+    erisilebilirlik: { rampa: null, asansor: null, wc: null, basamak: null, zemin: 'duz', not: 'Avlu düz; kalabalık günlerde yoğun. Yerinde doğrulanacak.' },
+    damgaKodu: 'EYS-32', kaynak: 'https://tr.wikipedia.org/wiki/Eyüp_Sultan_Camii', dogrulandi: false, konumKaynagi: 'Vikiveri Q956677 (P625)',
+  },
+  {
+    id: 'mihrisah-valide-sultan-kulliyesi', semtId: 'eyup', tur: 'miras', ad: 'Mihrişah Valide Sultan Külliyesi',
+    lat: 41.04856, lon: 28.93469,
+    kisa: 'III. Selim\'in annesi Mihrişah Valide Sultan\'ın 1790\'larda yaptırdığı külliye; türbe, sebil ve imaretten oluşur.',
+    erisilebilirlik: { rampa: null, asansor: null, wc: null, basamak: null, zemin: 'duz', not: 'Yerinde doğrulanacak.' },
+    damgaKodu: 'MVS-33', kaynak: 'https://tr.wikipedia.org/wiki/Mihrişah_Valide_Sultan_Külliyesi', dogrulandi: false, konumKaynagi: 'Vikiveri Q111940451 (P625)',
+  },
+  {
+    id: 'zal-mahmud-pasa-camii', semtId: 'eyup', tur: 'miras', ad: 'Zal Mahmud Paşa Camii',
+    lat: 41.04478, lon: 28.93582,
+    kisa: 'Mimar Sinan\'ın eseri; yamaca farklı seviyelerde oturan iki avlusuyla tanınan 16. yüzyıl külliyesi.',
+    erisilebilirlik: { rampa: null, asansor: null, wc: null, basamak: true, zemin: 'yokus', not: 'Yerinde doğrulanacak.' },
+    damgaKodu: 'ZMP-34', kaynak: 'https://tr.wikipedia.org/wiki/Zal_Mahmud_Paşa_Camii', dogrulandi: false, konumKaynagi: 'Vikiveri Q1572457 (P625)',
+  },
+  {
+    id: 'pierre-loti-tepesi', semtId: 'eyup', tur: 'mekan', ad: 'Pierre Loti Tepesi',
+    lat: 41.05417, lon: 28.93583,
+    kisa: 'Adını Fransız yazar Pierre Loti\'den alan tepe ve kahvehane; Haliç\'in en bilinen seyir noktası. Eyüp\'ten teleferikle de çıkılır.',
+    erisilebilirlik: { rampa: null, asansor: null, wc: null, basamak: null, zemin: 'yokus', not: 'Mezarlık içinden dik bir yokuş; teleferik daha kolay. Yerinde doğrulanacak.' },
+    damgaKodu: 'PLT-35', kaynak: 'https://tr.wikipedia.org/wiki/Pierre_Loti_Tepesi', dogrulandi: false, konumKaynagi: 'Vikiveri Q6581129 (P625)',
+  },
+  {
+    id: 'rahmi-koc-muzesi', semtId: 'eyup', tur: 'muze', ad: 'Rahmi M. Koç Müzesi',
+    lat: 41.04227, lon: 28.94926,
+    kisa: 'Hasköy\'deki tarihi Lengerhane binasında açılan ulaşım, sanayi ve iletişim tarihi müzesi.',
+    erisilebilirlik: { rampa: null, asansor: null, wc: null, basamak: null, zemin: 'duz', not: 'Yerinde doğrulanacak.' },
+    damgaKodu: 'RMK-36', kaynak: 'https://tr.wikipedia.org/wiki/Rahmi_M._Koç_Müzesi', dogrulandi: false, konumKaynagi: 'Vikiveri Q3404565 (P625)', resmiSite: 'https://www.rmk-museum.org.tr',
+  },
+  {
+    id: 'santralistanbul', semtId: 'eyup', tur: 'muze', ad: 'santralistanbul',
+    lat: 41.0665, lon: 28.9461,
+    kisa: 'Osmanlı\'nın ilk büyük elektrik santrali Silahtarağa\'nın kültür ve eğitim kampüsüne dönüşmüş hâli; Enerji Müzesi burada.',
+    erisilebilirlik: { rampa: null, asansor: null, wc: null, basamak: null, zemin: 'duz', not: 'Yerinde doğrulanacak.' },
+    damgaKodu: 'STR-37', kaynak: 'https://tr.wikipedia.org/wiki/Santralistanbul', dogrulandi: false, konumKaynagi: 'Vikiveri Q2797197 (P625)',
+  },
+  // ── Beyoğlu–Galata ─────────────────────────────
+  {
+    id: 'kamondo-merdivenleri', semtId: 'beyoglu', tur: 'miras', ad: 'Kamondo Merdivenleri',
+    lat: 41.02397, lon: 28.97378,
+    kisa: '19. yüzyılda Kamondo ailesinin yaptırdığı, Bankalar Caddesi\'ni Galata yokuşuna bağlayan kıvrımlı taş merdiven.',
+    erisilebilirlik: { rampa: false, asansor: false, wc: null, basamak: true, zemin: 'merdiven', not: 'Yalnızca merdiven. Basamaksız çıkış için Karaköy\'den Tünel füniküleri kullanılabilir.' },
+    damgaKodu: 'KMD-38', kaynak: 'https://tr.wikipedia.org/wiki/Kamondo_Merdivenleri', dogrulandi: false, konumKaynagi: 'Vikiveri Q6027749 (P625)',
+  },
+  {
+    id: 'galata-kulesi', semtId: 'beyoglu', tur: 'miras', ad: 'Galata Kulesi',
+    lat: 41.02563, lon: 28.97415,
+    kisa: '1348\'de Cenevizliler tarafından yapılan taş kule; tepesinden Haliç, Boğaz ve Tarihi Yarımada görünür.',
+    erisilebilirlik: { rampa: null, asansor: null, wc: null, basamak: null, zemin: 'arnavut', not: 'Çevresi yokuşlu ve Arnavut kaldırımlı. Kule içi erişim yerinde doğrulanacak.' },
+    damgaKodu: 'GLT-39', kaynak: 'https://tr.wikipedia.org/wiki/Galata_Kulesi', dogrulandi: false, konumKaynagi: 'Vikiveri Q91274 (P625)', resmiSite: 'https://muze.gov.tr/muze-detay?SectionId=GLT04&DistId=MRK',
+  },
+  {
+    id: 'tunel-funikuler', semtId: 'beyoglu', tur: 'miras', ad: 'Tünel (Karaköy–Beyoğlu)',
+    lat: 41.02286, lon: 28.97404,
+    kisa: '1875\'ten beri Karaköy ile Beyoğlu arasında çalışan yeraltı füniküleri; dünyanın en eski yeraltı hatlarından biri.',
+    erisilebilirlik: { rampa: null, asansor: null, wc: null, basamak: null, zemin: 'duz', not: 'Yerinde doğrulanacak.' },
+    damgaKodu: 'TNL-40', kaynak: 'https://tr.wikipedia.org/wiki/Tünel_(İstanbul)', dogrulandi: false, konumKaynagi: 'OpenStreetMap (yerel Photon)',
+  },
+  {
+    id: 'galata-mevlevihanesi', semtId: 'beyoglu', tur: 'muze', ad: 'Galata Mevlevihanesi',
+    lat: 41.02803, lon: 28.97512,
+    kisa: '1491\'de kurulan, İstanbul\'un ilk mevlevihanesi; bugün Mevlevi kültürünü anlatan müze ve semahane.',
+    erisilebilirlik: { rampa: null, asansor: null, wc: null, basamak: null, zemin: null, not: 'Yerinde doğrulanacak.' },
+    damgaKodu: 'GMV-41', kaynak: 'https://tr.wikipedia.org/wiki/Galata_Mevlevihanesi', dogrulandi: false, konumKaynagi: 'Vikiveri Q6090478 (P625)', resmiSite: 'https://muze.gov.tr/muze-detay?sectionId=GLT01&distId=MRK',
+  },
+  {
+    id: 'pera-muzesi', semtId: 'beyoglu', tur: 'muze', ad: 'Pera Müzesi',
+    lat: 41.03181, lon: 28.97519,
+    kisa: 'Suna ve İnan Kıraç Vakfı\'nın 2005\'te açtığı müze; Osman Hamdi Bey\'in Kaplumbağa Terbiyecisi bu koleksiyondadır.',
+    erisilebilirlik: { rampa: null, asansor: null, wc: null, basamak: null, zemin: 'duz', not: 'Yerinde doğrulanacak.' },
+    damgaKodu: 'PRM-42', kaynak: 'https://tr.wikipedia.org/wiki/Pera_Müzesi', dogrulandi: false, konumKaynagi: 'Vikiveri Q1662392 (P625)', resmiSite: 'https://www.peramuzesi.org.tr',
+  },
+  {
+    id: 'masumiyet-muzesi', semtId: 'beyoglu', tur: 'edebiyat', ad: 'Masumiyet Müzesi',
+    lat: 41.03087, lon: 28.9798,
+    kisa: 'Orhan Pamuk\'un aynı adlı romanıyla birlikte tasarladığı, Çukurcuma\'daki müze.',
+    erisilebilirlik: { rampa: null, asansor: null, wc: null, basamak: null, zemin: 'yokus', not: 'Yerinde doğrulanacak.' },
+    damgaKodu: 'MSM-43', kaynak: 'https://tr.wikipedia.org/wiki/Masumiyet_Müzesi', dogrulandi: false, konumKaynagi: 'OpenStreetMap (yerel Photon)',
+  },
+  {
+    id: 'cicek-pasaji', semtId: 'beyoglu', tur: 'carsi', ad: 'Çiçek Pasajı',
+    lat: 41.03394, lon: 28.97792,
+    kisa: '1876\'da Cité de Péra adıyla yapılan pasaj; bugün meyhane ve restoranlarıyla bilinir.',
+    erisilebilirlik: { rampa: null, asansor: null, wc: null, basamak: null, zemin: 'duz', not: 'Yerinde doğrulanacak.' },
+    damgaKodu: 'CCP-44', kaynak: 'https://tr.wikipedia.org/wiki/Çiçek_Pasajı', dogrulandi: false, konumKaynagi: 'Vikiveri Q595289 (P625)',
+  },
+  {
+    id: 'istiklal-caddesi', semtId: 'beyoglu', tur: 'mekan', ad: 'İstiklal Caddesi',
+    lat: 41.03417, lon: 28.97889,
+    kisa: 'Osmanlı döneminde Cadde-i Kebir diye anılan, Tünel\'den Taksim\'e uzanan yaya caddesi; nostaljik tramvay hâlâ çalışır.',
+    erisilebilirlik: { rampa: null, asansor: null, wc: null, basamak: false, zemin: 'duz', not: 'Yaya caddesi düz ve geniş; kalabalık saatlerde ilerlemek zor.' },
+    damgaKodu: 'IST-45', kaynak: 'https://tr.wikipedia.org/wiki/İstiklal_Caddesi', dogrulandi: false, konumKaynagi: 'Vikiveri Q344348 (P625)',
+  },
+  {
+    id: 'istanbul-modern', semtId: 'beyoglu', tur: 'muze', ad: 'İstanbul Modern',
+    lat: 41.026, lon: 28.98294,
+    kisa: '2004\'te kurulan modern ve çağdaş sanat müzesi; 2023\'ten beri Karaköy kıyısında Renzo Piano\'nun tasarladığı binada.',
+    erisilebilirlik: { rampa: null, asansor: null, wc: null, basamak: null, zemin: 'duz', not: 'Yerinde doğrulanacak.' },
+    damgaKodu: 'IMD-46', kaynak: 'https://tr.wikipedia.org/wiki/İstanbul_Modern', dogrulandi: false, konumKaynagi: 'Vikiveri Q1463961 (P625)', resmiSite: 'https://www.istanbulmodern.org',
+  },
+  // ── Beşiktaş–Boğaz ─────────────────────────────
+  {
+    id: 'dolmabahce-sarayi', semtId: 'bogaz', tur: 'miras', ad: 'Dolmabahçe Sarayı',
+    lat: 41.03944, lon: 29.00167,
+    kisa: 'Sultan Abdülmecid\'in 1843–1856 arasında yaptırdığı saray; Atatürk 10 Kasım 1938\'de burada hayatını kaybetti.',
+    erisilebilirlik: { rampa: null, asansor: null, wc: null, basamak: null, zemin: 'duz', not: 'Yerinde doğrulanacak.' },
+    damgaKodu: 'DLM-47', kaynak: 'https://tr.wikipedia.org/wiki/Dolmabahçe_Sarayı', dogrulandi: false, konumKaynagi: 'Vikiveri Q274141 (P625)', resmiSite: 'https://www.millisaraylar.gov.tr',
+  },
+  {
+    id: 'deniz-muzesi', semtId: 'bogaz', tur: 'muze', ad: 'İstanbul Deniz Müzesi',
+    lat: 41.04167, lon: 29.00556,
+    kisa: 'Beşiktaş iskelesinin yanında; saltanat kayıkları ve Türk denizcilik tarihinden eserler.',
+    erisilebilirlik: { rampa: null, asansor: null, wc: null, basamak: null, zemin: 'duz', not: 'Yerinde doğrulanacak.' },
+    damgaKodu: 'DNZ-48', kaynak: 'https://tr.wikipedia.org/wiki/İstanbul_Deniz_Müzesi', dogrulandi: false, konumKaynagi: 'Vikiveri Q11787082 (P625)',
+  },
+  {
+    id: 'ortakoy-camii', semtId: 'bogaz', tur: 'miras', ad: 'Ortaköy Camii (Büyük Mecidiye)',
+    lat: 41.04733, lon: 29.02681,
+    kisa: 'Sultan Abdülmecid\'in 1850\'lerde Nigoğos Balyan\'a yaptırdığı, köprünün dibinde kıyıya oturan cami.',
+    erisilebilirlik: { rampa: null, asansor: null, wc: null, basamak: null, zemin: 'duz', not: 'Yerinde doğrulanacak.' },
+    damgaKodu: 'ORT-49', kaynak: 'https://tr.wikipedia.org/wiki/Büyük_Mecidiye_Camii', dogrulandi: false, konumKaynagi: 'Vikiveri Q176380 (P625)',
+  },
+  {
+    id: 'bebek-sahili', semtId: 'bogaz', tur: 'mekan', ad: 'Bebek Sahili',
+    lat: 41.07584, lon: 29.04379,
+    kisa: 'Bebek koyu boyunca iskele ve parktan Rumelihisarı\'na uzanan sahil yürüyüşü.',
+    erisilebilirlik: { rampa: null, asansor: null, wc: null, basamak: false, zemin: 'duz', not: 'Sahil yolu düz; kaldırım yer yer dar. Yerinde doğrulanacak.' },
+    damgaKodu: 'BBK-50', kaynak: 'https://tr.wikipedia.org/wiki/Bebek,_Beşiktaş', dogrulandi: false, konumKaynagi: 'OpenStreetMap (yerel Photon)',
+  },
+  {
+    id: 'rumelihisari', semtId: 'bogaz', tur: 'miras', ad: 'Rumelihisarı',
+    lat: 41.08472, lon: 29.05611,
+    kisa: 'Fatih Sultan Mehmed\'in 1452\'de, İstanbul\'un fethinden önce birkaç ayda yaptırdığı hisar; bugün müze.',
+    erisilebilirlik: { rampa: null, asansor: null, wc: null, basamak: true, zemin: 'yokus', not: 'Hisar içi dik ve basamaklı. Yerinde doğrulanacak.' },
+    damgaKodu: 'RMH-51', kaynak: 'https://tr.wikipedia.org/wiki/Rumeli_Hisarı', dogrulandi: false, konumKaynagi: 'Vikiveri Q90801 (P625)',
+  },
+  {
+    id: 'sakip-sabanci-muzesi', semtId: 'bogaz', tur: 'muze', ad: 'Sakıp Sabancı Müzesi',
+    lat: 41.09912, lon: 29.0537,
+    kisa: 'Emirgan\'daki Atlı Köşk\'te; hat ve resim koleksiyonu ile büyük uluslararası sergileriyle bilinen müze.',
+    erisilebilirlik: { rampa: null, asansor: null, wc: null, basamak: null, zemin: 'duz', not: 'Yerinde doğrulanacak.' },
+    damgaKodu: 'SSM-52', kaynak: 'https://tr.wikipedia.org/wiki/Sakıp_Sabancı_Müzesi', dogrulandi: false, konumKaynagi: 'Vikiveri Q3395851 (P625)', resmiSite: 'https://www.sakipsabancimuzesi.org',
+  },
+  // ── Kuzguncuk komşusu: Beylerbeyi ─────────────────────────────
+  {
+    id: 'beylerbeyi-sarayi', semtId: 'kuzguncuk', tur: 'miras', ad: 'Beylerbeyi Sarayı',
+    lat: 41.0426, lon: 29.0399,
+    kisa: 'Sultan Abdülaziz\'in 1861–1865 arasında yaptırdığı, Boğaz kıyısındaki yazlık saray.',
+    erisilebilirlik: { rampa: null, asansor: null, wc: null, basamak: null, zemin: 'duz', not: 'Yerinde doğrulanacak.' },
+    damgaKodu: 'BYL-53', kaynak: 'https://tr.wikipedia.org/wiki/Beylerbeyi_Sarayı', dogrulandi: false, konumKaynagi: 'Vikiveri Q794349 (P625)', resmiSite: 'https://www.millisaraylar.gov.tr',
+  },
 ];
 
 // detay: { metin, ipucu } — mekan sayfası ve yazdırma çıktısı için ayrıntılı açıklama
 // Kaynak maddesi mekanın kendisini değil bir kişiyi ya da semtin tamamını anlatan kayıtlar:
 // Wikipedia görsel yenilemesi bunlara görsel atamaz (wikimediaService.gorselBasligi).
-const WIKI_GORSELI_UYGUN_DEGIL = new Set(['baris-manco-evi', 'sait-faik-muzesi', 'kadikoy-carsi', 'moda-sahili', 'aya-yani', 'kalpazankaya']);
+const WIKI_GORSELI_UYGUN_DEGIL = new Set(['baris-manco-evi', 'sait-faik-muzesi', 'kadikoy-carsi', 'moda-sahili', 'aya-yani', 'kalpazankaya', 'bebek-sahili']);
 
 export const mekanlar = [
   ...hamMekanlar.map((m) => ({

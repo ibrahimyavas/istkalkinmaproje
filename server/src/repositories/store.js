@@ -53,7 +53,11 @@ export const ICERIK_KOLEKSIYONLARI = ['semtler', 'mekanlar', 'rotalar', 'durakla
 // Tohumdan kaldırılan kayıtlar (koleksiyon, SQL LIKE deseni): kayıtlı veriden de silinir.
 // Kültür Yolu Festivali lezzet noktaları ve festival arşivi izin belirsizliği nedeniyle çıkarıldı.
 export const KALDIRILAN_TOHUMLAR = [['mekanlar', 'lezzet-%'], ['etkinlikler', 'kyf-%']];
-const kaldirildiMi = (k, id) => KALDIRILAN_TOHUMLAR.some(([kk, d]) => kk === k && String(id).startsWith(d.replace('%', '')));
+// Tamamen koddan yönetilen tohum kayıtları: kayıtlı kopya her yüklemede tohumdaki hâliyle değiştirilir
+// (ör. sergiler; tarih ve semt bilgisi kodda güncellenir).
+export const YENILENEN_TOHUMLAR = [['etkinlikler', 'sergi-%']];
+const eslesir = (liste, k, id) => liste.some(([kk, d]) => kk === k && String(id).startsWith(d.replace('%', '')));
+const kaldirildiMi = (k, id) => eslesir(KALDIRILAN_TOHUMLAR, k, id) || eslesir(YENILENEN_TOHUMLAR, k, id);
 
 /** Kayıtlı kayıtta olmayan alanları tohumdan doldurur; kayıtlı değerler korunur. */
 function tohumlaBirlestir(saved, tohum) {

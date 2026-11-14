@@ -53,4 +53,4 @@ export const ZANAAT = {
   seramik: 'Seramik',
 };
 
-export const DURAK_TURU = { vapur: 'Vapur', marmaray: 'Marmaray', metro: 'Metro', tramvay: 'Tramvay' };
+export const DURAK_TURU = { vapur: 'Vapur', marmaray: 'Marmaray', metro: 'Metro', tramvay: 'Tramvay', teleferik: 'Teleferik' };

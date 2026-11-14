@@ -7,20 +7,21 @@
 // - Sergiler sık değişir: başvuru öncesi (4 Aralık) yeniden kontrol edilmeli. `sonKontrol`
 //   tarihi her kayıtta. Bitişi geçen sergi takvimden kendiliğinden düşer.
 // - Arter'in sitesi içeriği tarayıcıda yüklediği için buraya alınamadı; elle eklenebilir.
+// - Beyoğlu ve Boğaz semtleri eklendiğinden sergiler semte (varsa mekana) bağlıdır.
 // - Koordinatlar OSM'den (yerel Photon); Yapı Kredi Kültür Sanat için Galatasaray'daki
 //   bina konumu yaklaşık girildi.
 
 const SON_KONTROL = '2026-11-14';
 
 const MEKANLAR = {
-  istanbulModern: { mekanAd: 'İstanbul Modern', adres: 'Kılıçali Paşa, Tophane İskele Cd., Beyoğlu', lat: 41.02591, lon: 28.98281 },
-  pera: { mekanAd: 'Pera Müzesi', adres: 'Meşrutiyet Cd., Tepebaşı, Beyoğlu', lat: 41.0318, lon: 28.9752 },
-  saltBeyoglu: { mekanAd: 'Salt Beyoğlu', adres: 'İstiklal Cd., Beyoğlu', lat: 41.03207, lon: 28.9761 },
-  saltGalata: { mekanAd: 'Salt Galata', adres: 'Bankalar Cd., Karaköy, Beyoğlu', lat: 41.02381, lon: 28.97346 },
-  yky: { mekanAd: 'Yapı Kredi Kültür Sanat', adres: 'İstiklal Cd., Galatasaray, Beyoğlu', lat: 41.03422, lon: 28.97788 },
-  sakip: { mekanAd: 'Sakıp Sabancı Müzesi', adres: 'Emirgan, Sarıyer', lat: 41.10602, lon: 29.05563 },
-  mesher: { mekanAd: 'Meşher', adres: 'İstiklal Cd., Beyoğlu', lat: 41.03044, lon: 28.97575 },
-  borusan: { mekanAd: 'Borusan Contemporary (Perili Köşk)', adres: 'Baltalimanı Hisar Cd., Rumelihisarı, Sarıyer', lat: 41.08907, lon: 29.05656 },
+  istanbulModern: { semtId: 'beyoglu', mekanId: 'istanbul-modern', mekanAd: 'İstanbul Modern', adres: 'Kılıçali Paşa, Tophane İskele Cd., Beyoğlu', lat: 41.02591, lon: 28.98281 },
+  pera: { semtId: 'beyoglu', mekanId: 'pera-muzesi', mekanAd: 'Pera Müzesi', adres: 'Meşrutiyet Cd., Tepebaşı, Beyoğlu', lat: 41.0318, lon: 28.9752 },
+  saltBeyoglu: { semtId: 'beyoglu', mekanAd: 'Salt Beyoğlu', adres: 'İstiklal Cd., Beyoğlu', lat: 41.03207, lon: 28.9761 },
+  saltGalata: { semtId: 'beyoglu', mekanAd: 'Salt Galata', adres: 'Bankalar Cd., Karaköy, Beyoğlu', lat: 41.02381, lon: 28.97346 },
+  yky: { semtId: 'beyoglu', mekanAd: 'Yapı Kredi Kültür Sanat', adres: 'İstiklal Cd., Galatasaray, Beyoğlu', lat: 41.03422, lon: 28.97788 },
+  sakip: { semtId: 'bogaz', mekanId: 'sakip-sabanci-muzesi', mekanAd: 'Sakıp Sabancı Müzesi', adres: 'Emirgan, Sarıyer', lat: 41.10602, lon: 29.05563 },
+  mesher: { semtId: 'beyoglu', mekanAd: 'Meşher', adres: 'İstiklal Cd., Beyoğlu', lat: 41.03044, lon: 28.97575 },
+  borusan: { semtId: 'bogaz', mekanAd: 'Borusan Contemporary (Perili Köşk)', adres: 'Baltalimanı Hisar Cd., Rumelihisarı, Sarıyer', lat: 41.08907, lon: 29.05656 },
 };
 
 const sergi = (id, baslik, baslangic, bitis, mekan, kaynak, ek = {}) => ({
@@ -30,9 +31,9 @@ const sergi = (id, baslik, baslangic, bitis, mekan, kaynak, ek = {}) => ({
   baslangic: `${baslangic}T10:00:00+03:00`,
   bitis: bitis ? `${bitis}T18:00:00+03:00` : null,
   tumGun: true,
-  ...MEKANLAR[mekan],
   semtId: null,
   mekanId: null,
+  ...MEKANLAR[mekan],
   ucretsiz: null,
   erisilebilir: null,
   kaynak,
