@@ -277,7 +277,7 @@ function HaritaVeTakvim({ harita, etkinlikler, semtOf, onSec }) {
           </div>
         </fieldset>
         {veri && (
-          <Suspense fallback={<Yukleniyor metin="Harita yükleniyor…" />}>
+          <Suspense fallback={<Yukleniyor kutu metin="Harita yükleniyor…" yukseklik="aspect-[4/3] sm:aspect-video min-h-[300px]" />}>
             <HaritaGorunumu {...veri} onSec={onSec} yukseklik="aspect-[4/3] sm:aspect-video min-h-[300px]" etiket="İstanbul genel haritası" gosterge={false} />
           </Suspense>
         )}

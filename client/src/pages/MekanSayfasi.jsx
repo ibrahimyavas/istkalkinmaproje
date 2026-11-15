@@ -124,7 +124,7 @@ export default function MekanSayfasi() {
       </div>
 
       <div className="mt-6">
-        <Suspense fallback={<Yukleniyor metin="Harita yükleniyor…" />}>
+        <Suspense fallback={<Yukleniyor kutu metin="Harita yükleniyor…" yukseklik="h-[300px]" />}>
           <HaritaGorunumu
             mekanlar={[m]}
             duraklar={enYakinDurak ? [enYakinDurak] : []}

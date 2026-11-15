@@ -143,7 +143,7 @@ export default function GrupSayfasi() {
         <div className="space-y-4">
           {rota && (
             <>
-              <Suspense fallback={<Yukleniyor metin="Harita yükleniyor…" />}>
+              <Suspense fallback={<Yukleniyor kutu metin="Harita yükleniyor…" yukseklik="h-[320px]" />}>
                 <HaritaGorunumu mekanlar={mekanlar} numarali yukseklik="h-[320px]" etiket="Grubun rotası" />
               </Suspense>
               <div className="flex flex-wrap items-center justify-between gap-2">

@@ -265,3 +265,52 @@ html.acilis-hazir .acil.gorundu {
 a.kart, button.kart { transition: background-color 200ms, transform 200ms; }
 a.kart:hover, button.kart:hover { background-color: rgb(var(--accent-soft)); }
 a.kart:active, button.kart:active { transform: scale(0.99); }
+
+/* Yükleme: rota çizgisi kendini çizer, duraklar çizgi ulaştıkça yanar (2,4 sn döngü). */
+.yukleme-belir { animation: yukleme-belir 320ms ease-out 180ms both; }
+@keyframes yukleme-belir { from { opacity: 0; } }
+.yukleme-rota path { fill: none; stroke-width: 4; stroke-linecap: round; }
+.yukleme-iz { stroke: rgb(var(--heading) / 0.1); }
+.yukleme-cizgi {
+  stroke: rgb(var(--accent));
+  stroke-dasharray: 1;
+  animation: yukleme-ciz 2400ms linear infinite;
+}
+@keyframes yukleme-ciz {
+  0% { stroke-dashoffset: 1; opacity: 1; }
+  60% { stroke-dashoffset: 0; opacity: 1; }
+  82% { stroke-dashoffset: 0; opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 0; }
+}
+.yukleme-durak {
+  fill: rgb(var(--surface));
+  stroke: rgb(var(--heading) / 0.18);
+  stroke-width: 3;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.yukleme-durak:nth-of-type(1) { animation: yukleme-durak-1 2400ms ease-out infinite; }
+.yukleme-durak:nth-of-type(2) { animation: yukleme-durak-2 2400ms ease-out infinite; }
+.yukleme-durak:nth-of-type(3) { animation: yukleme-durak-3 2400ms ease-out infinite; }
+.yukleme-durak:nth-of-type(4) { animation: yukleme-durak-4 2400ms ease-out infinite; }
+@keyframes yukleme-durak-1 { 0% { fill: rgb(var(--accent)); stroke: rgb(var(--accent)); transform: scale(1.3); } 8%, 84% { fill: rgb(var(--accent)); stroke: rgb(var(--accent)); transform: scale(1); } 100% { fill: rgb(var(--surface)); stroke: rgb(var(--heading) / 0.18); transform: scale(1); } }
+@keyframes yukleme-durak-2 { 0%, 21% { fill: rgb(var(--surface)); stroke: rgb(var(--heading) / 0.18); transform: scale(1); } 22% { fill: rgb(var(--accent)); stroke: rgb(var(--accent)); transform: scale(1.35); } 30%, 84% { fill: rgb(var(--accent)); stroke: rgb(var(--accent)); transform: scale(1); } 100% { fill: rgb(var(--surface)); stroke: rgb(var(--heading) / 0.18); transform: scale(1); } }
+@keyframes yukleme-durak-3 { 0%, 41% { fill: rgb(var(--surface)); stroke: rgb(var(--heading) / 0.18); transform: scale(1); } 42% { fill: rgb(var(--accent)); stroke: rgb(var(--accent)); transform: scale(1.35); } 50%, 84% { fill: rgb(var(--accent)); stroke: rgb(var(--accent)); transform: scale(1); } 100% { fill: rgb(var(--surface)); stroke: rgb(var(--heading) / 0.18); transform: scale(1); } }
+@keyframes yukleme-durak-4 { 0%, 59% { fill: rgb(var(--surface)); stroke: rgb(var(--heading) / 0.18); transform: scale(1); } 60% { fill: rgb(var(--accent)); stroke: rgb(var(--accent)); transform: scale(1.35); } 68%, 84% { fill: rgb(var(--accent)); stroke: rgb(var(--accent)); transform: scale(1); } 100% { fill: rgb(var(--surface)); stroke: rgb(var(--heading) / 0.18); transform: scale(1); } }
+
+/* İskelet: içerik gelene kadar kart biçiminde yumuşak nabız; kartlar sırayla atar. */
+.iskelet {
+  display: block;
+  background: rgb(var(--heading) / 0.08);
+  animation: iskelet-nabiz 1400ms ease-in-out infinite;
+  animation-delay: calc(var(--sira, 0) * 90ms);
+}
+.iskelet-kart { --sira: 0; }
+.iskelet-kart .iskelet { animation-delay: calc(var(--sira) * 90ms); }
+@keyframes iskelet-nabiz { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .yukleme-cizgi { animation: none; stroke-dashoffset: 0; }
+  .yukleme-durak { animation: none !important; fill: rgb(var(--accent)); stroke: rgb(var(--accent)); }
+  .iskelet { animation: none; }
+}

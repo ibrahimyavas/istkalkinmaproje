@@ -147,7 +147,7 @@ export default function RotaSayfasi() {
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[1.1fr_1fr]">
         <div className="lg:sticky lg:top-24 lg:self-start">
-          <Suspense fallback={<Yukleniyor metin="Harita yükleniyor…" />}>
+          <Suspense fallback={<Yukleniyor kutu metin="Harita yükleniyor…" yukseklik="h-[360px] lg:h-[520px]" />}>
             <HaritaGorunumu
               mekanlar={harita.mekanlar}
               toplanma={harita.toplanma}

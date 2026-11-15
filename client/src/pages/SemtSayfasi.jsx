@@ -95,7 +95,7 @@ export default function SemtSayfasi() {
             {mekanlar.length === 0 && <li className="text-ink-muted">Bu filtrede kayıt yok.</li>}
           </ul>
           <div className="lg:sticky lg:top-24 lg:self-start">
-            <Suspense fallback={<Yukleniyor metin="Harita yükleniyor…" />}>
+            <Suspense fallback={<Yukleniyor kutu metin="Harita yükleniyor…" yukseklik="h-[420px]" />}>
               <HaritaGorunumu mekanlar={mekanlar} toplanma={toplanma} onSec={sec} etiket={`${semt.ad} haritası`} />
             </Suspense>
           </div>

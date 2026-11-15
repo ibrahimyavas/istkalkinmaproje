@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { api } from '../services/api.js';
 import { useApi } from '../hooks/useApi.js';
 import { useTercihler } from '../context/Tercihler.jsx';
-import Yukleniyor, { HataKutusu } from '../components/common/Yukleniyor.jsx';
+import { IskeletKartlar, HataKutusu } from '../components/common/Yukleniyor.jsx';
 import EtkinlikKarti from '../components/kultur/EtkinlikKarti.jsx';
 
 export default function EtkinliklerSayfasi() {
@@ -44,7 +44,7 @@ export default function EtkinliklerSayfasi() {
         {erisilebilir && <p className="pb-3 text-sm font-semibold text-accent">Erişilebilir mod: erişilemez olduğu bilinen etkinlikler gizli</p>}
       </div>
 
-      {etk.yukleniyor && <Yukleniyor />}
+      {etk.yukleniyor && <IskeletKartlar metin="Etkinlikler yükleniyor…" />}
       {etk.hata && <HataKutusu metin={etk.hata} yenile={etk.yenile} />}
       {etk.veri && (
         <div aria-live="polite">

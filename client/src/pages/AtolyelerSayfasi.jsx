@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { api } from '../services/api.js';
 import { useApi } from '../hooks/useApi.js';
 import { useTercihler } from '../context/Tercihler.jsx';
-import Yukleniyor, { HataKutusu } from '../components/common/Yukleniyor.jsx';
+import { IskeletKartlar, HataKutusu } from '../components/common/Yukleniyor.jsx';
 import MekanKarti from '../components/mekan/MekanKarti.jsx';
 import { ZANAAT } from '../lib/harita.js';
 
@@ -42,7 +42,7 @@ export default function AtolyelerSayfasi() {
         {erisilebilir && <p className="pb-3 text-sm font-semibold text-accent">Erişilebilir mod: yalnızca basamaksız girişli atölyeler</p>}
       </div>
 
-      {yukleniyor && <Yukleniyor />}
+      {yukleniyor && <IskeletKartlar tur="mekan" izgara="md:grid-cols-2" metin="Atölyeler yükleniyor…" />}
       {hata && <HataKutusu metin={hata} yenile={yenile} />}
       {veri && (
         <ul className="mt-6 grid gap-3 md:grid-cols-2" aria-live="polite">

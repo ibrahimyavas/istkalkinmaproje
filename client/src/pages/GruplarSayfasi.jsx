@@ -4,7 +4,7 @@ import { Plus, Users } from 'lucide-react';
 import { api } from '../services/api.js';
 import { useApi } from '../hooks/useApi.js';
 import { useTercihler } from '../context/Tercihler.jsx';
-import Yukleniyor, { HataKutusu } from '../components/common/Yukleniyor.jsx';
+import { IskeletKartlar, HataKutusu } from '../components/common/Yukleniyor.jsx';
 import GrupKarti from '../components/grup/GrupKarti.jsx';
 
 export default function GruplarSayfasi() {
@@ -36,7 +36,7 @@ export default function GruplarSayfasi() {
         {erisilebilir && <p className="pb-3 text-sm font-semibold text-accent">Erişilebilir mod: yalnızca erişilebilir gruplar</p>}
       </div>
 
-      {gruplar.yukleniyor && <Yukleniyor />}
+      {gruplar.yukleniyor && <IskeletKartlar metin="Gruplar yükleniyor…" />}
       {gruplar.hata && <HataKutusu metin={gruplar.hata} yenile={gruplar.yenile} />}
       {gruplar.veri && (
         liste.length ? (

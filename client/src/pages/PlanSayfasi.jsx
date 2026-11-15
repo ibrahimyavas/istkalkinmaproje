@@ -249,7 +249,7 @@ export default function PlanSayfasi() {
                 <span className="inline-flex items-center gap-1"><Simge ad="emergency" boyut={14} className="text-success" />Toplanma alanı</span>
               </span>
             </div>
-            <Suspense fallback={<Yukleniyor metin="Harita yükleniyor…" />}>
+            <Suspense fallback={<Yukleniyor kutu metin="Harita yükleniyor…" yukseklik="h-[min(560px,calc(100vh-220px))] min-h-[340px]" />}>
               <HaritaGorunumu
                 mekanlar={harita.mekanlar}
                 toplanma={harita.toplanma}
