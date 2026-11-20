@@ -1,6 +1,6 @@
 # Proje 404: Durum Özeti (yeni ajana devir)
 
-Son güncelleme: 20 Kasım 2026 · canlıdaki son commit `2dc35fa` (Vercel READY) · 20 Kasım işleri yerelde commit edildi, **push edilmedi** (§3.5)
+Son güncelleme: 20 Kasım 2026 · canlıdaki son commit `708feb4` (Vercel READY, 20 Kasım işleri dahil; §3.5)
 
 Bu dosya yeni bir ajanın sıfırdan devam edebilmesi için yazıldı. Ayrıntılı geçmiş ve teknik notlar `docs/DEVIR-NOTU.md` dosyasında; 20 Kasım işleri `docs/DEVIR-2026-11-20.md` dosyasında. Okuma sırası: bu dosya → `DEVIR-2026-11-20.md` → `DEVIR-NOTU.md`.
 
@@ -83,14 +83,14 @@ Bu dosya yeni bir ajanın sıfırdan devam edebilmesi için yazıldı. Ayrıntı
   - **`IskeletKartlar`:** Atölyeler, Etkinlikler ve Gruplar listelerinde nabız atan kart iskeletleri.
 - CSS: `index.css` dosyasının sonunda, `yukleme-*` ve `iskelet*` sınıfları.
 
-### 3.5 İstanbul atlası, müzik, vapur, takvim ve grup sohbeti (20 Kasım, commit edildi, **push edilmedi**)
+### 3.5 İstanbul atlası, müzik, vapur, takvim ve grup sohbeti (20 Kasım, `708feb4`, canlıda)
 - Ana sayfada `#atlas` bölümü: MapLibre üzerinde İstanbul → yaka → 39 ilçe → 972 mahalle inişi; köprüler, vapur hatları, 22 simge yapı.
 - Konuma göre müzik önerisi (bölge torbaları + 20 mekana özel eşleştirme; YouTube Music, Spotify, Apple Music bağlantıları).
 - Rota, plan, grup ve etkinlik sayfalarında Google/Yandex/Apple Maps çok duraklı yol tarifi bağlantıları.
 - Takvime ekleme (Google Takvim + `.ics`) ve grup sohbeti (`/api/gruplar/:id/mesajlar`).
 - `/vapur`: 4 Boğaz/Haliç vapur hattı, gidiş/dönüş yönüne göre iskele ve siluet sırası; 9 yeni gezilebilir mekan.
 - `TOHUM_SURUMU = '2026-11-20.2'`. Testler: sunucu 54/54, arayüz 8/8, derleme temiz.
-- Ayrıntı: `docs/DEVIR-2026-11-20.md`. Yerelde commit edildi; push (ve dolayısıyla Vercel'e yayın) kullanıcı onayı bekliyor. `client/public/geo/` ve `server/src/data/atlas-bolgeler.json` commit'te (Vercel'de gerekli).
+- Ayrıntı: `docs/DEVIR-2026-11-20.md`. `708feb4` olarak push edildi; Vercel 21 Kasım'da yayına aldı (`/api/vapur/rotalar`, `/api/atlas/ozet`, ilçe GeoJSON canlıda 200 dönüyor). `client/public/geo/` ve `server/src/data/atlas-bolgeler.json` commit'te (Vercel'de gerekli).
 
 ## 4. Durum ve açık işler
 

@@ -1,6 +1,6 @@
 # Proje 404: Devir Notu (yeni sohbette devam için)
 
-Son güncelleme: 20 Kasım 2026 · canlıdaki son commit `2dc35fa`. 20 Kasım'da yapılan atlas, müzik, vapur, takvim ve grup sohbeti işleri yerelde commit edildi ama **henüz push edilmedi, canlıda değil**; ayrıntısı `docs/DEVIR-2026-11-20.md`. Güncel durum özeti ve sıradaki işler: `docs/OTURUM-OZETI.md`.
+Son güncelleme: 20 Kasım 2026 · canlıdaki son commit `708feb4`. 20 Kasım'da yapılan atlas, müzik, vapur, takvim ve grup sohbeti işleri bu commit'le canlıda; ayrıntısı `docs/DEVIR-2026-11-20.md`. Güncel durum özeti ve sıradaki işler: `docs/OTURUM-OZETI.md`.
 
 ## 1. Proje
 - **Ne:** İstanbul'a özel kültür, zanaat ve erişilebilir rota web uygulaması.
@@ -124,7 +124,7 @@ Son güncelleme: 20 Kasım 2026 · canlıdaki son commit `2dc35fa`. 20 Kasım'da
 - Hikâye rotaları: `eyup-halic`, `galata-pera`, `bogaz-saraydan-hisara`; geometri `scripts/build-app-routes.js` ile (Valhalla). Boğaz rotası 8,3 km ve kıyıdan ayrılmıyor; "dik" etiketi ve %47 azami eğim SRTM'nin kıyıdaki gürültüsünden.
 - Sergiler semtlerine (ve varsa mekana) bağlandı; `YENILENEN_TOHUMLAR` (`store.js`) sayesinde sergi kayıtları her tohum sürümünde koddaki hâliyle yeniden yazılır. `TOHUM_SURUMU` o gün `2026-11-15.1` yapıldı (şu an `2026-11-20.2`).
 
-### 5.11 İstanbul atlası, müzik önerisi, vapur hatları, takvim ve grup sohbeti · YAPILDI (20 Kasım, push edilmedi)
+### 5.11 İstanbul atlası, müzik önerisi, vapur hatları, takvim ve grup sohbeti · YAPILDI (20 Kasım, `708feb4`, canlıda)
 - Ayrıntılar, API uçları ve dosya listesi: `docs/DEVIR-2026-11-20.md`.
 - `TOHUM_SURUMU = '2026-11-20.2'` (9 yeni Boğaz/Haliç mekanı + örnek grup sohbet mesajları).
 
