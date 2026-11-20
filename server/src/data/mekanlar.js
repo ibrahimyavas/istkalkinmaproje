@@ -412,6 +412,71 @@ const hamMekanlar = [
     erisilebilirlik: { rampa: null, asansor: null, wc: null, basamak: null, zemin: 'duz', not: 'Yerinde doğrulanacak.' },
     damgaKodu: 'BYL-53', kaynak: 'https://tr.wikipedia.org/wiki/Beylerbeyi_Sarayı', dogrulandi: false, konumKaynagi: 'Vikiveri Q794349 (P625)', resmiSite: 'https://www.millisaraylar.gov.tr',
   },
+
+  // ── Boğaz ve Haliç siluetinden gezilebilir simge yapılar ──────
+  {
+    id: 'suleymaniye-camii', semtId: 'sultanahmet', tur: 'miras', ad: 'Süleymaniye Camii',
+    lat: 41.01611, lon: 28.96398,
+    kisa: 'Mimar Sinan\'ın 1551–1557 arasında Kanuni Sultan Süleyman için yaptığı külliye; Haliç ve Boğaz siluetinin tacı.',
+    erisilebilirlik: { rampa: true, asansor: false, wc: true, basamak: false, zemin: 'duz', not: 'Avlu düz; çevresindeki sokaklarda yokuş var.' },
+    damgaKodu: 'SLY-54', kaynak: 'https://tr.wikipedia.org/wiki/S%C3%BCleymaniye_Camii', dogrulandi: true,
+  },
+  {
+    id: 'ciragan-sarayi', semtId: 'bogaz', tur: 'miras', ad: 'Çırağan Sarayı',
+    lat: 41.04372, lon: 29.01573,
+    kisa: 'Sultan Abdülaziz\'in 1871\'de tamamlattığı Boğaz sarayı; 1909–1910 arasında Meclis-i Mebusan binası olarak kullanıldı.',
+    erisilebilirlik: { rampa: true, asansor: true, wc: true, basamak: false, zemin: 'duz', not: 'Kıyı boyunca düz; iç mekân otel misafirlerine açık.' },
+    damgaKodu: 'CRG-55', kaynak: 'https://tr.wikipedia.org/wiki/%C3%87%C4%B1ra%C4%9Fan_Saray%C4%B1', dogrulandi: true,
+  },
+  {
+    id: 'kucuksu-kasri', semtId: 'uskudar', tur: 'muze', ad: 'Küçüksu Kasrı',
+    lat: 41.07814, lon: 29.06472,
+    kisa: 'Sultan Abdülmecid\'in 1857\'de Nigoğos Balyan\'a yaptırdığı Boğaz kıyısı biniş ve av kasrı; bugün Milli Saraylar müzesi.',
+    erisilebilirlik: { rampa: null, asansor: false, wc: true, basamak: true, zemin: 'duz', not: 'Bahçe düz, girişte taş merdiven var; yerinde doğrulanacak.' },
+    damgaKodu: 'KCS-56', kaynak: 'https://tr.wikipedia.org/wiki/K%C3%BC%C3%A7%C3%BCksu_Kasr%C4%B1', dogrulandi: true, resmiSite: 'https://www.millisaraylar.gov.tr',
+  },
+  {
+    id: 'anadolu-hisari', semtId: 'uskudar', tur: 'muze', ad: 'Anadolu Hisarı',
+    lat: 41.08233, lon: 29.06684,
+    kisa: 'Yıldırım Bayezid\'in 1395\'te Göksu deresinin Boğaz\'a döküldüğü noktada inşa ettirdiği kale; bugün müze olarak gezilebilir.',
+    erisilebilirlik: { rampa: null, asansor: false, wc: true, basamak: true, zemin: 'arnavut', not: 'Tarihî kale duvarları ve sur içi basamaklı.' },
+    damgaKodu: 'ANH-57', kaynak: 'https://tr.wikipedia.org/wiki/Anadolu_Hisar%C4%B1', dogrulandi: true,
+  },
+  {
+    id: 'hidiv-kasri', semtId: 'uskudar', tur: 'miras', ad: 'Hidiv Kasrı ve Korusu',
+    lat: 41.10513, lon: 29.07361,
+    kisa: '1907\'de son Mısır Hidivi Abbas Hilmi Paşa\'nın Çubuklu sırtlarında yaptırdığı Art Nouveau köşk, seyir kulesi ve koru.',
+    erisilebilirlik: { rampa: true, asansor: true, wc: true, basamak: false, zemin: 'yokus', not: 'Korudan çıkış eğimli; bina içi asansörlü.' },
+    damgaKodu: 'HDV-58', kaynak: 'https://tr.wikipedia.org/wiki/Hidiv_Kasr%C4%B1', dogrulandi: true,
+  },
+  {
+    id: 'yoros-kalesi', semtId: 'uskudar', tur: 'miras', ad: 'Yoros Kalesi',
+    lat: 41.17861, lon: 29.09417,
+    kisa: 'Anadolu Kavağı tepesinde Karadeniz girişini gözleyen Doğu Roma ve Ceneviz döneminden kale kalıntıları.',
+    erisilebilirlik: { rampa: false, asansor: false, wc: false, basamak: true, zemin: 'yokus', not: 'İskeleden dik yokuşla çıkılır.' },
+    damgaKodu: 'YRS-59', kaynak: 'https://tr.wikipedia.org/wiki/Yoros_Kalesi', dogrulandi: true,
+  },
+  {
+    id: 'haydarpasa-gari', semtId: 'kadikoy', tur: 'miras', ad: 'Haydarpaşa Garı',
+    lat: 40.99686, lon: 29.01911,
+    kisa: '1908\'de açılan, İstanbul–Bağdat demiryolunun Anadolu yakasındaki neo-klasik başlangıç garı; çevresi ve kültür alanları gezilebilir.',
+    erisilebilirlik: { rampa: true, asansor: false, wc: true, basamak: true, zemin: 'duz', not: 'Sahil ve iskele çevresi düz.' },
+    damgaKodu: 'HDP-60', kaynak: 'https://tr.wikipedia.org/wiki/Haydarpa%C5%9Fa_Gar%C4%B1', dogrulandi: true,
+  },
+  {
+    id: 'adile-sultan-sarayi', semtId: 'kuzguncuk', tur: 'miras', ad: 'Adile Sultan Sarayı',
+    lat: 41.06954, lon: 29.05582,
+    kisa: '1858\'de Adile Sultan için yaptırılan, 1916–1986 arasında Kandilli Kız Lisesi olarak hizmet veren Boğaz\'a hâkim tarihî saray.',
+    erisilebilirlik: { rampa: true, asansor: false, wc: true, basamak: true, zemin: 'yokus', not: 'Kandilli sırtında yokuşlu yaklaşım.' },
+    damgaKodu: 'ADS-61', kaynak: 'https://tr.wikipedia.org/wiki/Adile_Sultan_Saray%C4%B1', dogrulandi: true,
+  },
+  {
+    id: 'sait-halim-pasa-yalisi', semtId: 'bogaz', tur: 'miras', ad: 'Sait Halim Paşa Yalısı',
+    lat: 41.11972, lon: 29.07056,
+    kisa: '19. yüzyıl sonundan kalma, eski Sadrazam Sait Halim Paşa\'nın Yeniköy kıyısındaki tarihî yalısı; bugün kültür ve davet mekânı.',
+    erisilebilirlik: { rampa: true, asansor: false, wc: true, basamak: false, zemin: 'duz', not: 'Sahil yolu düz.' },
+    damgaKodu: 'SHP-62', kaynak: 'https://tr.wikipedia.org/wiki/Sait_Halim_Pa%C5%9Fa_Yal%C4%B1s%C4%B1', dogrulandi: true,
+  },
 ];
 
 // detay: { metin, ipucu } — mekan sayfası ve yazdırma çıktısı için ayrıntılı açıklama

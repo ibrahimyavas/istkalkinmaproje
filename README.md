@@ -20,6 +20,7 @@ cd client && npm install && npm run dev
 - Yönetim paneli: http://localhost:5173/admin (parola `server/.env` içindeki `ADMIN_PASSWORD`)
 
 Testler: `cd server && npm test` ve `cd client && npm run test:run`.
+Windows'ta PowerShell `npm.ps1` betiğini engellerse doğrudan `node` kullanın: `node server/src/index.js`, `cd server && node --test "test/**/*.test.js"`, `cd client && node node_modules/vitest/vitest.mjs --run`.
 
 ## Modüller
 
@@ -40,8 +41,15 @@ Testler: `cd server && npm test` ve `cd client && npm run test:run`.
 | Rota/plan yazdırma verisi ve mekanların ayrıntılı açıklamaları | `server/src/services/yazdirService.js`, `server/src/data/mekanDetaylari.js` |
 | Uzman başvurusu, uzman paneli (etkinlik/workshop ekleme), etkinlik kaydı ve kontenjan | `server/src/routes/uzman.js`, `server/src/middleware/uzmanAuth.js` |
 | Etki göstergeleri, içerik yönetimi, QR yazdırma, AI/HERE ayarları | `client/src/pages/admin/` |
+| Gün sayısına göre şehir geneli rota (rota sihirbazı) | `server/src/services/gunPlanService.js`, `client/src/pages/RotaSihirbaziSayfasi.jsx` |
+| Mekan yorumları ve puan (admin onaylı) | `server/src/routes/yorum.js` |
+| İstanbul atlası (yaka → 39 ilçe → 972 mahalle, köprüler, simge yapılar, arama) | `server/src/services/atlasService.js`, `server/src/routes/atlas.js`, `client/src/components/atlas/` |
+| Konuma göre müzik önerisi (YouTube Music, Spotify, Apple Music) | `server/src/data/muzikler.js`, `server/src/services/muzikService.js`, `client/src/components/kultur/MuzikOneriKarti.jsx` |
+| Boğaz ve Haliç vapur hatları (gidiş/dönüş, iskele/sancak siluetleri) | `server/src/data/vapurRotalari.js`, `server/src/routes/vapur.js`, `client/src/pages/VapurSayfasi.jsx` |
+| Google/Yandex/Apple Maps çok duraklı yol tarifi bağlantıları | `client/src/lib/harita.js`, `client/src/components/harita/RotaLinkleri.jsx` |
+| Takvime ekleme (Google Takvim, `.ics`) ve grup sohbeti | `client/src/lib/takvim.js`, `client/src/components/grup/GrupSohbet.jsx`, `server/src/routes/sosyal.js` |
 
-Tasarım devri için ekran envanteri: [docs/EKRANLAR.md](docs/EKRANLAR.md). Fotoğraf, yazdırma ve uzman uçları: [docs/API-YENI.md](docs/API-YENI.md) (istemci entegrasyonu bekliyor).
+Devir belgeleri: [docs/OTURUM-OZETI.md](docs/OTURUM-OZETI.md) (güncel durum), [docs/DEVIR-2026-11-20.md](docs/DEVIR-2026-11-20.md) (20 Kasım işleri), [docs/DEVIR-NOTU.md](docs/DEVIR-NOTU.md) (ayrıntılı geçmiş). Tasarım tokenları: [client/DESIGN.md](client/DESIGN.md). Tasarım devri için ekran envanteri: [docs/EKRANLAR.md](docs/EKRANLAR.md). Fotoğraf, yazdırma ve uzman uçları: [docs/API-YENI.md](docs/API-YENI.md) (istemci entegrasyonu bekliyor).
 
 ## Mimari
 

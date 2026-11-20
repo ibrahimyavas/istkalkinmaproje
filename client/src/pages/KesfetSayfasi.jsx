@@ -128,10 +128,10 @@ function Deste({ kartlar, semtOf, onKarar, geriAlSinyali, onGeriAl, geriAlinabil
           <span aria-hidden="true" className={`${damga} left-7 text-success`} style={{ transform: 'rotate(-12deg)', opacity: dx > 0 ? damgaOpak : 0 }}>GİDERİM</span>
           <span aria-hidden="true" className={`${damga} right-7 text-accent`} style={{ transform: 'rotate(12deg)', opacity: dx < 0 ? damgaOpak : 0 }}>GEÇ</span>
           <KartGorseli m={ust} buyuk>
-            <span className="absolute left-2.5 top-2.5 rounded-md bg-[#0A2540]/90 px-2.5 py-0.5 text-[11px] font-semibold text-white">{semt?.ad} · {semt?.yaka}</span>
+            <span className="absolute left-2.5 top-2.5 rounded-md bg-navy/90 px-2.5 py-0.5 text-[11px] font-semibold text-white">{semt?.ad} · {semt?.yaka}</span>
             {!ust.dogrulandi && (
-              <span className="absolute right-2.5 top-2.5 inline-flex items-center gap-0.5 rounded-md bg-white px-2 py-0.5 text-[11px] font-bold text-[#0F172A]">
-                <Simge ad="help" boyut={13} className="text-[#C84B26]" />Doğrulanacak
+              <span className="absolute right-2.5 top-2.5 inline-flex items-center gap-0.5 rounded-md bg-white px-2 py-0.5 text-[11px] font-bold text-navy">
+                <Simge ad="help" boyut={13} className="text-accent" />Doğrulanacak
               </span>
             )}
           </KartGorseli>

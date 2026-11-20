@@ -7,6 +7,7 @@ import Yukleniyor, { HataKutusu } from '../components/common/Yukleniyor.jsx';
 import { DogrulanacakRozet, Etiket, ErisilebilirlikListesi } from '../components/common/Rozetler.jsx';
 import { TalepFormu, BildirimFormu } from '../components/mekan/Formlar.jsx';
 import SiirKarti from '../components/kultur/SiirKarti.jsx';
+import MuzikOneriKarti from '../components/kultur/MuzikOneriKarti.jsx';
 import EtkinlikKarti from '../components/kultur/EtkinlikKarti.jsx';
 import Simge from '../components/common/Simge.jsx';
 import { FotoEkleFormu } from '../components/foto/FotoAlanlari.jsx';
@@ -23,7 +24,7 @@ export default function MekanSayfasi() {
 
   if (yukleniyor) return <Yukleniyor />;
   if (hata) return <HataKutusu metin={hata} yenile={yenile} />;
-  const { mekan: m, semt, siirler, etkinlikler, bildirimler, enYakinDurak, enYakinToplanma, fotograflar = [] } = veri;
+  const { mekan: m, semt, muzik, siirler, etkinlikler, bildirimler, enYakinDurak, enYakinToplanma, fotograflar = [] } = veri;
   const kaynakLink = m.kaynak?.startsWith('http');
 
   return (
@@ -89,6 +90,12 @@ export default function MekanSayfasi() {
               )}
             </section>
           )}
+        </div>
+      )}
+
+      {muzik && (
+        <div className="mb-6">
+          <MuzikOneriKarti muzik={muzik} sorgu={{ mekanId: m.id }} />
         </div>
       )}
 

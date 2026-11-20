@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../services/api.js';
 import { useApi } from '../hooks/useApi.js';
@@ -6,14 +6,12 @@ import Yukleniyor, { HataKutusu } from '../components/common/Yukleniyor.jsx';
 import Simge from '../components/common/Simge.jsx';
 import { SEMT_SIMGE, yakaEtiketi } from '../lib/sunum.js';
 import { ETKINLIK_TURU, tarihMetni, ucretMetni, yerMetni } from '../lib/etkinlik.js';
-
-const HaritaGorunumu = lazy(() => import('../components/harita/HaritaGorunumu.jsx'));
+import IstanbulAtlasBolumu from '../components/atlas/IstanbulAtlasBolumu.jsx';
 
 const EASE = 'cubic-bezier(.16,1,.3,1)';
 const GUNLER = [1, 2, 3, 4, 5];
 const YAKALAR = ['Avrupa', 'Anadolu', 'Adalar'];
 const KAPAK_ID = 'ayasofya';
-const KATMANLAR = [['mekan', 'Mekanlar'], ['atolye', 'Atölyeler'], ['durak', 'Duraklar'], ['toplanma', 'Toplanma alanları']];
 const GUN_MS = 86400000;
 
 /** Sayfadaki .acil parçalarını görünür olduklarında açar (bir kez). */
@@ -98,6 +96,9 @@ function Hero({ kapak, semtSayisi, mekanSayisi }) {
             <Link to="/kesfet" className="inline-flex min-h-[44px] items-center text-base font-semibold text-heading underline decoration-accent decoration-2 underline-offset-4 hover:text-accent">
               Yerleri tek tek seç
             </Link>
+            <a href="#atlas" className="inline-flex min-h-[44px] items-center gap-1 text-base font-semibold text-ink-muted no-underline hover:text-accent">
+              <Simge ad="map" boyut={18} /> Haritada gez
+            </a>
           </div>
         </Yukselen>
       </div>
@@ -246,73 +247,45 @@ function Sergiler({ sergiler }) {
   );
 }
 
-// ── Harita ve yaklaşan etkinlikler ────────────────────────────────────
-function HaritaVeTakvim({ harita, etkinlikler, semtOf, onSec }) {
-  const [katmanlar, setKatmanlar] = useState(['mekan', 'atolye', 'durak', 'toplanma']);
-  const veri = useMemo(() => {
-    if (!harita) return null;
-    return {
-      mekanlar: harita.mekanlar.filter((m) => (m.tur === 'atolye' ? katmanlar.includes('atolye') : katmanlar.includes('mekan'))),
-      duraklar: katmanlar.includes('durak') ? harita.duraklar : [],
-      toplanma: katmanlar.includes('toplanma') ? harita.toplanma : [],
-    };
-  }, [harita, katmanlar]);
-
+// ── Yaklaşan etkinlikler ──────────────────────────────────────────────
+function YaklasanEtkinlikler({ etkinlikler, semtOf }) {
+  if (!etkinlikler.length) return null;
   return (
-    <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
-      <section aria-labelledby="harita-baslik" className="min-w-0 lg:col-span-8">
-        <h2 id="harita-baslik" {...acil()} className="acil mb-2 mt-0 font-display text-3xl font-bold tracking-[-.02em] text-heading">Şehir haritası</h2>
-        <p {...acil(1)} className="acil mb-4 mt-0 text-base text-ink">Her durağın yanında en yakın deprem toplanma alanı da işaretli.</p>
-        <fieldset className="mb-4 min-w-0 border-0 p-0">
-          <legend className="sr-only">Harita katmanları</legend>
-          <div className="flex flex-wrap gap-2">
-            {KATMANLAR.map(([k, ad]) => {
-              const acik = katmanlar.includes(k);
-              return (
-                <button key={k} type="button" aria-pressed={acik} onClick={() => setKatmanlar(acik ? katmanlar.filter((x) => x !== k) : [...katmanlar, k])} className={`inline-flex min-h-[44px] items-center gap-1 rounded-full px-4 text-sm font-semibold transition-colors duration-200 active:scale-[.98] ${acik ? 'bg-fill text-on-fill' : 'bg-heading/[.07] text-ink hover:bg-accent-soft'}`}>
-                  {acik && <Simge ad="check" boyut={16} />}{ad}
-                </button>
-              );
-            })}
-          </div>
-        </fieldset>
-        {veri && (
-          <Suspense fallback={<Yukleniyor kutu metin="Harita yükleniyor…" yukseklik="aspect-[4/3] sm:aspect-video min-h-[300px]" />}>
-            <HaritaGorunumu {...veri} onSec={onSec} yukseklik="aspect-[4/3] sm:aspect-video min-h-[300px]" etiket="İstanbul genel haritası" gosterge={false} />
-          </Suspense>
-        )}
-      </section>
-
-      <section aria-labelledby="etk-baslik" className="min-w-0 lg:col-span-4">
-        <h2 id="etk-baslik" {...acil()} className="acil mb-2 mt-0 font-display text-3xl font-bold tracking-[-.02em] text-heading">Yaklaşan etkinlikler</h2>
-        <p {...acil(1)} className="acil mb-4 mt-0 text-base text-ink">Atölye, yürüyüş ve söyleşiler. <span className="font-semibold">Örnek</span> yazanlar demo verisidir.</p>
-        <ol className="m-0 grid list-none gap-2 p-0">
-          {etkinlikler.slice(0, 5).map((e, i) => (
-            <li key={e.id} {...acil(i + 2)}>
-              <Link to={`/etkinlik/${e.id}`} className="block bg-surface p-4 text-ink no-underline transition-colors duration-200 hover:bg-accent-soft hover:text-ink">
-                <span className="block text-[13px] font-semibold text-accent">{ETKINLIK_TURU[e.tur] || 'Etkinlik'} · {tarihMetni(e)}</span>
-                <span className="mt-1 block font-display text-base font-bold leading-6 text-heading">{e.baslik}</span>
-                <span className="mt-1 block text-[14px] text-ink">
-                  {semtOf(e.semtId)?.ad || yerMetni(e)} · {ucretMetni(e)}{e.ornek && ' · Örnek'}
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ol>
-        <Link to="/etkinlikler" className="mt-4 inline-flex min-h-[44px] items-center gap-1 text-base font-semibold text-heading underline decoration-accent decoration-2 underline-offset-4 hover:text-accent">
+    <section aria-labelledby="etk-baslik">
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h2 id="etk-baslik" {...acil()} className="acil m-0 font-display text-3xl font-bold tracking-[-.02em] text-heading">
+            Yaklaşan etkinlikler
+          </h2>
+          <p {...acil(1)} className="acil mb-0 mt-2 text-base text-ink">
+            Atölye, yürüyüş ve söyleşiler. <span className="font-semibold">Örnek</span> yazanlar demo verisidir.
+          </p>
+        </div>
+        <Link to="/etkinlikler" className="inline-flex min-h-[44px] items-center gap-1 text-base font-semibold text-heading underline decoration-accent decoration-2 underline-offset-4 hover:text-accent">
           Bütün takvim <Simge ad="arrow_forward" boyut={18} />
         </Link>
-      </section>
-    </div>
+      </div>
+      <ol className="m-0 mt-6 grid list-none gap-3 p-0 md:grid-cols-2 lg:grid-cols-3">
+        {etkinlikler.slice(0, 6).map((e, i) => (
+          <li key={e.id} {...acil(Math.min(i, 5))}>
+            <Link to={`/etkinlik/${e.id}`} className="block h-full rounded-[14px] bg-surface p-4 text-ink no-underline transition-colors duration-200 hover:bg-accent-soft hover:text-ink">
+              <span className="block text-[13px] font-semibold text-accent">{ETKINLIK_TURU[e.tur] || 'Etkinlik'} · {tarihMetni(e)}</span>
+              <span className="mt-1 block font-display text-base font-bold leading-6 text-heading">{e.baslik}</span>
+              <span className="mt-1 block text-[14px] text-ink">
+                {semtOf(e.semtId)?.ad || yerMetni(e)} · {ucretMetni(e)}{e.ornek && ' · Örnek'}
+              </span>
+            </Link>
+          </li>
+        ))}
+      </ol>
+    </section>
   );
 }
 
 export default function AnaSayfa() {
-  const navigate = useNavigate();
   const semtler = useApi(() => api.semtler(), []);
   const harita = useApi(() => api.harita(), []);
   const etkinlikler = useApi(() => api.etkinlikler(), []);
-  const sec = useCallback((id) => navigate(`/mekan/${id}`), [navigate]);
   const hazir = !semtler.yukleniyor && !harita.yukleniyor && !semtler.hata;
   useAcilis(hazir && !etkinlikler.yukleniyor);
 
@@ -335,12 +308,20 @@ export default function AnaSayfa() {
           mekanSayisi={mekanlar.length}
         />
       </div>
+
       <div className="bg-surface-raised py-20 sm:py-28">
         <div className="mx-auto max-w-sayfa px-4 sm:px-8">
           <Yakalar semtler={semtler.veri} mekanlar={mekanlar} />
         </div>
       </div>
+
+      {/* İnteraktif İstanbul Atlası (OpenStreetMap + Boğaz + köprüler + simgeler) */}
+      <div className="mx-auto max-w-sayfa px-4 py-20 sm:px-8 sm:py-28">
+        <IstanbulAtlasBolumu />
+      </div>
+
       {muzeler.length > 0 && <Muzeler muzeler={muzeler} semtOf={semtOf} />}
+
       {sergiler.length > 0 && (
         <div className="bg-surface-raised py-20 sm:py-28">
           <div className="mx-auto max-w-sayfa px-4 sm:px-8">
@@ -348,9 +329,12 @@ export default function AnaSayfa() {
           </div>
         </div>
       )}
-      <div className="mx-auto max-w-sayfa px-4 py-20 sm:px-8 sm:py-28">
-        <HaritaVeTakvim harita={harita.veri} etkinlikler={digerleri} semtOf={semtOf} onSec={sec} />
-      </div>
+
+      {digerleri.length > 0 && (
+        <div className="mx-auto max-w-sayfa px-4 py-20 sm:px-8 sm:py-28">
+          <YaklasanEtkinlikler etkinlikler={digerleri} semtOf={semtOf} />
+        </div>
+      )}
     </div>
   );
 }

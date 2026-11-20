@@ -1,6 +1,6 @@
 # Proje 404: Devir Notu (yeni sohbette devam için)
 
-Son güncelleme: 14 Kasım 2026 · son commit `00b9483` (5.1, 5.2, 5.8 yapıldı, **henüz commit edilmedi**)
+Son güncelleme: 20 Kasım 2026 · canlıdaki son commit `2dc35fa`. 20 Kasım'da yapılan atlas, müzik, vapur, takvim ve grup sohbeti işleri yerelde commit edildi ama **henüz push edilmedi, canlıda değil**; ayrıntısı `docs/DEVIR-2026-11-20.md`. Güncel durum özeti ve sıradaki işler: `docs/OTURUM-OZETI.md`.
 
 ## 1. Proje
 - **Ne:** İstanbul'a özel kültür, zanaat ve erişilebilir rota web uygulaması.
@@ -11,7 +11,7 @@ Son güncelleme: 14 Kasım 2026 · son commit `00b9483` (5.1, 5.2, 5.8 yapıldı
 ## 2. Nerede?
 | | |
 |---|---|
-| Yerel klasör | `C:\Users\CU\Desktop\Projeler\proje-404` |
+| Yerel klasör | `C:\Users\CU\Desktop\gemini\projeika` (eski konum: `Desktop\Projeler\proje-404`) |
 | GitHub | https://github.com/ibrahimyavas/istkalkinmaproje (`main`). Commit yazarı bu depoda `ibrahimyavas` + GitHub gizli e-postası |
 | Canlı site | https://istkalkinmaproje.vercel.app |
 | Vercel | Ekip "İbram" (`team_XehQyV2sFbaXKUoRlAaFjXH6`), proje `istkalkinmaproje` (`prj_SWYGCjBxYqblzxPkRlmYe8hYGLf3`), bölge `fra1`. `main`'e her gönderim otomatik deploy edilir |
@@ -29,7 +29,7 @@ Son güncelleme: 14 Kasım 2026 · son commit `00b9483` (5.1, 5.2, 5.8 yapıldı
 - **api/index.js + vercel.json:** Express tek bir sunucusuz fonksiyon olarak çalışır; arayüz statik site.
 - **infra/:** yalnızca yerelde Docker'da çalışır: Valhalla (`:8002`), Photon (`:2322`), martin + PMTiles (`:3000`), stil sunucusu (`:8080`), Postgres (`:5432`). `infra/data` 1,9 GB'tır ve git'e girmez.
 - **Rotalar:** `scripts/build-app-routes.js` Valhalla ile hesaplar ve `server/src/data/routes-geo/*.json` dosyalarına yazar (canlıda bunlar kullanılır).
-- **Testler:** sunucuda 46 (`cd server && npm test`; Postgres için `TEST_DATABASE_URL=postgres://proje404:proje404yerel@localhost:5432/proje404_test npm run test:pg`), arayüzde 6 (`cd client && npm run test:run`).
+- **Testler:** sunucuda 54 (`cd server && npm test`; Postgres için `TEST_DATABASE_URL=postgres://proje404:proje404yerel@localhost:5432/proje404_test npm run test:pg`), arayüzde 8 (`cd client && npm run test:run`). Windows'ta PowerShell `npm.ps1`'i engellerse: `node --test "test/**/*.test.js"` ve `node node_modules/vitest/vitest.mjs --run`.
 - **Ayrıntılı belgeler:** `docs/DEPLOY.md`, `docs/API-YENI.md`, `docs/EKRANLAR.md`, `README.md`.
 
 ## 4. Mevcut özellikler (canlıda)
@@ -37,7 +37,7 @@ Son güncelleme: 14 Kasım 2026 · son commit `00b9483` (5.1, 5.2, 5.8 yapıldı
 - **Erişilebilirlik:** erişilebilir mod; her durakta en yakın toplu taşıma durağı ve deprem toplanma alanı.
 - **Keşfet:** Tinder tarzı kart destesi → kişisel rota optimizasyonu (en yakın komşu + 2-opt, yaka geçişinde vapur/Marmaray önerisi).
 - **Gezinti grupları:** aç, katıl, ayrıl; yönetim anahtarı, kontenjan kilidi, şikâyet bildirimi.
-- **Mekanlar:** 31 mekan, ayrıntılı açıklama ve ipucu; 11 Wikimedia kapak fotoğrafı (tohumda, lisanslı).
+- **Mekanlar:** tohumda 95 kayıt (elle seçilmiş mekanlar, Vikipedi müzeleri ve 20 Kasım'da eklenen 9 Boğaz/Haliç yapısı); ayrıntılı açıklama ve ipucu; Wikimedia kapak fotoğrafları `mekanGorselleri.js`'te (lisanslı).
 - **Fotoğraf:** ziyaretçi fotoğraf yükleme (EXIF/GPS silinir) → admin onayı, "Kapak yap", "Fotoğrafları yenile".
 - **Bildirim:** konumlu sahadan bildirim (`/bildir`).
 - **Yazdırma:** A4 rota/plan çıktısı (QR kod + SVG rota çizimi).
@@ -50,23 +50,10 @@ Son güncelleme: 14 Kasım 2026 · son commit `00b9483` (5.1, 5.2, 5.8 yapıldı
 ### 5.1 Gün sayısına göre genel İstanbul rotası (mesafeye göre) · YAPILDI
 - **Yapılan:** `server/src/services/gunPlanService.js` + `POST /api/plan/gunluk { gunSayisi 1–5, ilgiler[], erisilebilir }`. Hepsi sığıyorsa tek sıra + dinamik programlamayla dengeli bölme; sığmıyorsa günlük "tohum + en iyi oran" seçimi, sonra dengeli bölme ve dışarıda kalanları geri ekleme. Yanıt `gunler[]`, `disarida[]` ve birleşik `duraklar/bacaklar` (grup sayfası için). Arayüz: `/rota-sihirbazi`, plan sayfasında gün sekmeleri, yazdırma çıktısı gün gün. Testler `server/test/gunplan.test.js`.
 - **Bilinen eksik:** gün sınırı bazen aynı semtin ortasına düşüyor (ör. Sultanahmet Camii 1. gün, Ayasofya 2. gün). Gün başına Adalar vapuru saat çizelgesine yansımıyor (bütçede sayılıyor).
-- **İstek:** Kullanıcı gün sayısını (ve isteğe bağlı ilgi alanlarını, erişilebilirliği) seçer; sistem şehir geneli bir rota üretir.
-- **Altyapı hazır:** `server/src/services/optimizer.js` (sıralama, yaka cezası), `planService.js` (yürüme bölümleri, Valhalla, süreler).
-- **Yapılacak:**
-  - Mekanları yakaya ve mesafeye göre **günlere kümele**: günlük bütçe yaklaşık 7 saat (ziyaret + yürüme + toplu taşıma), aynı gün içinde mümkünse tek yaka.
-  - Her günü ayrıca sırala.
-  - Uç: `POST /api/plan { gunSayisi, ilgiler, erisilebilir }` (ya da yeni bir uç). Yanıtta `gunler[]`.
-  - Arayüz: "Rota sihirbazı" ekranı ve plan sayfasında gün sekmeleri; yazdırma çıktısı gün gün.
-- **Not:** Şu an plan tek gün olarak hesaplanıyor; "günlere bölme" zaten açık iş listesindeydi.
 
 ### 5.2 Kullanıcı yorumu ve fotoğrafı · YAPILDI
 - **Yapılan:** `yorumRepo` (koleksiyon `yorumlar`), `server/src/routes/yorum.js`: `GET/POST /api/mekanlar/:id/yorumlar`, `POST /api/yorumlar/:id/sikayet` (3 şikâyette yayından kalkar), saatte 5 yorum sınırı, bal küpü alanı, e-posta/telefon engeli. Admin → Yorumlar sekmesi (onayla, reddet, sil; yorumla gelen fotoğraf birlikte onaylanır). Mekan sayfasında ortalama puan, yorum listesi ve form. Testler `server/test/yorum.test.js`.
 - **Fotoğraf altyapısı var:** `POST /api/fotograflar`, moderasyon, "Kapak yap". "Fotoğrafları oradan çekmek" = onaylı ziyaretçi fotoğrafını kapak yapmak (admin → Fotoğraflar).
-- **Yorum sistemi yok** (bildirim türü "yorum" var ama ayrı bir yorum ve puan özelliği yok). Yapılacak:
-  - `yorumRepo`: puan 1–5, metin, rumuz, isteğe bağlı fotoğraf.
-  - Admin onayı.
-  - Mekan sayfasında yorum listesi ve ortalama puan.
-  - Hız sınırı ve kötüye kullanım bildirimi.
 
 ### 5.3 Kültür Yolu Festivali "lezzet noktaları" · KALDIRILDI
 - 14 Kasım'da 6 semtteki 55 lezzet noktası eklenmiş, aynı gün **izin belirsizliği nedeniyle kaldırılmıştır** (sitede kullanım şartları yok, "Tüm hakları saklıdır"). Rota sihirbazındaki öğle molası da bu veriye bağlı olduğu için kaldırıldı.
@@ -100,15 +87,6 @@ Son güncelleme: 14 Kasım 2026 · son commit `00b9483` (5.1, 5.2, 5.8 yapıldı
 - **Sergiler:** `server/src/data/sergiler.js`: 7 kurumdan 13 güncel sergi (resmî sitelerden, olgusal alanlar, son kontrol 14 Kasım). Bu sitede kayıt alınmaz.
 - **Kalan:** Arter elle eklenmeli; 20 müzenin konumu Vikiveri'de yok (liste dışında kaldı); semt dışındaki 56 müze (semt sayfası olmadığı için) eklenmedi; 4 Aralık öncesi sergileri yeniden kontrol (Yapı Kredi sergisi 29 Kasım'da bitiyor).
 
-### 5.10 Klasik İstanbul turu: Eyüp, Beyoğlu, Boğaz · YAPILDI (15 Kasım)
-- Üç yeni Avrupa yakası semti (`semtler.js`): `eyup` (Eyüp–Haliç), `beyoglu` (Beyoğlu–Galata), `bogaz` (Beşiktaş–Boğaz).
-- 22 elle seçilmiş mekan (`mekanlar.js`, damga kodları 32–53): Eyüp Sultan, Mihrişah Valide Sultan Külliyesi, Zal Mahmud Paşa, Pierre Loti, Rahmi M. Koç, santralistanbul; Kamondo Merdivenleri, Galata Kulesi, Tünel, Galata Mevlevihanesi, Pera Müzesi, Masumiyet Müzesi, Çiçek Pasajı, İstiklal, İstanbul Modern; Dolmabahçe, Deniz Müzesi, Ortaköy Camii, Bebek Sahili, Rumelihisarı, Sakıp Sabancı Müzesi; ayrıca Kuzguncuk'a Beylerbeyi Sarayı. Koordinat Vikiveri P625 (yoksa OSM/Photon), açıklama Vikipedi maddesinden kısa özet. Hepsi `dogrulandi: false`, erişim bilgisi çoğunlukla yok.
-- `scripts/muzeler.js` yeni semtlere genişletildi (semt birden çok ilçeye yayılabilir) ve kendi önceki çıktısını "zaten var" saymayacak şekilde düzeltildi: +12 müze (Beyoğlu 7, Boğaz 3, Eyüp 2).
-- Commons kapakları `mekanGorselleri.js`'e eklendi; Pera Müzesi ve Rahmi M. Koç için logo/ilgisiz görsel yerine bina fotoğrafı elle seçildi, Musevi Müzesi'nin logo görseli çıkarıldı. Admin "Fotoğrafları yenile" bunları maddenin ana görseline geri çevirebilir.
-- Duraklar (`ulasim.js`): Eyüp/Hasköy/Karaköy/Kabataş/Beşiktaş/Ortaköy/Bebek/Rumelihisarı/Beylerbeyi iskeleleri, Şişhane/Taksim/Tünel, Feshane T5, Eyüp teleferiği (yeni tür `teleferik`). Toplanma alanları yine **örnek**.
-- Hikâye rotaları: `eyup-halic`, `galata-pera`, `bogaz-saraydan-hisara`; geometri `scripts/build-app-routes.js` ile (Valhalla). Boğaz rotası 8,3 km ve kıyıdan ayrılmıyor; "dik" etiketi ve %47 azami eğim SRTM'nin kıyıdaki gürültüsünden.
-- Sergiler semtlerine (ve varsa mekana) bağlandı; `YENILENEN_TOHUMLAR` (`store.js`) sayesinde sergi kayıtları her tohum sürümünde koddaki hâliyle yeniden yazılır. `TOHUM_SURUMU = 2026-11-15.1`.
-
 ### 5.7 Vikisöz'den şiir (şiir katmanını genişletme)
 - **Kaynak:** https://tr.wikiquote.org (Vikisöz). Sayfalar CC BY-SA lisanslı, ama alıntılanan şiirin hakkı şairde kalır.
 - **Telif kuralı (FSEK, ölümden sonra 70 yıl):**
@@ -123,15 +101,6 @@ Son güncelleme: 14 Kasım 2026 · son commit `00b9483` (5.1, 5.2, 5.8 yapıldı
 
 ### 5.8 Aşağı kaydırınca sağa asılı menü · YAPILDI
 - **Yapılan:** `hooks/useKaydirma.js`; 160 px'ten sonra üst başlık yapışkanlığı bırakır, sağ kenarda dikey ikon menüsü belirir (etiketler üzerine gelince/odakta, erişilebilir mod, tema, başa dön). Dar ekranda sağ altta menü düğmesiyle açılır. `prefers-reduced-motion`'da animasyon yok. Ekran görüntüsüyle görsel kontrol yapılmadı (pencere gizliydi); yerleşim ölçümle doğrulandı.
-- **İstek:** Sayfa aşağı kaydırılınca menü üstten kalkıp ekranın sağ kenarına asılı (dikey, yüzen) bir menüye dönüşsün.
-- **Mevcut durum:** `client/src/components/layout/Navbar.jsx`. Üstte `DemoBant`, altında `sticky top-0` başlık var. Başlıkta logo, 6 bağlantı (`LINKLER`), erişilebilir mod, tema ve "Keşfetmeye başla" düğmeleri bulunuyor.
-- **Yapılacak:**
-  - Kaydırma eşiği (ör. 120 px) için bir hook yaz (`hooks/useKaydirma.js`, `requestAnimationFrame` ile ve pasif dinleyiciyle).
-  - Eşik geçilince üst başlık gizlensin. Sağ kenarda dikey ikon menüsü belirsin: `LINKLER` için Material Symbols ikonları, üzerine gelince etiket (tooltip), alta erişilebilir mod ve tema düğmeleri.
-  - Geçişte `motion` kullanılsın. `prefers-reduced-motion` açıksa animasyon olmasın.
-  - Mobilde (`< sm`) sağ menü yerine alt sekme çubuğu ya da sağ altta bir menü düğmesi kullanılsın. Harita sayfalarında harita kontrolleriyle çakışmaya dikkat edilmeli.
-  - Erişilebilirlik: `nav aria-label`, odak sırası, en az 44 px dokunma alanı, etkin bağlantıda `aria-current`.
-- **Not:** Tasarım dosyasında (`tasarim/`) bu menü yok; renkler ve biçimler mevcut tokenlarla uyarlanacak.
 
 ### 5.9 Türkçe seslendirme reposu
 - **İstek:** Sesli rehber için kullanıcının vereceği Türkçe bir seslendirme (TTS) reposu kullanılacak. **Repo bağlantısı henüz verilmedi.**
@@ -145,6 +114,19 @@ Son güncelleme: 14 Kasım 2026 · son commit `00b9483` (5.1, 5.2, 5.8 yapıldı
   - Metin değişince ses yeniden üretilsin (metnin özetini dosya adına koy).
   - Ses dosyası yoksa tarayıcının konuşma sentezine geri dönülsün.
   - Kullanıcının kendi eklediği durak gibi anlık metinler için şimdilik tarayıcı sentezi kalsın.
+
+### 5.10 Klasik İstanbul turu: Eyüp, Beyoğlu, Boğaz · YAPILDI (15 Kasım)
+- Üç yeni Avrupa yakası semti (`semtler.js`): `eyup` (Eyüp–Haliç), `beyoglu` (Beyoğlu–Galata), `bogaz` (Beşiktaş–Boğaz).
+- 22 elle seçilmiş mekan (`mekanlar.js`, damga kodları 32–53): Eyüp Sultan, Mihrişah Valide Sultan Külliyesi, Zal Mahmud Paşa, Pierre Loti, Rahmi M. Koç, santralistanbul; Kamondo Merdivenleri, Galata Kulesi, Tünel, Galata Mevlevihanesi, Pera Müzesi, Masumiyet Müzesi, Çiçek Pasajı, İstiklal, İstanbul Modern; Dolmabahçe, Deniz Müzesi, Ortaköy Camii, Bebek Sahili, Rumelihisarı, Sakıp Sabancı Müzesi; ayrıca Kuzguncuk'a Beylerbeyi Sarayı. Koordinat Vikiveri P625 (yoksa OSM/Photon), açıklama Vikipedi maddesinden kısa özet. Hepsi `dogrulandi: false`, erişim bilgisi çoğunlukla yok.
+- `scripts/muzeler.js` yeni semtlere genişletildi (semt birden çok ilçeye yayılabilir) ve kendi önceki çıktısını "zaten var" saymayacak şekilde düzeltildi: +12 müze (Beyoğlu 7, Boğaz 3, Eyüp 2).
+- Commons kapakları `mekanGorselleri.js`'e eklendi; Pera Müzesi ve Rahmi M. Koç için logo/ilgisiz görsel yerine bina fotoğrafı elle seçildi, Musevi Müzesi'nin logo görseli çıkarıldı. Admin "Fotoğrafları yenile" bunları maddenin ana görseline geri çevirebilir.
+- Duraklar (`ulasim.js`): Eyüp/Hasköy/Karaköy/Kabataş/Beşiktaş/Ortaköy/Bebek/Rumelihisarı/Beylerbeyi iskeleleri, Şişhane/Taksim/Tünel, Feshane T5, Eyüp teleferiği (yeni tür `teleferik`). Toplanma alanları yine **örnek**.
+- Hikâye rotaları: `eyup-halic`, `galata-pera`, `bogaz-saraydan-hisara`; geometri `scripts/build-app-routes.js` ile (Valhalla). Boğaz rotası 8,3 km ve kıyıdan ayrılmıyor; "dik" etiketi ve %47 azami eğim SRTM'nin kıyıdaki gürültüsünden.
+- Sergiler semtlerine (ve varsa mekana) bağlandı; `YENILENEN_TOHUMLAR` (`store.js`) sayesinde sergi kayıtları her tohum sürümünde koddaki hâliyle yeniden yazılır. `TOHUM_SURUMU` o gün `2026-11-15.1` yapıldı (şu an `2026-11-20.2`).
+
+### 5.11 İstanbul atlası, müzik önerisi, vapur hatları, takvim ve grup sohbeti · YAPILDI (20 Kasım, push edilmedi)
+- Ayrıntılar, API uçları ve dosya listesi: `docs/DEVIR-2026-11-20.md`.
+- `TOHUM_SURUMU = '2026-11-20.2'` (9 yeni Boğaz/Haliç mekanı + örnek grup sohbet mesajları).
 
 ## 6. Bu sohbette konuşulan, hâlâ açık işler
 - **Canlıya taşıma:**

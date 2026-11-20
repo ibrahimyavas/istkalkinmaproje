@@ -14,11 +14,11 @@ import { seedState, KALDIRILAN_TOHUMLAR, YENILENEN_TOHUMLAR } from './store.js';
 export const arkaUc = 'postgres';
 
 // Kod içindeki tohum veri (data/*.js) değişince artırın.
-export const TOHUM_SURUMU = '2026-11-15.1'; // .1: Eyüp, Beyoğlu ve Boğaz semtleri, klasik tur mekanları, yeni müzeler
+export const TOHUM_SURUMU = '2026-11-20.2'; // .2: Boğaz silueti gezilebilir mekanlar + grup sohbeti tohumu
 
 const KOLEKSIYONLAR = [
   'semtler', 'mekanlar', 'rotalar', 'duraklar', 'toplanma', 'siirler', 'etkinlikler',
-  'dunBugun', 'gruplar', 'planlar', 'bildirimler', 'talepler', 'fotograflar', 'uzmanlar', 'yorumlar',
+  'dunBugun', 'gruplar', 'grupMesajlar', 'planlar', 'bildirimler', 'talepler', 'fotograflar', 'uzmanlar', 'yorumlar',
 ];
 
 let havuz;
@@ -247,6 +247,13 @@ export const bildirimRepo = {
   ...collection('bildirimler', { prefix: 'bildirim' }),
   async create(data) {
     return ekle('bildirimler', { ...data, id: newId('bildirim'), durum: 'bekliyor', tarih: new Date().toISOString() });
+  },
+};
+
+export const grupMesajRepo = {
+  ...collection('grupMesajlar', { prefix: 'gm' }),
+  async create(data) {
+    return ekle('grupMesajlar', { ...data, id: newId('gm'), tarih: new Date().toISOString() });
   },
 };
 

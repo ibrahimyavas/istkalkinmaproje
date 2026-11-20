@@ -8,6 +8,7 @@ import { useKaydirma } from '../../hooks/useKaydirma.js';
 
 const LINKLER = [
   { to: '/', ad: 'Semtler', simge: 'map', end: true },
+  { to: '/vapur', ad: 'Vapur', simge: 'directions_boat' },
   { to: '/kesfet', ad: 'Keşfet', simge: 'swipe' },
   { to: '/rota-sihirbazi', ad: 'Rota sihirbazı', simge: 'auto_awesome' },
   { to: '/gruplar', ad: 'Gruplar', simge: 'groups' },
@@ -23,7 +24,7 @@ function DemoBant() {
   return (
     <aside className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 bg-navy px-4 py-2 text-[11px] font-semibold leading-4 tracking-[.2px] text-white sm:px-8">
       <span className="inline-flex items-center gap-1.5">
-        <span className="inline-block h-2 w-2 rounded-full bg-[#1B8755]" />
+        <span className="inline-block h-2 w-2 rounded-full bg-success" />
         DEMO VERİSİ · İçeriklerin bir kısmı örnektir, “Doğrulanacak” işaretliler teyit edilmedi
       </span>
       <span className="inline-flex items-center gap-3">

@@ -56,6 +56,15 @@ function collection(name, { prefix = name, editable = true } = {}) {
 
 export const semtRepo = collection('semtler', { editable: false });
 export const yorumRepo = collection('yorumlar', { prefix: 'yorum' });
+export const grupMesajRepo = {
+  ...collection('grupMesajlar', { prefix: 'gm' }),
+  async create(veri) {
+    const item = { ...veri, id: newId('gm'), tarih: new Date().toISOString() };
+    getState().grupMesajlar.push(item);
+    persist();
+    return item;
+  },
+};
 export const mekanRepo = {
   ...collection('mekanlar', { prefix: 'mekan' }),
   async getByDamgaKodu(kod) {

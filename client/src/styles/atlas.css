@@ -1,0 +1,126 @@
+/* İstanbul Atlası — Proje 404 tasarım sistemiyle (lacivert / kiremit / açık-koyu tokenlar)
+   birebir uyumlu harita ve panel stilleri. */
+
+.atlas-chrome {
+  background: rgb(var(--surface) / 0.92);
+  border: 1px solid rgb(var(--border));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-md);
+  color: rgb(var(--ink));
+}
+
+.atlas-hud-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 30px;
+  padding: 0 11px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgb(var(--ink-muted));
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 140ms ease, color 140ms ease;
+}
+
+.atlas-hud-btn:hover {
+  background: rgb(var(--heading) / 0.06);
+  color: rgb(var(--heading));
+}
+
+.atlas-hud-btn.active {
+  background: rgb(var(--fill));
+  color: rgb(var(--on-fill));
+}
+
+.atlas-scroll {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--border-strong)) transparent;
+}
+
+/* MapLibre kontrolleri Proje 404 yüzey ve tema tokenlarına uyarlanır */
+.atlas-osm-wrap .maplibregl-ctrl-bottom-left {
+  bottom: 58px;
+  left: 12px;
+}
+
+.atlas-osm-wrap .maplibregl-ctrl-bottom-right {
+  bottom: 12px;
+  right: 12px;
+}
+
+.atlas-osm-wrap .maplibregl-ctrl-group {
+  background: rgb(var(--surface) / 0.94);
+  border: 1px solid rgb(var(--border));
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.dark .atlas-osm-wrap .maplibregl-ctrl-group button {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+.dark .atlas-osm-wrap .maplibregl-ctrl-attrib {
+  background: rgb(var(--surface) / 0.9);
+  color: rgb(var(--ink-muted));
+}
+
+.dark .atlas-osm-wrap .maplibregl-ctrl-attrib a {
+  color: rgb(var(--ink));
+}
+
+/* Hızlı DOM-tabanlı harita bilgi kartı (mouse hareketinde React render tetiklemez) */
+.atlas-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 30;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* WebGL fallback SVG haritası için tema uyumlu katmanlar */
+.atlas-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+}
+
+.atlas-poly {
+  vector-effect: non-scaling-stroke;
+  stroke: rgb(var(--border-strong));
+  stroke-width: 1px;
+  stroke-linejoin: round;
+  fill: rgb(var(--surface-raised));
+  cursor: pointer;
+  transition: fill 160ms ease, opacity 220ms ease;
+}
+
+.atlas-poly.has-data {
+  fill: color-mix(in srgb, rgb(var(--accent)) 22%, rgb(var(--surface)));
+}
+
+.atlas-poly.selected {
+  fill: rgb(var(--accent)) !important;
+  stroke: rgb(var(--heading)) !important;
+  stroke-width: 1.6px !important;
+}
+
+.atlas-poly.dimmed {
+  opacity: 0.28;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .atlas-poly,
+  .atlas-hud-btn {
+    transition: none !important;
+  }
+}

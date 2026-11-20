@@ -7,6 +7,8 @@ import { buildRoute } from '../services/mapService.js';
 import { publicSiir } from '../services/poemService.js';
 import { publicFoto, konumCoz } from '../services/fotoService.js';
 import { sadeGeometri, sinirKutusu } from '../services/yazdirService.js';
+import { konumCozumle } from '../services/atlasService.js';
+import { bolgeIcinMuzik, mekanIcinMuzik } from '../services/muzikService.js';
 import { nearest } from '../utils/geo.js';
 
 const r = Router();
@@ -73,6 +75,11 @@ r.get('/semtler/:id', wrap(async (req, res) => {
     mekanlar,
     rotalar: rotalar.map(({ duraklar, ...rest }) => ({ ...rest, durakSayisi: duraklar.length })),
     siirler: await siirlerFor({ semtId: semt.id }),
+    muzik: bolgeIcinMuzik({
+      semtId: semt.id,
+      yaka: semt.yaka === 'Avrupa' ? 'avrupa' : 'anadolu',
+      bolgeAd: semt.ad,
+    }),
     etkinlikler: yaklasanEtkinlikler(etkinlikler),
     dunBugun,
     toplanma,
@@ -101,9 +108,16 @@ r.get('/mekanlar/:id', wrap(async (req, res) => {
     bildirimRepo.list({ mekanId: mekan.id, durum: 'onaylandi' }),
     fotoRepo.list({ mekanId: mekan.id, durum: 'onaylandi' }),
   ]);
+  const konum = konumCozumle(mekan);
   res.json({
     mekan,
     semt,
+    konum,
+    muzik: mekanIcinMuzik(mekan, {
+      ilce: konum?.ilce,
+      ilceAd: konum?.ilceAd,
+      yaka: konum?.yaka,
+    }),
     siirler: await siirlerFor({ mekanId: mekan.id }),
     etkinlikler: yaklasanEtkinlikler(etkinlikler),
     bildirimler: bildirimler.map(publicBildirim),

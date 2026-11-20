@@ -4,6 +4,7 @@ import { api } from '../services/api.js';
 import { useApi } from '../hooks/useApi.js';
 import Yukleniyor, { HataKutusu } from '../components/common/Yukleniyor.jsx';
 import Simge from '../components/common/Simge.jsx';
+import RotaLinkleri from '../components/harita/RotaLinkleri.jsx';
 import { DURAK_TURU, yolTarifiUrl } from '../lib/harita.js';
 import { sureYaz, mesafeYazTr, saatYaz } from '../lib/sunum.js';
 
@@ -156,6 +157,11 @@ export default function PlanSayfasi() {
               </div>
             ))}
           </dl>
+          <RotaLinkleri
+            kompakt
+            duraklar={g.duraklar}
+            baslik={cokGunlu ? `${g.gun}. gün rotasını navigasyonda aç` : 'Rotayı navigasyonda aç'}
+          />
           <p className="-mt-3 mb-0 flex items-center gap-1.5 text-xs text-ink-faint">
             <Simge ad="info" boyut={16} />
             {g.geometriKaynagi === 'valhalla'

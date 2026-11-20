@@ -8,6 +8,9 @@ import Yukleniyor, { HataKutusu } from '../components/common/Yukleniyor.jsx';
 import { Etiket } from '../components/common/Rozetler.jsx';
 import TopulukKurallari from '../components/grup/TopulukKurallari.jsx';
 import { DIL, tarihYaz } from '../components/grup/GrupKarti.jsx';
+import GrupSohbet from '../components/grup/GrupSohbet.jsx';
+import RotaLinkleri from '../components/harita/RotaLinkleri.jsx';
+import TakvimeEkleDugmesi from '../components/kultur/TakvimeEkleDugmesi.jsx';
 
 const HaritaGorunumu = lazy(() => import('../components/harita/HaritaGorunumu.jsx'));
 
@@ -139,6 +142,20 @@ export default function GrupSayfasi() {
         <div className="kart p-4"><dt className="eyebrow flex items-center gap-1.5"><Languages size={14} aria-hidden="true" /> Dil</dt><dd className="mt-1 font-semibold">{DIL[g.dil]}</dd></div>
       </dl>
 
+      <div className="mt-4">
+        <TakvimeEkleDugmesi
+          etkinlik={{
+            id: g.id,
+            baslik: g.baslik,
+            baslangic: g.baslangic,
+            sureDk: 150,
+            aciklama: [g.aciklama, rota ? `Rota: ${rota.ad}` : ''].filter(Boolean).join('\n'),
+            konum: bulusma ? `${bulusma.ad}, İstanbul` : 'İstanbul',
+            url: typeof window !== 'undefined' ? window.location.href : undefined,
+          }}
+        />
+      </div>
+
       <div className="mt-6 grid gap-6 lg:grid-cols-[1.2fr_1fr]">
         <div className="space-y-4">
           {rota && (
@@ -146,6 +163,7 @@ export default function GrupSayfasi() {
               <Suspense fallback={<Yukleniyor kutu metin="Harita yükleniyor…" yukseklik="h-[320px]" />}>
                 <HaritaGorunumu mekanlar={mekanlar} numarali yukseklik="h-[320px]" etiket="Grubun rotası" />
               </Suspense>
+              <RotaLinkleri kompakt duraklar={rota.duraklar} baslik="Grup rotasını navigasyonda aç" />
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <p className="font-semibold">{rota.ad}</p>
                 <Link to={rota.tur === 'plan' ? `/plan/${rota.id}` : `/rota/${rota.id}`} className="btn-ikincil text-sm"><RouteIcon size={14} aria-hidden="true" /> Rotanın ayrıntıları</Link>
@@ -154,6 +172,7 @@ export default function GrupSayfasi() {
             </>
           )}
           <p className="text-sm text-ink-muted">Katılanlar: {g.katilimcilar.join(', ')}</p>
+          <GrupSohbet grupId={g.id} baslik={g.baslik} iptal={g.durum !== 'aktif'} />
         </div>
 
         <div className="space-y-4">

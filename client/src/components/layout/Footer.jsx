@@ -31,7 +31,7 @@ export default function Footer() {
         <div className="grid gap-8 pb-10 [grid-template-columns:repeat(auto-fit,minmax(200px,1fr))]">
           <div>
             <div className="mb-3 flex items-center gap-3">
-              <span className="flex h-9 w-9 items-center justify-center rounded-[10px] bg-white font-display text-sm font-bold text-[#0A2540]">404</span>
+              <span className="flex h-9 w-9 items-center justify-center rounded-[10px] bg-white font-display text-sm font-bold text-navy">404</span>
               <span className="font-display text-base font-bold">Proje 404</span>
             </div>
             <p className="m-0 max-w-[36ch] text-white/75">İstanbul’un semtlerini, atölyelerini ve hikâyelerini yürüyerek keşfetmek için.</p>

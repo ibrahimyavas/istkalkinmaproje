@@ -2,6 +2,12 @@
 
 No codebase was connected when this plan was written. Every entry below is a guess about existing code, and the executor confirms it in the task's Step 0.
 
+> **Durum (20 Kasım 2026, kodla karşılaştırıldı):** Bu plan uygulanmadı; proje başka bir tasarım yönüyle (Claude Design "Proje 404 Preview v2": lacivert `#0A2540` + kiremit `#C84B26`, Plus Jakarta Sans + Inter) ilerledi. Güncel tokenlar `client/DESIGN.md`'de. Aşağıdaki varsayımların durumu:
+> - **A-001 DOĞRULANDI** (yığın kısmı): React 18, react-router-dom, Vite, Tailwind 3.4. "Test aracı yok" varsayımı **YANLIŞ**: Vitest 3 kurulu (`client/src/__tests__/`).
+> - **A-002, A-003, A-004, A-009 GEÇERSİZ:** Broadsheet tasarım sistemi kodda kullanılmıyor; `corePlugins.preflight` kapatılmadı. Koyu tema `html.dark` sınıfıyla çalışıyor; dokunma hedefleri zaten 44 px.
+> - **A-006, A-007 GEÇERSİZ:** `pages/Kesfet.jsx` yok; Keşfet ekranı `pages/KesfetSayfasi.jsx` + `components/kesfet/`.
+> - **A-005, A-008, A-010:** plan uygulanmadığı için kapsam dışı.
+
 ## A-001 | gap-fill | OPEN
 Stack assumed: React 18, react-router-dom 6, Vite, Tailwind 3.4. No test runner exists yet.
 Alternatives: Jest (swap `vi` → `jest`), Tailwind 4 (config moves into CSS `@theme`).

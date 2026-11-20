@@ -7,6 +7,7 @@ import Yukleniyor, { HataKutusu } from '../components/common/Yukleniyor.jsx';
 import { DogrulanacakRozet, Etiket } from '../components/common/Rozetler.jsx';
 import MekanKarti from '../components/mekan/MekanKarti.jsx';
 import SiirKarti from '../components/kultur/SiirKarti.jsx';
+import MuzikOneriKarti from '../components/kultur/MuzikOneriKarti.jsx';
 import DunBugun from '../components/kultur/DunBugun.jsx';
 import EtkinlikKarti from '../components/kultur/EtkinlikKarti.jsx';
 
@@ -38,7 +39,7 @@ export default function SemtSayfasi() {
 
   if (yukleniyor) return <Yukleniyor />;
   if (hata) return <HataKutusu metin={hata} yenile={yenile} />;
-  const { semt, rotalar, siirler, etkinlikler, dunBugun, toplanma } = veri;
+  const { semt, rotalar, siirler, muzik, etkinlikler, dunBugun, toplanma } = veri;
 
   return (
     <div className="mx-auto max-w-6xl px-4">
@@ -101,6 +102,15 @@ export default function SemtSayfasi() {
           </div>
         </div>
       </section>
+
+      {muzik && (
+        <div className="pt-10">
+          <MuzikOneriKarti
+            muzik={muzik}
+            sorgu={{ semtId: semt.id, bolgeAd: semt.ad }}
+          />
+        </div>
+      )}
 
       {siirler.length > 0 && (
         <section aria-labelledby="siir-baslik" className="pt-12">

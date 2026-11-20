@@ -2,7 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { CalendarDays, Accessibility, MapPin } from 'lucide-react';
 import { Etiket } from '../common/Rozetler.jsx';
-import { ETKINLIK_TURU, tarihMetni } from '../../lib/etkinlik.js';
+import TakvimeEkleDugmesi from './TakvimeEkleDugmesi.jsx';
+import { ETKINLIK_TURU, tarihMetni, yerMetni } from '../../lib/etkinlik.js';
 
 export default function EtkinlikKarti({ e }) {
   return (
@@ -31,6 +32,20 @@ export default function EtkinlikKarti({ e }) {
           <MapPin size={16} aria-hidden="true" className="shrink-0" /> {e.mekanAd}
         </p>
       )}
+      <div className="mt-auto pt-1">
+        <TakvimeEkleDugmesi
+          kompakt
+          etkinlik={{
+            id: e.id,
+            baslik: e.baslik,
+            baslangic: e.baslangic,
+            bitis: e.bitis,
+            sureDk: e.sureDk || 120,
+            aciklama: e.aciklama,
+            konum: `${yerMetni(e)}, İstanbul`,
+          }}
+        />
+      </div>
     </article>
   );
 }

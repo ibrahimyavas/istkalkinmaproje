@@ -1,2 +1,4 @@
 # build-harita-stili.js için yerel araç kurulumu (proje bağımlılığı değil)
 .harita-arac/
+.cache/
+

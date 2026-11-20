@@ -17,6 +17,7 @@ const DamgaSayfasi = lazy(() => import('./pages/DamgaSayfasi.jsx'));
 const KesfetSayfasi = lazy(() => import('./pages/KesfetSayfasi.jsx'));
 const PlanSayfasi = lazy(() => import('./pages/PlanSayfasi.jsx'));
 const RotaSihirbaziSayfasi = lazy(() => import('./pages/RotaSihirbaziSayfasi.jsx'));
+const VapurSayfasi = lazy(() => import('./pages/VapurSayfasi.jsx'));
 const GruplarSayfasi = lazy(() => import('./pages/GruplarSayfasi.jsx'));
 const GrupAcSayfasi = lazy(() => import('./pages/GrupAcSayfasi.jsx'));
 const GrupSayfasi = lazy(() => import('./pages/GrupSayfasi.jsx'));
@@ -51,6 +52,8 @@ export default function App() {
             <Route path="/damga/:kod" element={<DamgaSayfasi />} />
             <Route path="/kesfet" element={<KesfetSayfasi />} />
             <Route path="/rota-sihirbazi" element={<RotaSihirbaziSayfasi />} />
+            <Route path="/vapur" element={<VapurSayfasi />} />
+            <Route path="/vapur/:id" element={<VapurSayfasi />} />
             <Route path="/plan/:id" element={<PlanSayfasi />} />
             <Route path="/plan/:id/yazdir" element={<YazdirSayfasi tur="plan" />} />
             <Route path="/gruplar" element={<GruplarSayfasi />} />

@@ -4,6 +4,7 @@ import { api, hataMesaji } from '../services/api.js';
 import { useApi } from '../hooks/useApi.js';
 import Yukleniyor, { HataKutusu } from '../components/common/Yukleniyor.jsx';
 import Simge from '../components/common/Simge.jsx';
+import TakvimeEkleDugmesi from '../components/kultur/TakvimeEkleDugmesi.jsx';
 import { yolTarifiUrl, ZANAAT } from '../lib/harita.js';
 import { ETKINLIK_TURU as TUR, tarihMetni, ucretMetni, yerMetni } from '../lib/etkinlik.js';
 
@@ -91,6 +92,20 @@ export default function EtkinlikSayfasi() {
                 {e.gercek && !e.dogrulandi && ' · tarih ve yer gitmeden kaynaktan doğrulanmalı'}
               </p>
             )}
+            <div className="mt-4">
+              <TakvimeEkleDugmesi
+                etkinlik={{
+                  id: e.id,
+                  baslik: e.baslik,
+                  baslangic: e.baslangic,
+                  bitis: e.bitis,
+                  sureDk: e.sureDk || 120,
+                  aciklama: e.aciklama,
+                  konum: yerMetni(e, mekan) + (e.adres ? `, ${e.adres}` : ', İstanbul'),
+                  url: typeof window !== 'undefined' ? window.location.href : undefined,
+                }}
+              />
+            </div>
             {disYer && (
               <div className="mt-4 flex flex-wrap gap-2">
                 <a href={yolTarifiUrl(null, disYer, 'transit')} target="_blank" rel="noreferrer" className="btn-ikincil"><Simge ad="directions_transit" />Yol tarifi</a>

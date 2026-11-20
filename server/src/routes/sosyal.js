@@ -1,7 +1,7 @@
 // Keşfet (kaydırmalı seçim), kişisel rota planı ve gezinti grupları.
 import { Router } from 'express';
 import {
-  semtRepo, mekanRepo, rotaRepo, durakRepo, toplanmaRepo, planRepo, grupRepo, olayRepo,
+  semtRepo, mekanRepo, rotaRepo, durakRepo, toplanmaRepo, planRepo, grupRepo, grupMesajRepo, olayRepo,
 } from '../repositories/index.js';
 import { planOlustur, PLAN_AZAMI_DURAK } from '../services/planService.js';
 import { cokGunluPlanOlustur, GUN_AZAMI, TURLER } from '../services/gunPlanService.js';
@@ -20,6 +20,7 @@ const liste = (v) => (typeof v === 'string' && v ? v.split(',').map((s) => s.tri
 
 const grupSiniri = hizSiniri({ ad: 'grup', pencereMs: 3600e3, azami: 5, mesaj: 'Bir saatte en fazla 5 grup açılabilir.' });
 const katilSiniri = hizSiniri({ ad: 'katil', pencereMs: 600e3, azami: 20 });
+const mesajSiniri = hizSiniri({ ad: 'grup-mesaj', pencereMs: 600e3, azami: 25, mesaj: 'Çok sık mesaj gönderildi, lütfen biraz bekleyin.' });
 const planSiniri = hizSiniri({ ad: 'plan', pencereMs: 60e3, azami: 20 });
 
 // ── Keşfet ───────────────────────────────────────────────
@@ -154,12 +155,19 @@ r.get('/gruplar', wrap(async (req, res) => {
   const list = (await grupRepo.list())
     .filter((g) => g.durum === 'aktif' && new Date(g.baslangic).getTime() >= simdi)
     .sort((a, b) => a.baslangic.localeCompare(b.baslangic));
+  const tumMesajlar = await grupMesajRepo.list();
+  const mesajSay = new Map();
+  for (const m of tumMesajlar) mesajSay.set(m.grupId, (mesajSay.get(m.grupId) || 0) + 1);
   const sonuc = [];
   for (const g of list) {
     const rota = await rotaOzeti(g);
     if (req.query.semtId && !rota?.duraklar.some((d) => d.semtId === req.query.semtId)) continue;
     if (req.query.rotaId && g.rotaId !== req.query.rotaId) continue;
-    sonuc.push({ ...publicGrup(g), rota: rota && { tur: rota.tur, id: rota.id, ad: rota.ad, bulusma: rota.duraklar[0] } });
+    sonuc.push({
+      ...publicGrup(g),
+      mesajSayisi: mesajSay.get(g.id) || 0,
+      rota: rota && { tur: rota.tur, id: rota.id, ad: rota.ad, bulusma: rota.duraklar[0], duraklar: rota.duraklar },
+    });
   }
   res.json(sonuc);
 }));
@@ -223,6 +231,33 @@ r.post('/gruplar/:id/iptal', wrap(async (req, res) => {
   if (!g) return;
   await grupRepo.update(g.id, { durum: 'iptal' });
   res.json({ ok: true });
+}));
+
+// ── Grup sohbeti ─────────────────────────────────────────
+r.get('/gruplar/:id/mesajlar', wrap(async (req, res) => {
+  const g = await grupRepo.get(req.params.id);
+  if (!g || g.durum === 'kaldirildi') return bad(res, 'Grup bulunamadı', 404);
+  const mesajlar = (await grupMesajRepo.list({ grupId: g.id }))
+    .sort((a, b) => a.tarih.localeCompare(b.tarih))
+    .slice(-100)
+    .map(({ id, grupId, rumuz, metin: yazi, yoneticiMi, tarih }) => ({
+      id, grupId, rumuz, metin: yazi, yoneticiMi: Boolean(yoneticiMi), tarih,
+    }));
+  res.json(mesajlar);
+}));
+
+r.post('/gruplar/:id/mesajlar', mesajSiniri, wrap(async (req, res) => {
+  const g = await grupRepo.get(req.params.id);
+  if (!g || g.durum === 'kaldirildi') return bad(res, 'Grup bulunamadı', 404);
+  if (g.durum !== 'aktif') return bad(res, 'İptal edilmiş gruba mesaj gönderilemez', 409);
+  const b = req.body || {};
+  const rumuz = metin(b.rumuz, 30);
+  if (rumuz.length < 2) return bad(res, 'Rumuz en az 2 karakter olmalı');
+  const yazi = typeof b.metin === 'string' ? b.metin.trim().replace(/\s+\n/g, '\n').slice(0, 500) : '';
+  if (yazi.length < 1) return bad(res, 'Mesaj boş olamaz');
+  const yoneticiMi = anahtarDogruMu(g, req.get('X-Yonetim-Anahtari'));
+  const m = await grupMesajRepo.create({ grupId: g.id, rumuz, metin: yazi, yoneticiMi });
+  res.status(201).json(m);
 }));
 
 export default r;

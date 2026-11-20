@@ -10,6 +10,12 @@ export function hataMesaji(err) {
 }
 
 export const api = {
+  atlasOzet: () => data(http.get('/atlas/ozet')),
+  atlasListe: (params) => data(http.get('/atlas/liste', { params })),
+  atlasAra: (q) => data(http.get('/atlas/ara', { params: { q } })),
+  muzikOner: (params) => data(http.get('/muzik/oner', { params })),
+  vapurRotalari: () => data(http.get('/vapur/rotalar')),
+  vapurRotasi: (id, yon = 'gidis') => data(http.get(`/vapur/rotalar/${id}`, { params: { yon } })),
   semtler: () => data(http.get('/semtler')),
   semt: (id) => data(http.get(`/semtler/${id}`)),
   harita: () => data(http.get('/harita')),
@@ -37,6 +43,9 @@ export const api = {
   gruptanAyril: (id, katilimId) => data(http.post(`/gruplar/${id}/ayril`, { katilimId })),
   grupYonetim: (id, anahtar) => data(http.get(`/gruplar/${id}/yonetim`, { headers: { 'X-Yonetim-Anahtari': anahtar } })),
   grupIptal: (id, anahtar) => data(http.post(`/gruplar/${id}/iptal`, {}, { headers: { 'X-Yonetim-Anahtari': anahtar } })),
+  grupMesajlar: (id) => data(http.get(`/gruplar/${id}/mesajlar`)),
+  grupMesajGonder: (id, body, anahtar) =>
+    data(http.post(`/gruplar/${id}/mesajlar`, body, anahtar ? { headers: { 'X-Yonetim-Anahtari': anahtar } } : undefined)),
 
   yorumlar: (mekanId) => data(http.get(`/mekanlar/${mekanId}/yorumlar`)),
   yorumGonder: (mekanId, body) => data(http.post(`/mekanlar/${mekanId}/yorumlar`, body)),

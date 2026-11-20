@@ -39,3 +39,30 @@ export const ornekGruplar = [
     katilimcilar: [{ id: 'k-ornek-3', rumuz: 'ayse_t', iletisim: '', tarih: '2026-11-12T10:00:00.000Z' }],
   },
 ];
+
+export const ornekGrupMesajlar = [
+  {
+    id: 'gm-ornek-1',
+    grupId: 'grup-ornek-balat',
+    rumuz: 'haliç_gezgini',
+    metin: 'Merhaba! Cumartesi 10:00’da Sveti Stefan Bulgar Kilisesi’nin bahçe kapısı önünde buluşuyoruz.',
+    yoneticiMi: true,
+    tarih: '2026-11-19T16:15:00.000Z',
+  },
+  {
+    id: 'gm-ornek-2',
+    grupId: 'grup-ornek-balat',
+    rumuz: 'deniz_k',
+    metin: 'Harika, fotoğraf makinesini getiriyorum. Hava serin görünüyor, hırka alalım.',
+    yoneticiMi: false,
+    tarih: '2026-11-19T18:40:00.000Z',
+  },
+  {
+    id: 'gm-ornek-3',
+    grupId: 'grup-ornek-kadikoy',
+    rumuz: 'moda_sakini',
+    metin: 'Kadıköy vapur iskelesinden düz güzergâhla ilerleyeceğiz, 14:00’te görüşmek üzere!',
+    yoneticiMi: true,
+    tarih: '2026-11-20T09:30:00.000Z',
+  },
+];

@@ -15,7 +15,7 @@ import { duraklar, toplanmaAlanlari } from '../data/ulasim.js';
 import { siirler } from '../data/siirler.js';
 import { etkinlikler } from '../data/etkinlikler.js';
 import { dunBugun } from '../data/dunbugun.js';
-import { ornekGruplar } from '../data/gruplar.js';
+import { ornekGruplar, ornekGrupMesajlar } from '../data/gruplar.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = process.env.STORE_DIR || path.resolve(here, '..', '..', '.data');
@@ -36,6 +36,7 @@ export function seedState() {
     dunBugun: clone(dunBugun),
     planlar: [],
     gruplar: clone(ornekGruplar),
+    grupMesajlar: clone(ornekGrupMesajlar),
     bildirimler: [],
     talepler: [],
     olaylar: [],

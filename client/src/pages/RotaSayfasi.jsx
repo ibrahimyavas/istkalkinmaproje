@@ -12,6 +12,7 @@ import { useTercihler } from '../context/Tercihler.jsx';
 import Yukleniyor, { HataKutusu } from '../components/common/Yukleniyor.jsx';
 import { DogrulanacakRozet } from '../components/common/Rozetler.jsx';
 import SiirKarti from '../components/kultur/SiirKarti.jsx';
+import RotaLinkleri from '../components/harita/RotaLinkleri.jsx';
 import { mesafeYaz, yolTarifiUrl, ZORLUK, DURAK_TURU } from '../lib/harita.js';
 
 const HaritaGorunumu = lazy(() => import('../components/harita/HaritaGorunumu.jsx'));
@@ -108,6 +109,12 @@ export default function RotaSayfasi() {
         <Ozet ikon={Clock} etiket="Tahmini süre" deger={`${veri.sureDk} dk yürüme`} />
         <Ozet ikon={Mountain} etiket="Zorluk" deger={`${zorluk.ad} — ${zorluk.aciklama}`} />
       </div>
+
+      {aktif.length > 0 && (
+        <div className="mt-4">
+          <RotaLinkleri duraklar={aktif} baslik="Rotayı navigasyon uygulamasında aç" />
+        </div>
+      )}
 
       {veri.geometriKaynagi === 'yaklasik' && aktif.length >= 2 && (
         <p className="mt-3 flex items-start gap-2 text-sm text-ink-muted">
